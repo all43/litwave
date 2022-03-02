@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as map from './morseMapping.json';
+import * as morseMapping from './morseMapping.json';
 
 /*
   converts given string to text or binary morse code
@@ -8,19 +8,16 @@ import * as map from './morseMapping.json';
   providedIn: 'root'
 })
 export class MorseService {
-  map: any;
-  private wordSeparatorPipe = '|';
-  private wordSeparator = '       ';
+  private map = morseMapping;
   private charSeparator = '   ';
-  private innerSeparator = ' ';
+  private innerSeparator = ' '; // separator for parts of single char
   private binaryMapping = {
     '.': [true],
     '-': [true, true, true],
     ' ': [false],
   };
   constructor() {
-    this.map = map;
-    this.map[' '] = this.wordSeparatorPipe; // map space to separator pipe
+    this.map[' '] = ' '; // leave space as is
   }
 
   public encode(str: string, join: true): string
@@ -33,12 +30,8 @@ export class MorseService {
 
   public encodeFormatted(str: string) {
     const encoded = this.encode(str, false);
-    return encoded.map((char) => {
-      if (char === this.wordSeparatorPipe) {
-        return this.wordSeparator;
-      }
-      return char.split('').join(this.innerSeparator);
-    }).join(this.charSeparator);
+    return encoded.map((char) => char.split('').join(this.innerSeparator))
+      .join(this.charSeparator);
   }
 
   public encodeBinary(str: string) {
