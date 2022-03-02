@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "organise",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
