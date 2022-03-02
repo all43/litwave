@@ -28,13 +28,13 @@ export class MorseService {
     return join ? encoded.join('') : encoded;
   }
 
-  public encodeFormatted(str: string) {
+  public encodeFormatted(str: string): string {
     const encoded = this.encode(str, false);
     return encoded.map((char) => char.split('').join(this.innerSeparator))
       .join(this.charSeparator);
   }
 
-  public encodeBinary(str: string) {
+  public encodeBinary(str: string): boolean[] {
     return [...this.encodeFormatted(str)].reduce((acc, char) => {
       acc.push(...this.binaryMapping[char]);
       return acc;
