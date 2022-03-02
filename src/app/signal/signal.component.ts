@@ -7,9 +7,14 @@ import { MessageService } from '../message.service';
   styleUrls: ['./signal.component.scss'],
 })
 export class SignalComponent implements OnInit {
+  state: boolean;
 
-  constructor(messageService: MessageService) { }
+  constructor(private messageService: MessageService) { }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.messageService.stream.subscribe((state) => {
+      console.log(state);
+      this.state = state;
+    });
+  }
 }

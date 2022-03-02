@@ -1,0 +1,15 @@
+div {
+  :host {
+    display: flex;
+    justify-content: center;
+  }
+  background-color: black;
+  border-radius: 1em;
+  transition: background-color 0.15s;
+  &.on {
+    background-color: yellow;
+  }
+  border: 1px dashed gray;
+  width: 50%;
+  height: 50vh;
+}
