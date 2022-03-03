@@ -1,2 +1,8 @@
-<div [ngClass]="{ on: state }">
-</div>
+<ion-list>
+  <ion-item>
+    <ion-label>Flashlight</ion-label>
+    <ion-toggle slot="end" checked></ion-toggle>
+  </ion-item>
+  <div id="light-area" [ngClass]="{ on: state }">
+  </div>
+</ion-list>

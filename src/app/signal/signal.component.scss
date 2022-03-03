@@ -1,15 +1,23 @@
-div {
-  :host {
-    display: flex;
-    justify-content: center;
-  }
-  background-color: black;
-  border-radius: 1em;
-  transition: background-color 0.15s;
-  &.on {
-    background-color: yellow;
-  }
-  border: 1px dashed gray;
-  width: 50%;
-  height: 50vh;
+:host {
+  display: block;
+  height: 100%;
 }
+
+ion-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#light-area {
+    flex-grow: 1;
+    margin: 0.5em;
+    box-sizing: border-box;
+    background-color: black;
+    border-radius: 1em;
+    transition: background-color 0.15s;
+    &.on {
+      background-color: white;
+    }
+    border: 1px dashed gray;
+  }

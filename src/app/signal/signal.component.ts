@@ -13,7 +13,6 @@ export class SignalComponent implements OnInit {
 
   ngOnInit() {
     this.messageService.stream.subscribe((state) => {
-      console.log(state);
       this.state = state;
     });
   }
