@@ -1,7 +1,16 @@
+import { App } from '@capacitor/app';
 import { Injectable } from '@angular/core';
 import { MorseService } from './morse.service';
-import { from, Observable, ReplaySubject, of, timer } from 'rxjs';
-import { concatMap, delay, distinctUntilChanged, endWith, switchMap, tap, share } from 'rxjs/operators';
+import { from, Observable, Subject, ReplaySubject, of, timer,  } from 'rxjs';
+import {
+  concatMap,
+  delay,
+  distinctUntilChanged,
+  endWith,
+  switchMap,
+  share,
+  takeUntil,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +22,15 @@ export class MessageService {
   public morseStream: Observable<boolean>;
   public cycleLength: number;
   public repeatEvery: number;
-  public trigger: ReplaySubject<number>;
+  // replay subject used because regular subject could emit first value before subscriber connects
+  private trigger = new ReplaySubject<number>(1);
+  private stop = new Subject<void>();
   private ditLength = 300; // dit length in milliseconds
 
   constructor(morse: MorseService) {
     const morseBinaryEncoded = morse.encodeBinary(this.message);
     this.cycleLength = morseBinaryEncoded.length * this.ditLength;
     const pauseLength = this.ditLength * 14;
-    // replay subject used because regular subject could emit first value before subscriber connects
-    this.trigger = new ReplaySubject(1);
     // repeat every 30 or 60 seconds depenging on cycle length
     this.repeatEvery = this.cycleLength + pauseLength >= 30000 ? 60000 : 30000;
     this.timeStream = this.trigger.pipe(
@@ -36,13 +45,22 @@ export class MessageService {
     );
     this.stream = this.timeStream.pipe(
       switchMap(() => this.morseStream),
+      takeUntil(this.stop),
       share(), // supposed to be shared by multiple subscribers
     );
     this.updateTimer();
+    App.addListener('appStateChange', ({ isActive }) => {
+      if (isActive) {
+        this.updateTimer();
+      }
+    });
   }
   updateTimer(): void {
-    const timeout = this.timeToNextCycle();
-    this.trigger.next(timeout);
+    // this.stop.next(); // cancel running timer
+    setTimeout(() => {
+      const timeout = this.timeToNextCycle();
+      this.trigger.next(timeout);
+    }, 0);
   }
 
   timeToNextCycle(): number {
