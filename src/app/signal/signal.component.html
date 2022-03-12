@@ -3,6 +3,9 @@
     <ion-label>Flashlight</ion-label>
     <ion-toggle slot="end" checked></ion-toggle>
   </ion-item>
-  <div id="light-area" [ngClass]="{ on: state }">
+  <div id="light-area" [ngClass]="{ on: messageService.stream$ | async }">
+    <span *ngIf="messageService.countDown$ | async as countDown">
+      Time to next sequence: {{ (countDown / 1000) | number: '2.0-0' }} sec.
+    </span>
   </div>
 </ion-list>

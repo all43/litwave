@@ -10,6 +10,9 @@ ion-list {
 }
 
 #light-area {
+    display: flex;
+    justify-content: center;
+    padding: 1em;
     flex-grow: 1;
     margin: 0.5em;
     box-sizing: border-box;

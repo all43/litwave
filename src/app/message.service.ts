@@ -1,14 +1,29 @@
 import { App } from '@capacitor/app';
 import { Injectable } from '@angular/core';
 import { MorseService } from './morse.service';
-import { from, Observable, ReplaySubject, of, timer, } from 'rxjs';
+import {
+  from,
+  Observable,
+  Subject,
+  ReplaySubject,
+  of,
+  merge,
+  timer,
+  interval,
+} from 'rxjs';
 import {
   concatMap,
   delay,
   distinctUntilChanged,
   endWith,
+  scan,
   switchMap,
   share,
+  tap,
+  takeWhile,
+  startWith,
+  filter,
+  finalize,
 } from 'rxjs/operators';
 
 @Injectable({
@@ -16,38 +31,56 @@ import {
 })
 export class MessageService {
   public message = 'STOP WAR'; // TODO: move to config
-  public stream: Observable<boolean>;
-  public morseStream: Observable<boolean>;
+  countDownAccuracy = 100; // number of milliseconds to update coundtowd timer
   public cycleLength: number;
   public repeatEvery: number;
+  public countDown$: Observable<number>;
+  public morseStream$: Observable<boolean>;
+  public stream$: Observable<boolean>;
   // replay subject used because regular subject could emit first value before subscriber connects
-  private trigger = new ReplaySubject<number | null>(1);
+  private trigger$ = new ReplaySubject<number | null>(1);
+  private resetCountdown$ = new Subject<number>();
   private ditLength = 300; // dit length in milliseconds
 
   constructor(morse: MorseService) {
     const morseBinaryEncoded = morse.encodeBinary(this.message);
     this.cycleLength = morseBinaryEncoded.length * this.ditLength;
+    // minimum pause between sequences, used to calculate how many sequences we can do per minute
     const pauseLength = this.ditLength * 14;
     // repeat every 30 or 60 seconds depenging on cycle length
     this.repeatEvery = this.cycleLength + pauseLength >= 30000 ? 60000 : 30000;
     // take binary morse stream and emit values with timed delay
-    this.morseStream = from(morseBinaryEncoded).pipe(
+    this.morseStream$ = from(morseBinaryEncoded).pipe(
       concatMap((val) => of(val).pipe(
         delay(this.ditLength),
       )),
       distinctUntilChanged(),
       endWith(false), // switch off at the end
+      finalize(() => this.resetCountdown$.next(this.repeatEvery - this.cycleLength)),
     );
 
-    this.stream = this.trigger.pipe(
+    this.stream$ = this.trigger$.pipe(
       switchMap((val) => val !== null ?
         timer(val, this.repeatEvery).pipe(
-          switchMap(() => this.morseStream),
+          switchMap(() => this.morseStream$),
         )
         : of(false)),
       share(), // supposed to be shared by multiple subscribers
     );
+
+    this.countDown$ = merge(this.trigger$, this.resetCountdown$).pipe(
+      filter((val) => val !== null),
+      switchMap((timeout) => interval(this.countDownAccuracy).pipe(
+        // startWith(timeout),
+        scan((acc, _) => acc - this.countDownAccuracy, timeout),
+        takeWhile((remaining) => remaining >= 0),
+        endWith(0),
+      )),
+    );
+
     this.updateTimer();
+
+    // stop timer if app is in backround, reset on resume
     App.addListener('appStateChange', ({ isActive }) => {
       if (isActive) {
         this.updateTimer();
@@ -56,13 +89,14 @@ export class MessageService {
       }
     });
   }
+
   updateTimer(): void {
     const timeout = this.timeToNextCycle();
-    this.trigger.next(timeout);
+    this.trigger$.next(timeout);
   }
 
   stopTimer() {
-    this.trigger.next(null);
+    this.trigger$.next(null);
   }
 
   timeToNextCycle(): number {
