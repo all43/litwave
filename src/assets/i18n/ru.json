@@ -1,0 +1,9 @@
+{
+  "common": {
+    "sec": "сек."
+  },
+  "signal": {
+    "flashlightToggle": "Фонарик",
+    "countDownLabel": "Цикл через"
+  }
+}

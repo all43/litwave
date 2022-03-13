@@ -1,0 +1,9 @@
+{
+  "common": {
+    "sec": "sec."
+  },
+  "signal": {
+    "flashlightToggle": "Flashlight",
+    "countDownLabel": "Next sequence in"
+  }
+}
