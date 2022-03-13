@@ -1,7 +1,7 @@
 <ion-list>
   <ion-item>
     <ion-label>Flashlight</ion-label>
-    <ion-toggle slot="end" checked></ion-toggle>
+    <ion-toggle slot="end" [ngModel]="syncFlashlight" (ngModelChange)="toggleFlash($event)"></ion-toggle>
   </ion-item>
   <div id="light-area" [ngClass]="{ on: messageService.stream$ | async }">
     <span *ngIf="messageService.countDown$ | async as countDown">
