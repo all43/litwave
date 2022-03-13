@@ -1,5 +1,5 @@
 import { App } from '@capacitor/app';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { MorseService } from './morse.service';
 import {
   from,
@@ -42,7 +42,7 @@ export class MessageService {
   private resetCountdown$ = new Subject<number>();
   private ditLength = 300; // dit length in milliseconds
 
-  constructor(morse: MorseService) {
+  constructor(morse: MorseService, private ngZone: NgZone) {
     const morseBinaryEncoded = morse.encodeBinary(this.message);
     this.cycleLength = morseBinaryEncoded.length * this.ditLength;
     // minimum pause between sequences, used to calculate how many sequences we can do per minute
@@ -60,19 +60,23 @@ export class MessageService {
     );
 
     this.stream$ = this.trigger$.pipe(
+      tap(() => console.log('stream pipe')),
       switchMap((val) => val !== null ?
         timer(val, this.repeatEvery).pipe(
           switchMap(() => this.morseStream$),
         )
         : of(false)),
+      // tap(console.log),
       share(), // supposed to be shared by multiple subscribers
     );
 
     this.countDown$ = merge(this.trigger$, this.resetCountdown$).pipe(
+      tap((v) => console.log('countdown', v)),
       filter((val) => val !== null),
       switchMap((timeout) => interval(this.countDownAccuracy).pipe(
         // startWith(timeout),
         scan((acc, _) => acc - this.countDownAccuracy, timeout),
+        tap(console.log),
         takeWhile((remaining) => remaining >= 0),
         endWith(0),
       )),
@@ -82,11 +86,19 @@ export class MessageService {
 
     // stop timer if app is in backround, reset on resume
     App.addListener('appStateChange', ({ isActive }) => {
+      /*
+        without ngZone angular loses change detection
+        on resume from background on mobile platforms
+      */
+      this.ngZone.run(() => {
       if (isActive) {
         this.updateTimer();
+        console.log('active');
       } else {
         this.stopTimer();
+        console.log('background');
       }
+      });
     });
   }
 
