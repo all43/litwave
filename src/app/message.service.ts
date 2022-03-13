@@ -19,9 +19,7 @@ import {
   scan,
   switchMap,
   share,
-  tap,
   takeWhile,
-  startWith,
   filter,
   finalize,
 } from 'rxjs/operators';
@@ -60,23 +58,19 @@ export class MessageService {
     );
 
     this.stream$ = this.trigger$.pipe(
-      tap(() => console.log('stream pipe')),
       switchMap((val) => val !== null ?
         timer(val, this.repeatEvery).pipe(
           switchMap(() => this.morseStream$),
         )
         : of(false)),
-      // tap(console.log),
       share(), // supposed to be shared by multiple subscribers
     );
 
     this.countDown$ = merge(this.trigger$, this.resetCountdown$).pipe(
-      tap((v) => console.log('countdown', v)),
       filter((val) => val !== null),
       switchMap((timeout) => interval(this.countDownAccuracy).pipe(
         // startWith(timeout),
         scan((acc, _) => acc - this.countDownAccuracy, timeout),
-        tap(console.log),
         takeWhile((remaining) => remaining >= 0),
         endWith(0),
       )),
@@ -93,10 +87,8 @@ export class MessageService {
       this.ngZone.run(() => {
       if (isActive) {
         this.updateTimer();
-        console.log('active');
       } else {
         this.stopTimer();
-        console.log('background');
       }
       });
     });
