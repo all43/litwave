@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package war.stop.organise;
 
 import com.getcapacitor.BridgeActivity;
 
