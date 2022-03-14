@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,14 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private insomnia: Insomnia) {}
 
+  // note: ionic lifecycle hooks only work inside ionic page components
+  ionViewDidEnter() {
+    this.insomnia.keepAwake();
+  }
+
+  ionViewDidLeave() {
+    this.insomnia.allowSleepAgain();
+  }
 }
