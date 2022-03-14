@@ -6,5 +6,9 @@
     <param name="android-package" value="nl.xservices.plugins.Flashlight"/>
   </feature>
 
+  <feature name="Insomnia">
+    <param name="android-package" value="nl.xservices.plugins.Insomnia"/>
+  </feature>
+
   
 </widget>

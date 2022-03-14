@@ -1,6 +1,7 @@
 import { Component, OnDestroy,  } from '@angular/core';
 import { FlashlightService } from '../flashlight.service';
 import { MessageService } from '../message.service';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 @Component({
   selector: 'app-signal',
@@ -9,7 +10,15 @@ import { MessageService } from '../message.service';
 })
 export class SignalComponent implements OnDestroy {
   syncFlashlight = false;
-  constructor(public messageService: MessageService, private flashlight: FlashlightService) {}
+  constructor(public messageService: MessageService, private flashlight: FlashlightService, private insomnia: Insomnia) {}
+
+  ionViewDidEnter() {
+    this.insomnia.keepAwake();
+  }
+
+  ionViewDidLeave() {
+    this.insomnia.allowSleepAgain();
+  }
 
   ngOnDestroy() {
     this.syncFlashlight = false;
