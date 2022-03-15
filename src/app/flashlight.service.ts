@@ -28,7 +28,9 @@ export class FlashlightService {
   }
 
   unsync() {
-    this.subscribtion.unsubscribe();
+    if (this.subscribtion) {
+      this.subscribtion.unsubscribe();
+    }
     this.off();
   }
 }
