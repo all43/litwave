@@ -1,7 +1,22 @@
 {
   "common": {
     "title": "Organise!",
+    "menu": "Menu",
     "sec": "sec."
+  },
+  "pages": {
+    "home": {
+      "title": "Home"
+    },
+    "about": {
+      "title": "About"
+    },
+    "settings": {
+      "title": "Settings"
+    },
+    "notifications": {
+      "title": "Notifications"
+    }
   },
   "signal": {
     "flashlightToggle": "Flashlight",

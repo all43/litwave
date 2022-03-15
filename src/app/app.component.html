@@ -2,7 +2,7 @@
   <ion-menu side="start" contentId="main-content">
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Start Menu</ion-title>
+        <ion-title translate="common.menu"></ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -10,7 +10,7 @@
         <ion-menu-toggle *ngFor="let item of menuItems">
           <ion-item  routerDirection="root" [routerLink]="[item.url]" lines="none" detail="false" routerLinkActive="selected">
             <ion-icon slot="start" [ios]="item.icon + '-outline'" [md]="item.icon + '-sharp'"></ion-icon>
-            <ion-label>{{ item.title }}</ion-label>
+            <ion-label>{{ 'pages.' + item.title + '.title' | translate }}</ion-label>
           </ion-item>
       </ion-menu-toggle>
       </ion-list>

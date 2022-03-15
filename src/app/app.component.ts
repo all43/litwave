@@ -37,6 +37,6 @@ export class AppComponent {
     translate.setTranslation('en', EN);
     translate.setTranslation('ru', RU);
     translate.setDefaultLang('ru');
-    translate.use(translate.getBrowserLang());
+    // translate.use(translate.getBrowserLang());
   }
 }

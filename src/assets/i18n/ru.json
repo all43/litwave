@@ -1,10 +1,25 @@
 {
   "common": {
     "title": "Организуйтесь!",
+    "menu": "Меню",
     "sec": "сек."
+  },
+  "pages": {
+    "home": {
+      "title": "Главная"
+    },
+    "about": {
+      "title": "О приложении"
+    },
+    "settings": {
+      "title": "Настройки"
+    },
+    "notifications": {
+      "title": "Оповещения"
+    }
   },
   "signal": {
     "flashlightToggle": "Фонарик",
-    "countDownLabel": "Цикл через"
+    "countDownLabel": "Старт через"
   }
 }
