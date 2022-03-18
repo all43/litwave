@@ -1,4 +1,4 @@
-import { Component, OnDestroy,  } from '@angular/core';
+import { Component, OnDestroy, OnInit,  } from '@angular/core';
 import { FlashlightService } from '../flashlight.service';
 import { MessageService } from '../message.service';
 import { SettingsService } from '../settings.service';
@@ -8,7 +8,7 @@ import { SettingsService } from '../settings.service';
   templateUrl: './signal.component.html',
   styleUrls: ['./signal.component.scss'],
 })
-export class SignalComponent implements OnDestroy {
+export class SignalComponent implements OnInit, OnDestroy {
   syncFlashlight: boolean;
   constructor(public messageService: MessageService, private flashlight: FlashlightService, private settings: SettingsService) {
     switch(settings.autoSyncFlash) {
@@ -21,6 +21,10 @@ export class SignalComponent implements OnDestroy {
       case 'useRecent':
         this.syncFlashlight = settings.lastSyncFlashlightValue;
     }
+  }
+
+  ngOnInit(): void {
+    this.toggleFlash(this.syncFlashlight);
   }
 
   ngOnDestroy() {
