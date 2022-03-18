@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">organise</string>
-    <string name="title_activity_main">organise</string>
+    <string name="app_name">Organise!</string>
+    <string name="title_activity_main">Organise!</string>
     <string name="package_name">war.stop.organise</string>
     <string name="custom_url_scheme">war.stop.organise</string>
 </resources>
