@@ -8,5 +8,30 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-radio-group [(ngModel)]="settings.autoSyncFlash">
+      <ion-list-header color="light">
+        <ion-label>
+          Sync Flash option
+        </ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Never</ion-label>
+        <ion-radio value="never"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Use recent</ion-label>
+        <ion-radio value="useRecent"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Always</ion-label>
+        <ion-radio value="always"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+    <ion-item-divider></ion-item-divider>
+    <ion-item>
+      <ion-label>Prevent sleep</ion-label>
+      <ion-toggle [(ngModel)]="settings.keepalive" slot="end"></ion-toggle>
+    </ion-item>
+  </ion-list>
 </ion-content>
