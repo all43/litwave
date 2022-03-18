@@ -13,7 +13,15 @@
       "title": "About"
     },
     "settings": {
-      "title": "Settings"
+      "title": "Settings",
+      "language": "Language",
+      "syncFlash": {
+        "label": "Sync flash option",
+        "never": "Never",
+        "useRecent": "Remember",
+        "always": "Always"
+      },
+      "preventSleep": "Prevent device sleep"
     },
     "notifications": {
       "title": "Notifications"

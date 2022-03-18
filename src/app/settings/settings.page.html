@@ -10,34 +10,33 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label>Language</ion-label>
+      <ion-label translate="pages.settings.language"></ion-label>
       <ion-select [(ngModel)]="settings.selectedLanguage">
         <ion-select-option [value]="lang.code" *ngFor="let lang of languages">{{ lang.name }}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-item-divider></ion-item-divider>
     <ion-radio-group [(ngModel)]="settings.autoSyncFlash">
-      <ion-list-header color="light">
+      <ion-list-header>
         <ion-label>
-          Sync Flash option
+          {{ 'pages.settings.syncFlash.label' | translate }}
         </ion-label>
       </ion-list-header>
       <ion-item>
-        <ion-label>Never</ion-label>
+        <ion-label>{{ 'pages.settings.syncFlash.never' | translate }}</ion-label>
         <ion-radio value="never"></ion-radio>
       </ion-item>
       <ion-item>
-        <ion-label>Use recent</ion-label>
+        <ion-label>{{ 'pages.settings.syncFlash.useRecent' | translate }}</ion-label>
         <ion-radio value="useRecent"></ion-radio>
       </ion-item>
       <ion-item>
-        <ion-label>Always</ion-label>
+        <ion-label>{{ 'pages.settings.syncFlash.always' | translate }}</ion-label>
         <ion-radio value="always"></ion-radio>
       </ion-item>
     </ion-radio-group>
     <ion-item-divider></ion-item-divider>
     <ion-item>
-      <ion-label>Prevent sleep</ion-label>
+      <ion-label>{{ 'pages.settings.preventSleep' | translate }}</ion-label>
       <ion-toggle [(ngModel)]="settings.keepalive" slot="end"></ion-toggle>
     </ion-item>
   </ion-list>

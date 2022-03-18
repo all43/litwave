@@ -13,7 +13,15 @@
       "title": "О приложении"
     },
     "settings": {
-      "title": "Настройки"
+      "title": "Настройки",
+      "language": "Язык",
+      "syncFlash": {
+        "label": "Авто. фонарик",
+        "never": "Никогда",
+        "useRecent": "Запомнить последний выбор",
+        "always": "Всегда"
+      },
+      "preventSleep": "Не выключать экран"
     },
     "notifications": {
       "title": "Оповещения"
