@@ -1,6 +1,7 @@
 {
   "common": {
     "title": "Organise!",
+    "autoLanguage": "Auto",
     "menu": "Menu",
     "sec": "sec."
   },

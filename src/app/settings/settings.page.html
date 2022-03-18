@@ -9,6 +9,13 @@
 
 <ion-content>
   <ion-list>
+    <ion-item>
+      <ion-label>Language</ion-label>
+      <ion-select [(ngModel)]="settings.selectedLanguage">
+        <ion-select-option [value]="lang.code" *ngFor="let lang of languages">{{ lang.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
     <ion-radio-group [(ngModel)]="settings.autoSyncFlash">
       <ion-list-header color="light">
         <ion-label>

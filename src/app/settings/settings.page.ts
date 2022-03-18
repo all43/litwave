@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SettingsService } from '../settings.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageItem, SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,8 +8,12 @@ import { SettingsService } from '../settings.service';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+  languages: LanguageItem[] = [];
 
-  constructor(public settings: SettingsService) { }
+  constructor(public settings: SettingsService, translate: TranslateService) {
+    this.languages = [...settings.languages];
+    this.languages.unshift({ code: 'auto', name: translate.instant('common.autoLanguage') });
+  }
 
   ngOnInit() {
   }
