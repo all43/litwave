@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +9,13 @@ import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 })
 export class HomePage {
 
-  constructor(private insomnia: Insomnia) {}
+  constructor(private settings: SettingsService, private insomnia: Insomnia) {}
 
   // note: ionic lifecycle hooks only work inside ionic page components
   ionViewDidEnter() {
-    this.insomnia.keepAwake();
+    if (this.settings.keepalive){
+      this.insomnia.keepAwake();
+    }
   }
 
   ionViewDidLeave() {
