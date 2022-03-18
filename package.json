@@ -1,8 +1,6 @@
 {
   "name": "organise",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "0.3.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
