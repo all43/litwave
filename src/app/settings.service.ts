@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 
+
+type AutoSyncOptions = 'never' | 'useRecent' | 'always';
 interface AppSettings {
   keepalive: boolean;
-  autoSyncFlash: 'never' | 'useRecent' | 'always';
+  autoSyncFlash: AutoSyncOptions;
+  lastSyncFlashlightValue: boolean;
 }
 
 @Injectable({
@@ -14,25 +18,33 @@ export class SettingsService {
   private defaults: AppSettings = {
     keepalive: true, // prevent device from sleep
     autoSyncFlash: 'never', // turn on flash automatically
+    lastSyncFlashlightValue: false,
   };
   private current: AppSettings;
 
   constructor() { }
 
-  get autoSyncFlash() {
+  get autoSyncFlash(): AutoSyncOptions {
     return this.getKey('autoSyncFlash');
   }
 
-  set autoSyncFlash(val) {
+  set autoSyncFlash(val: AutoSyncOptions) {
     this.setKey('autoSyncFlash', val);
   }
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  get keepalive() {
+  get lastSyncFlashlightValue(): boolean {
+    return this.getKey('lastSyncFlashlightValue');
+  }
+
+  set lastSyncFlashlightValue(val: boolean) {
+    this.setKey('lastSyncFlashlightValue', val);
+  }
+
+  get keepalive(): boolean {
     return this.getKey('keepalive');
   }
 
-  set keepalive(val) {
+  set keepalive(val: boolean) {
     this.setKey('keepalive', val);
   }
 
