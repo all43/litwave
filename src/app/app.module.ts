@@ -1,5 +1,5 @@
 
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, VERSION } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -36,7 +36,7 @@ function initializeAppFactory(settings: SettingsService) {
             useFactory: initializeAppFactory,
             deps: [SettingsService],
             multi: true
-          }
+        },
     ],
     bootstrap: [AppComponent],
 })
