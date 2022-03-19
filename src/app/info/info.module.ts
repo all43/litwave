@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AboutPageRoutingModule } from './about-routing.module';
+import { InfoPageRoutingModule } from './info-routing.module';
 
-import { AboutPage } from './about.page';
+import { InfoPage } from './info.page';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     FormsModule,
     IonicModule,
-    AboutPageRoutingModule,
+    InfoPageRoutingModule,
     TranslateModule.forChild(),
   ],
-  declarations: [AboutPage]
+  declarations: [InfoPage]
 })
-export class AboutPageModule {}
+export class InfoPageModule {}

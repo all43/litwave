@@ -13,9 +13,9 @@ export class AppComponent {
       url: '/home',
     },
     {
-      title: 'about',
+      title: 'info',
       icon: 'information-circle',
-      url: '/about',
+      url: '/info',
     },
     {
       title: 'settings',
