@@ -12,6 +12,10 @@
     "info": {
       "title": "Information"
     },
+    "about": {
+      "title": "About",
+      "version": "Version"
+    },
     "settings": {
       "title": "Settings",
       "language": "Language",

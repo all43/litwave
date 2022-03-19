@@ -12,6 +12,10 @@
     "info": {
       "title": "Информация"
     },
+    "about": {
+      "title": "О программе",
+      "version": "Версия"
+    },
     "settings": {
       "title": "Настройки",
       "language": "Язык",
