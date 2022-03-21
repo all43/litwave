@@ -3,7 +3,9 @@
     "title": "Organise!",
     "autoLanguage": "Auto",
     "menu": "Menu",
-    "sec": "sec."
+    "sec": "sec.",
+    "ok": "OK",
+    "cancel": "Cancel"
   },
   "pages": {
     "home": {
@@ -25,7 +27,11 @@
         "useRecent": "Remember",
         "always": "Always"
       },
-      "preventSleep": "Prevent device sleep"
+      "preventSleep": "Prevent device sleep",
+      "reset": {
+        "title": "Reset settings",
+        "message": "Are you sure you'd like to reset settings?"
+      }
     },
     "notifications": {
       "title": "Notifications"

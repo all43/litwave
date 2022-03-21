@@ -93,6 +93,11 @@ export class SettingsService {
 
   }
 
+  public reset() {
+    Storage.clear();
+    this.current = this.defaults;
+  }
+
   private useLanguage(val) {
     const lang = val === 'auto' ? this.translate.getBrowserLang() : val;
     this.translate.use(lang);
@@ -103,4 +108,5 @@ export class SettingsService {
     const value = JSON.stringify(this.current);
     Storage.set({ key, value });
   }
+
 }

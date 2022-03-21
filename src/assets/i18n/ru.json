@@ -3,7 +3,9 @@
     "title": "Организуйтесь!",
     "autoLanguage": "Авто",
     "menu": "Меню",
-    "sec": "сек."
+    "sec": "сек.",
+    "ok": "OK",
+    "cancel": "Отмена"
   },
   "pages": {
     "home": {
@@ -25,7 +27,11 @@
         "useRecent": "Запомнить последний выбор",
         "always": "Всегда"
       },
-      "preventSleep": "Не выключать экран"
+      "preventSleep": "Не выключать экран",
+      "reset": {
+        "title": "Сброс настроек",
+        "message": "Сбросить настройки?"
+      }
     },
     "notifications": {
       "title": "Оповещения"
