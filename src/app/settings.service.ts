@@ -95,11 +95,13 @@ export class SettingsService {
 
   public reset() {
     Storage.clear();
-    this.current = this.defaults;
+    this.current = { ...this.defaults };
+    this.useLanguage(this.defaults.selectedLanguage);
   }
 
   private useLanguage(val) {
     const lang = val === 'auto' ? this.translate.getBrowserLang() : val;
+    console.log(lang);
     this.translate.use(lang);
   }
 
