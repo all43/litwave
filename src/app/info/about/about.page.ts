@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
-declare const __NPM_PACKAGE_VERSION__: string;
+declare const __NPM_PACKAGE_VERSION__: string; // defined in custom-webpack.config.js
 
 @Component({
   selector: 'app-about',
@@ -11,9 +11,7 @@ declare const __NPM_PACKAGE_VERSION__: string;
 
 export class AboutPage implements OnInit {
   version = __NPM_PACKAGE_VERSION__;
-  constructor() {
-    console.log('me');
-  }
+  constructor() { }
 
   ngOnInit() {
   }
