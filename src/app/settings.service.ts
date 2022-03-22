@@ -101,7 +101,6 @@ export class SettingsService {
 
   private useLanguage(val) {
     const lang = val === 'auto' ? this.translate.getBrowserLang() : val;
-    console.log(lang);
     this.translate.use(lang);
   }
 
