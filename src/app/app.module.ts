@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { Flashlight } from '@awesome-cordova-plugins/flashlight/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { SettingsService } from './settings.service';
@@ -31,6 +32,7 @@ function initializeAppFactory(settings: SettingsService) {
         Flashlight,
         Insomnia,
         SettingsService,
+        OpenNativeSettings,
         {
             provide: APP_INITIALIZER,
             useFactory: initializeAppFactory,
