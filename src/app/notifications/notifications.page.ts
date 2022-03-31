@@ -36,6 +36,17 @@ export class NotificationsPage implements OnInit {
   async requestPermissions() {
     const { display: permission } = await LocalNotifications.requestPermissions();
     this.permission = permission;
+    const channels = await LocalNotifications.listChannels();
+    console.log(channels);
+    LocalNotifications.createChannel({
+      id: 'eventAlarm',
+      name: 'organise',
+      sound: 'td.mp3',
+      importance: 4,
+      vibration: true,
+      lights: true,
+      lightColor: '#0000FF',
+    });
     console.log({ permission });
   }
 
@@ -46,10 +57,26 @@ export class NotificationsPage implements OnInit {
           id: 1,
           body: 'test message',
           title: 'test title',
+          // sound: 'td.mp3',
+          channelId: 'eventAlarm',
+          schedule: {
+            at: new Date(Date.now() + 3000),
+            allowWhileIdle: true,
+            // repeats: true,
+            // on: {
+            //   hour: 21,
+            //   minute: 59,
+            //   second: 35,
+            // },
+          },
         }
       ],
     });
     this.getPendingNotifications();
+  }
+
+  cancel() {
+    LocalNotifications.cancel({ notifications: [{ id: 1 }] });
   }
 
   openSettings() {
