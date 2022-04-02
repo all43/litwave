@@ -3,7 +3,7 @@ import { APP_INITIALIZER, NgModule, VERSION } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +13,7 @@ import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-setting
 
 import { TranslateModule } from '@ngx-translate/core';
 import { SettingsService } from './settings.service';
+import { NotificationsService } from './notifications.service';
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 function initializeAppFactory(settings: SettingsService) {
@@ -31,7 +32,9 @@ function initializeAppFactory(settings: SettingsService) {
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         Flashlight,
         Insomnia,
+        Platform,
         SettingsService,
+        NotificationsService,
         OpenNativeSettings,
         {
             provide: APP_INITIALIZER,

@@ -9,9 +9,11 @@
 
 <ion-content>
   <ion-list>
-    <ion-item button (click)="requestPermissions()">Request permissions</ion-item>
-    <ion-item button (click)="test()">Test</ion-item>
-    <ion-item button (click)="cancel()">Cancel</ion-item>
-    <ion-item button (click)="openSettings()">Settings</ion-item>
+    <ion-item *ngIf="showRequestButton" button (click)="notifications.requestPermissions()">Request permissions</ion-item>
+    <ion-item *ngIf="showSettingsButton" button (click)="notifications.openSettings()">Settings</ion-item>
+    <ng-container *ngIf="showControls">
+      <ion-item button (click)="notifications.test()">Test</ion-item>
+      <ion-item button (click)="notifications.cancel()">Cancel</ion-item>
+    </ng-container>
   </ion-list>
 </ion-content>
