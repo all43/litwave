@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { PermissionState } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 import { LocalNotifications, PendingLocalNotificationSchema } from '@capacitor/local-notifications';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,29 +14,18 @@ export class NotificationsService {
   permission: PermissionState;
   pendingNotifications: PendingLocalNotificationSchema[] = [];
 
-  constructor(private openNativeSettings: OpenNativeSettings, private platform: Platform) {
+  constructor(
+      private openNativeSettings: OpenNativeSettings,
+      private platform: Platform,
+      private router: Router,
+      private ngZone: NgZone,
+    ) {
     this.init();
-  }
-
-  async init() {
-    const { display: permission } = await LocalNotifications.checkPermissions();
-    this.permission = permission;
-    console.log({ permission });
-    this.getPendingNotifications();
-    if (this.platform.is('android')) {
-      // create channel on android if not yet created
-      const { channels } = await LocalNotifications.listChannels();
-      console.log(channels);
-      if (channels.length < 2) {
-        this.createChannel();
-      }
-    }
   }
 
   async getPendingNotifications() {
     const { notifications } = await LocalNotifications.getPending();
     this.pendingNotifications = notifications;
-    console.log({ notifications });
     return notifications;
   }
 
@@ -54,7 +44,6 @@ export class NotificationsService {
   async requestPermissions() {
     const { display: permission } = await LocalNotifications.requestPermissions();
     this.permission = permission;
-    console.log({ permission });
   }
 
   public async test() {
@@ -88,5 +77,28 @@ export class NotificationsService {
 
   public openSettings() {
     this.openNativeSettings.open('application_details');
+  }
+
+  private async init() {
+    const { display: permission } = await LocalNotifications.checkPermissions();
+    this.permission = permission;
+    this.getPendingNotifications();
+    this.attachListener();
+    if (this.platform.is('android')) {
+      // create channel on android if not yet created
+      const { channels } = await LocalNotifications.listChannels();
+      if (channels.length < 2) {
+        this.createChannel();
+      }
+    }
+  }
+
+  private attachListener() {
+    const listener = () => {
+      this.ngZone.run(() => {
+        this.router.navigate(['/'], { replaceUrl: true });
+      });
+    };
+    LocalNotifications.addListener('localNotificationActionPerformed', listener);
   }
 }
