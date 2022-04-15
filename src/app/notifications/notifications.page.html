@@ -21,9 +21,9 @@
           pages.notifications.options.title
         </ion-label>
       </ion-list-header>
-      <ion-item *ngFor="let option of notificationOptions">
-        <ion-label translate>{{ 'pages.notifications.options.' + option.title }}</ion-label>
-        <ion-radio [value]="option.value"></ion-radio>
+      <ion-item *ngFor="let key of notificationOptionsKeys">
+        <ion-label translate>{{ 'pages.notifications.options.' + key }}</ion-label>
+        <ion-radio [value]="key"></ion-radio>
       </ion-item>
     </ion-radio-group>
   </ion-list>
