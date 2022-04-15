@@ -3,7 +3,7 @@ import { APP_INITIALIZER, NgModule, VERSION } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, Platform, ToastController } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,6 +36,7 @@ function initializeAppFactory(settings: SettingsService) {
         SettingsService,
         NotificationsService,
         OpenNativeSettings,
+        ToastController,
         {
             provide: APP_INITIALIZER,
             useFactory: initializeAppFactory,

@@ -3,17 +3,28 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ 'pages.notifications.title' | translate }}</ion-title>
+    <ion-title translate>pages.notifications.title</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngIf="showRequestButton" button (click)="notifications.requestPermissions()">Request permissions</ion-item>
-    <ion-item *ngIf="showSettingsButton" button (click)="notifications.openSettings()">Settings</ion-item>
-    <ng-container *ngIf="showControls">
-      <ion-item button (click)="notifications.test()">Test</ion-item>
-      <ion-item button (click)="notifications.cancel()">Cancel</ion-item>
-    </ng-container>
+    <ion-item *ngIf="showRequestButton" button (click)="notifications.requestPermissions()" translate>
+      pages.notifications.requestPermissions
+    </ion-item>
+    <ion-item *ngIf="showSettingsButton" button (click)="notifications.openSettings()" translate>
+      pages.notifications.openSettings
+    </ion-item>
+    <ion-radio-group *ngIf="showControls" [(ngModel)]="notificationOption">
+      <ion-list-header>
+        <ion-label translate [translateParams]="{ time: notificationTime }">
+          pages.notifications.options.title
+        </ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let option of notificationOptions">
+        <ion-label translate>{{ 'pages.notifications.options.' + option.title }}</ion-label>
+        <ion-radio [value]="option.value"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
   </ion-list>
 </ion-content>

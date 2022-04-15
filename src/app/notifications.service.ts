@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { PermissionState } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
-import { LocalNotifications, PendingLocalNotificationSchema } from '@capacitor/local-notifications';
+import { LocalNotifications, PendingLocalNotificationSchema, Weekday } from '@capacitor/local-notifications';
 import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,9 +12,13 @@ import { Subscription } from 'rxjs';
 export class NotificationsService {
   // TODO: decide if we need permission state and notifications as observables
 
+  readonly eventHour = 22; // hour event starts
+  readonly notifySecondsBefore = 25; // send notification n seconds before event time
   permission: PermissionState;
   pendingNotifications: PendingLocalNotificationSchema[] = [];
   private resumeSubscription: Subscription;
+
+
 
   constructor(
       private openNativeSettings: OpenNativeSettings,
@@ -25,37 +29,38 @@ export class NotificationsService {
     this.init();
   }
 
-  public async test() {
-    const { notifications } = await LocalNotifications.schedule({
-      notifications: [
-        {
-          id: 1,
-          body: 'test message',
-          title: 'test title',
-          sound: 'td.mp3',
-          channelId: 'eventAlarm',
-          schedule: {
-            at: new Date(Date.now() + 3000),
-            allowWhileIdle: true,
-            // repeats: true,
-            // on: {
-            //   hour: 21,
-            //   minute: 59,
-            //   second: 35,
-            // },
-          },
-        }
-      ],
+  public async set(weekdays: Weekday[], body: string, title: string) {
+    await this.cancel();
+    const notifications = weekdays.map((day) => ({
+      id: day,
+      body,
+      title,
+      sound: 'td.mp3',
+      channelId: 'eventAlarm',
+      allowWhileIdle: true,
+      schedule: {
+        repeats: true,
+        on: {
+          hour: this.eventHour - 1,
+          minute: 59,
+          second: 60 - this.notifySecondsBefore,
+          weekday: day,
+          f: 2,
+        },
+      },
+    }));
+    const { notifications: notificationDescriptors } = await LocalNotifications.schedule({
+      notifications,
     });
     this.getPendingNotifications();
   }
 
   public cancel() {
-    LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+    return LocalNotifications.cancel({ notifications: [{ id: 1 }] });
   }
 
   public openSettings() {
-    this.openNativeSettings.open('application_details');
+    return this.openNativeSettings.open('application_details');
   }
 
   public async checkPermission() {
@@ -72,6 +77,7 @@ export class NotificationsService {
   private async getPendingNotifications() {
     const { notifications } = await LocalNotifications.getPending();
     this.pendingNotifications = notifications;
+    console.log(notifications);
     return notifications;
   }
 

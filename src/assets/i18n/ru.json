@@ -34,7 +34,20 @@
       }
     },
     "notifications": {
-      "title": "Оповещения"
+      "title": "Оповещения",
+      "messageTitle": "Скоро начнётся",
+      "messageBody": "Будьте готовы",
+      "requestPermissions": "Разрешить уведомления",
+      "openSettings": "Открыть настройки",
+      "disabled": "Оповещения отключены",
+      "saved": "Настройки оповещений сохранены",
+      "options": {
+        "title": "Присылать уведомления в {{time}}",
+        "never": "Никогда",
+        "everyDay": "Каждый день",
+        "workdays": "В рабочие дни",
+        "weekends": "По выходным"
+      }
     }
   },
   "signal": {

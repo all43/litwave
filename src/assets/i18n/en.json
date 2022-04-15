@@ -34,7 +34,20 @@
       }
     },
     "notifications": {
-      "title": "Notifications"
+      "title": "Notifications",
+      "notificationTitle": "Event start soon",
+      "notificationBody": "Please be ready",
+      "requestPermissions": "Request permissions",
+      "openSettings": "Open device settings",
+      "disabled": "Notifications disabled",
+      "saved": "Notifications settings saved",
+      "options": {
+        "title": "Send notification {{time}}",
+        "never": "Never",
+        "everyDay": "Every day",
+        "workdays": "On workdays",
+        "weekends": "On weekends"
+      }
     }
   },
   "signal": {
