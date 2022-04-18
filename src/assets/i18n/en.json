@@ -42,7 +42,7 @@
       "disabled": "Notifications disabled",
       "saved": "Notifications settings saved",
       "options": {
-        "title": "Send notification {{time}}",
+        "title": "Send notification at {{time}}",
         "never": "Never",
         "everyDay": "Every day",
         "workdays": "On workdays",
