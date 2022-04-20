@@ -81,8 +81,8 @@ export class NotificationsPage {
       this.notifications.cancel().then(() => this.presentToast('disabled'));
     } else {
       const weekdays = this.notificationOptions[value];
-      const body = this.translate.instant('page.notifications.messageBody');
-      const title = this.translate.instant('page.notifications.messageTitle');
+      const body = this.translate.instant('pages.notifications.messageBody');
+      const title = this.translate.instant('pages.notifications.messageTitle');
       this.notifications.set(weekdays, body, title).then(() => this.presentToast());
     }
   }

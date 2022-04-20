@@ -35,8 +35,8 @@
     },
     "notifications": {
       "title": "Notifications",
-      "notificationTitle": "Event start soon",
-      "notificationBody": "Please be ready",
+      "messageTitle": "Event start soon",
+      "messageBody": "Please be ready",
       "requestPermissions": "Request permissions",
       "openSettings": "Open device settings",
       "disabled": "Notifications disabled",
