@@ -1,6 +1,6 @@
 {
   "common": {
-    "title": "Organise!",
+    "title": "Litwave",
     "autoLanguage": "Auto",
     "menu": "Menu",
     "sec": "sec.",
@@ -32,6 +32,29 @@
         "title": "Reset settings",
         "message": "Are you sure you'd like to reset settings?"
       }
+    },
+    "events": {
+      "title": "Events",
+      "create": "Create Event",
+      "eventName": "Event Name",
+      "eventNamePlaceholder": "e.g. Birthday Party",
+      "message": "Message Preset",
+      "customMessage": "Custom Message",
+      "customMessagePlaceholder": "Or type your own (max 30 chars)",
+      "scheduledTime": "Scheduled Time",
+      "now": "Now",
+      "addEvent": "Create Event",
+      "savedEvents": "Saved Events",
+      "share": "Share Event",
+      "copyLink": "Copy Link",
+      "nativeShare": "Share",
+      "linkCopied": "Link copied to clipboard",
+      "eventCreated": "Event created",
+      "eventImported": "Event imported",
+      "invalidQr": "Invalid QR code",
+      "scanNotSupported": "Barcode scanning not supported",
+      "cameraPermissionDenied": "Camera permission required",
+      "scanError": "Could not scan QR code"
     },
     "notifications": {
       "title": "Notifications",

@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./info/info.module').then( m => m.InfoPageModule)
   },
   {
+    path: 'events',
+    loadChildren: () => import('./events/events.module').then( m => m.EventsPageModule)
+  },
+  {
     path: 'notifications',
     loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
   },

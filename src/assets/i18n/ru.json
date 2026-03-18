@@ -1,6 +1,6 @@
 {
   "common": {
-    "title": "Организуйтесь!",
+    "title": "Litwave",
     "autoLanguage": "Авто",
     "menu": "Меню",
     "sec": "сек.",
@@ -32,6 +32,29 @@
         "title": "Сброс настроек",
         "message": "Сбросить настройки?"
       }
+    },
+    "events": {
+      "title": "События",
+      "create": "Создать событие",
+      "eventName": "Название",
+      "eventNamePlaceholder": "напр. День рождения",
+      "message": "Шаблон сообщения",
+      "customMessage": "Своё сообщение",
+      "customMessagePlaceholder": "Или введите своё (макс. 30 символов)",
+      "scheduledTime": "Время начала",
+      "now": "Сейчас",
+      "addEvent": "Создать событие",
+      "savedEvents": "Сохранённые события",
+      "share": "Поделиться",
+      "copyLink": "Копировать ссылку",
+      "nativeShare": "Поделиться",
+      "linkCopied": "Ссылка скопирована",
+      "eventCreated": "Событие создано",
+      "eventImported": "Событие импортировано",
+      "invalidQr": "Неверный QR-код",
+      "scanNotSupported": "Сканирование не поддерживается",
+      "cameraPermissionDenied": "Нужен доступ к камере",
+      "scanError": "Не удалось отсканировать QR-код"
     },
     "notifications": {
       "title": "Оповещения",

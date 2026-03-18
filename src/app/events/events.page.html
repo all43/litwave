@@ -1,0 +1,128 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ 'pages.events.title' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="scanQr()">
+        <ion-icon slot="icon-only" name="scan-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Create Event Form -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ 'pages.events.create' | translate }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input
+          [label]="'pages.events.eventName' | translate"
+          labelPlacement="stacked"
+          [(ngModel)]="newEventName"
+          [placeholder]="'pages.events.eventNamePlaceholder' | translate"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-select
+          [label]="'pages.events.message' | translate"
+          labelPlacement="stacked"
+          [(ngModel)]="newEventMessage"
+          interface="popover"
+        >
+          <ion-select-option *ngFor="let preset of presets" [value]="preset.message">
+            {{ preset.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-input
+          [label]="'pages.events.customMessage' | translate"
+          labelPlacement="stacked"
+          [(ngModel)]="newEventCustomMessage"
+          [placeholder]="'pages.events.customMessagePlaceholder' | translate"
+          (ionInput)="onCustomMessageInput()"
+          maxlength="30"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item button (click)="showDatePicker = !showDatePicker">
+        <ion-label>{{ 'pages.events.scheduledTime' | translate }}</ion-label>
+        <ion-note slot="end">{{ newEventTime ? (newEventTime | date:'medium') : ('pages.events.now' | translate) }}</ion-note>
+      </ion-item>
+      <ion-datetime
+        *ngIf="showDatePicker"
+        [value]="dateTimeValue"
+        (ionChange)="onDateTimeChange($event)"
+        presentation="date-time"
+        [min]="minDate"
+      ></ion-datetime>
+
+      <ion-button expand="block" (click)="createEvent()" [disabled]="!getEffectiveMessage()">
+        {{ 'pages.events.addEvent' | translate }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Event List -->
+  <ion-list *ngIf="(eventService.events$ | async)?.length">
+    <ion-list-header>
+      <ion-label>{{ 'pages.events.savedEvents' | translate }}</ion-label>
+    </ion-list-header>
+
+    <ion-item-sliding *ngFor="let event of eventService.events$ | async">
+      <ion-item [color]="(eventService.activeEventId$ | async) === event.id ? 'primary' : ''" (click)="activateEvent(event)">
+        <ion-icon name="radio-button-on" slot="start" *ngIf="(eventService.activeEventId$ | async) === event.id"></ion-icon>
+        <ion-icon name="radio-button-off" slot="start" *ngIf="(eventService.activeEventId$ | async) !== event.id"></ion-icon>
+        <ion-label>
+          <h2>{{ event.name || event.message }}</h2>
+          <p>{{ event.message }}</p>
+          <p *ngIf="event.scheduledTime">{{ event.scheduledTime * 1000 | date:'medium' }}</p>
+        </ion-label>
+        <ion-button fill="clear" slot="end" (click)="shareEvent(event, $event)">
+          <ion-icon slot="icon-only" name="share-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteEvent(event.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Share Modal -->
+  <ion-modal [isOpen]="showShareModal" (didDismiss)="showShareModal = false">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ 'pages.events.share' | translate }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="showShareModal = false">{{ 'common.ok' | translate }}</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="qr-container" *ngIf="shareUrl">
+          <app-qr-display [data]="shareUrl"></app-qr-display>
+          <p class="share-url">{{ shareUrl }}</p>
+          <ion-button expand="block" (click)="copyLink()">
+            <ion-icon slot="start" name="copy-outline"></ion-icon>
+            {{ 'pages.events.copyLink' | translate }}
+          </ion-button>
+          <ion-button expand="block" (click)="nativeShare()">
+            <ion-icon slot="start" name="share-social-outline"></ion-icon>
+            {{ 'pages.events.nativeShare' | translate }}
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

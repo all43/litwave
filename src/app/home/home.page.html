@@ -6,6 +6,31 @@
     <ion-title>
       {{ 'common.title' | translate }}
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/events">
+        <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [value]="selectedCategory" (ionChange)="onCategoryChange($any($event).detail.value)">
+      <ion-segment-button value="general">
+        <ion-label>General</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="meme">
+        <ion-label>Meme</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="event">
+        <ion-label>Event</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [value]="selectedMessage" (ionChange)="onPresetChange($any($event).detail.value)" scrollable>
+      <ion-segment-button *ngFor="let preset of filteredPresets" [value]="preset.message">
+        <ion-label>{{ preset.label }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 

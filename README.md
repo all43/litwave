@@ -1,92 +1,70 @@
-# Organise
+# Litwave
 
+Turn any crowd into a synchronized light show — no wristbands, no hardware, no setup. Just smartphones.
 
+Litwave is a mobile app that synchronizes smartphone flashlights and screens across any number of devices using time-based synchronization. No internet connection, no Bluetooth, no special equipment needed at the venue. Every phone independently syncs to the same clock, creating a unified visual experience.
 
-## Getting started
+## Origin Story
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+This project started in February 2022 as "Organise!" — an app designed to synchronize smartphone flashlights to signal "STOP WAR" in Morse code during the early days of the Russia-Ukraine war. The idea was that thousands of phones could flash the same message in unison, creating a visible act of solidarity. The project was shelved when circumstances made it impractical, but the core technology — decentralized time-synced flashlight control — turned out to be genuinely compelling beyond its original purpose.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Market Positioning
 
-## Add your files
+The synchronized crowd lighting market is dominated by two approaches:
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- **LED wristbands** (PixMob, Xylobands) — $5-10/person, require logistics, create e-waste
+- **B2B smartphone platforms** (CUE Audio, CrowdGlow) — require venue hardware (ultrasonic speakers, BLE transmitters), enterprise sales, pre-configured shows
 
+Litwave occupies an **unserved niche**: a self-serve, zero-infrastructure, consumer-first crowd lighting app.
+
+| | LED Wristbands | B2B Platforms | Litwave |
+|---|---|---|---|
+| Cost per person | $5-10 | Enterprise pricing | Free |
+| Hardware needed | Wristbands + controllers | Venue equipment | None |
+| Setup required | Event team | Pre-configured shows | None — just open the app |
+| Internet at venue | No | Varies | No |
+| Who can use it | Event organizers | Event organizers | Anyone |
+| E-waste | Significant | None | None |
+
+**Primary target:** Flashmobs, parties, and grassroots gatherings — where participants are already committed and the organizer shares a QR/link beforehand. This sidesteps the biggest problem in this space: the chicken-and-egg adoption barrier (where 70-80% of a random crowd won't download an app for a one-time use).
+
+**Also works for:** Concerts, festivals, sports events, weddings, birthday surprises, DJ sets — any gathering where people want to create a shared light experience.
+
+**Why this approach works:** Pre-coordinated groups mean near-100% adoption. The QR/URL scheme sharing fits naturally — organizer creates event config, shares link, everyone joins. Meme presets give the app standalone viral value beyond organized events.
+
+## Features
+
+- Morse code encoding of messages into synchronized flash patterns
+- Time-based synchronization aligned to clock boundaries (no server needed)
+- Flashlight (LED) and screen flash control
+- Preset messages to avoid user errors
+- **Events** — create, save, and manage flashmob events with custom messages and scheduled times
+- **Deep linking** — share events via `litwave://` or `https://litwave.app/event?...` URLs; all config is in the URL payload itself
+- **QR codes** — generate and scan QR codes for event sharing
+- **Website** ([litwave.app](https://litwave.app)) — create and share events from any browser, with full-screen signal mode, morse preview, and PWA support
+- Device keep-awake mode
+- Local notification reminders for scheduled events
+- Multi-language support (English, Russian)
+- Works fully offline
+
+## Tech Stack
+
+- Angular + Ionic Framework
+- Capacitor (iOS & Android)
+- TypeScript
+- RxJS for reactive signal timing
+
+## Development
+
+```bash
+npm install
+npm start            # dev server
+npm run build        # production build
+npm run build:website # build website to dist/website/
+npm run deploy:website # deploy website to Cloudflare Pages
+npm run lint         # lint
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/stopit/organise.git
-git branch -M main
-git push -uf origin main
-```
 
-## Integrate with your tools
+## Status
 
-- [ ] [Set up project integrations](https://gitlab.com/stopit/organise/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Actively developed. Rebranded from "Organise!" to Litwave with events, deep linking, QR codes, and a companion website.
