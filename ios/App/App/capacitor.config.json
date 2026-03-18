@@ -1,6 +1,17 @@
 {
-	"appId": "war.stop.organise",
-	"appName": "Organise!",
+	"appId": "app.litwave",
+	"appName": "Litwave",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"LocalNotificationsPlugin",
+		"PreferencesPlugin",
+		"StatusBarPlugin",
+		"KeepAwakePlugin",
+		"TorchPlugin",
+		"NativeSettingsPlugin"
+	]
 }

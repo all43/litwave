@@ -1,6 +1,7 @@
 import { App } from '@capacitor/app';
 import { Injectable, NgZone } from '@angular/core';
 import { MorseService } from './morse.service';
+import { MESSAGE_PRESETS } from './presets';
 import {
   from,
   Observable,
@@ -16,96 +17,115 @@ import {
   delay,
   distinctUntilChanged,
   endWith,
+  map,
   scan,
   switchMap,
   share,
   takeWhile,
   takeUntil,
   filter,
-  mapTo,
 } from 'rxjs/operators';
+
+interface MessageConfig {
+  binaryEncoded: boolean[];
+  sequenceLength: number;
+  repeatEvery: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-  public message = 'STOP WAR'; // TODO: move to config
+  public message$ = new BehaviorSubject<string>(MESSAGE_PRESETS[0].message);
   public countDown$: Observable<number>;
-  public morseStream$: Observable<boolean>;
   public stream$: Observable<boolean>;
-  public repeatEvery: number;
   private ditLength = 300; // dit length in milliseconds
-  private sequenceLength: number;
-  private countDownAccuracy = 100; // number of milliseconds to update coundtown timer
+  private countDownAccuracy = 100; // number of milliseconds to update countdown timer
   /*
     BehaviorSubject used because regular subject could emit first value before subscriber connects,
     also we don't need to manually trigger for the first time
     Trigger is used to restart timer on resume from background
   */
   private trigger$ = new BehaviorSubject<boolean>(true);
-  private timeToNextSequence$: Observable<number>;
-  private sequenceInterval$: Observable<number>;
 
-  constructor(morse: MorseService, private ngZone: NgZone) {
-    const morseBinaryEncoded = morse.encodeBinary(this.message);
-    this.sequenceLength = morseBinaryEncoded.length * this.ditLength;
-    // minimum pause between sequences, used to calculate how many sequences we can do per minute
-    const pauseLength = this.ditLength * 14;
-    // repeat every 30 or 60 seconds depenging on sequence length
-    this.repeatEvery = this.sequenceLength + pauseLength >= 30000 ? 60000 : 30000;
-
-    // take binary morse stream and emit values with timed delay
-    this.morseStream$ = from(morseBinaryEncoded).pipe(
-      concatMap((val) => of(val).pipe(
-        delay(this.ditLength),
-      )),
-      distinctUntilChanged(),
-      endWith(false), // switch off at the end
+  constructor(private morse: MorseService, private ngZone: NgZone) {
+    // derive config from current message
+    const messageConfig$ = this.message$.pipe(
+      map((msg) => this.buildConfig(msg)),
     );
 
+    // when message or trigger changes, rebuild the entire stream
+    const engine$ = messageConfig$.pipe(
+      switchMap((config) => {
+        const timeToNextSequence$ = this.trigger$.pipe(
+          filter((val) => val),
+          switchMap(
+            () => defer(() => of(this.calcTimeToNextSequence(config.repeatEvery)))
+          ),
+        );
 
-    this.timeToNextSequence$ = this.trigger$.pipe(
-      filter((val) => val),
-      switchMap(
-        () => defer(() => of(this.calcTimeToNextSequence()))
-      ),
-    );
+        // emits every time we need to start new sequence
+        const sequenceInterval$ = timeToNextSequence$.pipe(
+          switchMap((val) => timer(val, config.repeatEvery)),
+          share(),
+        );
 
-    // emits every time we need to start new sequence
-    this.sequenceInterval$ = this.timeToNextSequence$.pipe(
-      switchMap((val) => timer(val, this.repeatEvery)),
+        // take binary morse stream and emit values with timed delay
+        const morseStream$ = from(config.binaryEncoded).pipe(
+          concatMap((val) => of(val).pipe(
+            delay(this.ditLength),
+          )),
+          distinctUntilChanged(),
+          endWith(false), // switch off at the end
+        );
+
+        const stream$ = sequenceInterval$.pipe(
+          switchMap(() => morseStream$.pipe(
+            takeUntil(this.trigger$.pipe(
+                filter((val) => val === false),
+              ),
+            ),
+            endWith(false),
+          )),
+          share(),
+        );
+
+        // emits number of milliseconds left until next seq. starts
+        const countDown$ = merge(
+            timeToNextSequence$,
+            sequenceInterval$
+              .pipe(
+                delay(config.sequenceLength),
+                map(() => config.repeatEvery - config.sequenceLength),
+              ),
+          ).pipe(
+          switchMap((timeout) => interval(this.countDownAccuracy).pipe(
+            scan((acc, _) => acc - this.countDownAccuracy, timeout),
+            takeWhile((remaining) => remaining >= 0),
+            endWith(0),
+          )),
+        );
+
+        return merge(
+          stream$.pipe(map((val) => ({ type: 'stream' as const, val }))),
+          countDown$.pipe(map((val) => ({ type: 'countDown' as const, val }))),
+        );
+      }),
       share(),
     );
 
-    // emits number of milliseconds left until next seq. starts
-    this.countDown$ = merge(
-        this.timeToNextSequence$,
-        this.sequenceInterval$
-          .pipe(
-            delay(this.sequenceLength), // wait until sequence ends
-            mapTo(this.repeatEvery - this.sequenceLength), // emit value until next sequence
-          ),
-      ).pipe(
-      switchMap((timeout) => interval(this.countDownAccuracy).pipe(
-        scan((acc, _) => acc - this.countDownAccuracy, timeout),
-        takeWhile((remaining) => remaining >= 0),
-        endWith(0),
-      )),
+    this.stream$ = engine$.pipe(
+      filter((e) => e.type === 'stream'),
+      map((e) => e.val as boolean),
+      share(),
     );
 
-    this.stream$ = this.sequenceInterval$.pipe(
-      switchMap(() => this.morseStream$.pipe(
-        takeUntil(this.trigger$.pipe(
-            filter((val) => val === false),
-          ),
-        ),
-        endWith(false),
-      )),
-      share(), // stream is shared between signal component and flash service
+    this.countDown$ = engine$.pipe(
+      filter((e) => e.type === 'countDown'),
+      map((e) => e.val as number),
     );
 
-
-    // stop timer if app is in backround, reset on resume
+    // stop timer if app is in background, reset on resume
     App.addListener('appStateChange', ({ isActive }) => {
       /*
         without ngZone angular loses change detection
@@ -121,18 +141,31 @@ export class MessageService {
     });
   }
 
+  setMessage(message: string): void {
+    this.message$.next(message);
+    this.resetTimer();
+  }
+
   resetTimer(): void {
     this.trigger$.next(true);
   }
 
-  stopTimer() {
+  stopTimer(): void {
     this.trigger$.next(false);
   }
 
-  calcTimeToNextSequence(): number {
+  private buildConfig(message: string): MessageConfig {
+    const binaryEncoded = this.morse.encodeBinary(message);
+    const sequenceLength = binaryEncoded.length * this.ditLength;
+    const pauseLength = this.ditLength * 14;
+    const repeatEvery = sequenceLength + pauseLength >= 30000 ? 60000 : 30000;
+    return { binaryEncoded, sequenceLength, repeatEvery };
+  }
+
+  private calcTimeToNextSequence(repeatEvery: number): number {
     const next = new Date();
     next.setMinutes(next.getMinutes() + 1, 0, 0);
-    const diff = next.getTime() - Date.now(); // time until beginning of the next minute
-    return diff < this.repeatEvery ? diff : diff - this.repeatEvery;
+    const diff = next.getTime() - Date.now();
+    return diff < repeatEvery ? diff : diff - repeatEvery;
   }
 }

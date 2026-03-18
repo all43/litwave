@@ -7,6 +7,7 @@ import { SettingsService } from '../settings.service';
   selector: 'app-signal',
   templateUrl: './signal.component.html',
   styleUrls: ['./signal.component.scss'],
+  standalone: false,
 })
 export class SignalComponent implements OnInit, OnDestroy {
   syncFlashlight: boolean;

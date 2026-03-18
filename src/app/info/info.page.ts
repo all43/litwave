@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-info',
   templateUrl: './info.page.html',
   styleUrls: ['./info.page.scss'],
+  standalone: false,
 })
 export class InfoPage implements OnInit {
 

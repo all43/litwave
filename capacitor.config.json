@@ -1,6 +1,9 @@
 {
-	"appId": "war.stop.organise",
-	"appName": "Organise!",
+	"appId": "app.litwave",
+	"appName": "Litwave",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"server": {
+		"androidScheme": "https"
+	}
 }

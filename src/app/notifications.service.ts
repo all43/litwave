@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { PermissionState } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 import { LocalNotifications, PendingLocalNotificationSchema, Weekday } from '@capacitor/local-notifications';
-import { OpenNativeSettings } from '@awesome-cordova-plugins/open-native-settings/ngx';
+import { NativeSettings, AndroidSettings, IOSSettings } from 'capacitor-native-settings';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -21,7 +21,6 @@ export class NotificationsService {
 
 
   constructor(
-      private openNativeSettings: OpenNativeSettings,
       private platform: Platform,
       private router: Router,
       private ngZone: NgZone,
@@ -60,7 +59,10 @@ export class NotificationsService {
   }
 
   public openSettings() {
-    return this.openNativeSettings.open('application_details');
+    return NativeSettings.open({
+      optionAndroid: AndroidSettings.ApplicationDetails,
+      optionIOS: IOSSettings.App,
+    });
   }
 
   public async checkPermission() {
@@ -84,7 +86,7 @@ export class NotificationsService {
   private async createChannel() {
     LocalNotifications.createChannel({
       id: 'eventAlarm',
-      name: 'organise',
+      name: 'litwave',
       sound: 'td.mp3',
       importance: 4,
       vibration: true,

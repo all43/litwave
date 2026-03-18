@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { TranslateService } from '@ngx-translate/core';
 import * as EN from '../assets/i18n/en.json';
 import * as RU from '../assets/i18n/ru.json';
@@ -25,7 +25,7 @@ interface AppSettings {
 })
 export class SettingsService {
   readonly settingsKey = 'settings';
-  readonly defaultLanguage: LanguageCode = 'ru';
+  readonly defaultLanguage: LanguageCode = 'en';
   readonly languages: LanguageItem[] = [
     { name: 'Русский', code: 'ru' },
     { name: 'English', code: 'en' },
@@ -83,7 +83,7 @@ export class SettingsService {
   }
 
   public async init() {
-    const ret = await Storage.get({ key: this.settingsKey });
+    const ret = await Preferences.get({ key: this.settingsKey });
     this.current = JSON.parse(ret.value) || {};
     //  we don't plan to have much translations so we just import i18n files without using loader
     this.translate.setTranslation('en', EN);
@@ -94,7 +94,7 @@ export class SettingsService {
   }
 
   public reset() {
-    Storage.clear();
+    Preferences.clear();
     this.current = { ...this.defaults };
     this.useLanguage(this.defaults.selectedLanguage);
   }
@@ -107,7 +107,7 @@ export class SettingsService {
   private save() {
     const key = this.settingsKey;
     const value = JSON.stringify(this.current);
-    Storage.set({ key, value });
+    Preferences.set({ key, value });
   }
 
 }

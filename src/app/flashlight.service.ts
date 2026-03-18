@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Flashlight } from '@awesome-cordova-plugins/flashlight/ngx';
+import { Torch } from '@capawesome/capacitor-torch';
 import { MessageService } from './message.service';
 import { Subscription } from 'rxjs';
 
@@ -8,28 +8,32 @@ import { Subscription } from 'rxjs';
 })
 export class FlashlightService {
 
-  private subscribtion: Subscription;
+  private subscription: Subscription;
 
-  constructor(private light: Flashlight, private message: MessageService) { }
+  constructor(private message: MessageService) { }
+
   on() {
-    this.light.switchOn();
+    Torch.enable();
   }
 
   off() {
-    this.light.switchOff();
+    Torch.disable();
   }
 
   sync() {
-    this.subscribtion = this.message.stream$
+    this.subscription = this.message.stream$
       .subscribe((state) => {
-      const action = state ? 'switchOn' : 'switchOff';
-      this.light[action]();
+      if (state) {
+        Torch.enable();
+      } else {
+        Torch.disable();
+      }
     });
   }
 
   unsync() {
-    if (this.subscribtion) {
-      this.subscribtion.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
     this.off();
   }

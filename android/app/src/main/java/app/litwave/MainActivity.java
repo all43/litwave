@@ -1,4 +1,4 @@
-package war.stop.organise;
+package app.litwave;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -7,6 +7,7 @@ declare const __NPM_PACKAGE_VERSION__: string; // defined in custom-webpack.conf
   selector: 'app-about',
   templateUrl: './about.page.html',
   styleUrls: ['./about.page.scss'],
+  standalone: false,
 })
 
 export class AboutPage implements OnInit {
