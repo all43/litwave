@@ -28,6 +28,7 @@
         "always": "Всегда"
       },
       "preventSleep": "Не выключать экран",
+      "flashlightAutoShutoff": "Авто-выключение фонарика через 10 мин",
       "reset": {
         "title": "Сброс настроек",
         "message": "Сбросить настройки?"
@@ -75,6 +76,7 @@
   },
   "signal": {
     "flashlightToggle": "Фонарик",
-    "countDownLabel": "Старт через"
+    "countDownLabel": "Старт через",
+    "autoShutoff": "Фонарик выключен автоматически через 10 мин для защиты LED"
   }
 }

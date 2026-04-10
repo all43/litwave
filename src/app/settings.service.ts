@@ -18,6 +18,7 @@ interface AppSettings {
   keepalive: boolean;
   autoSyncFlash: AutoSyncOptions;
   lastSyncFlashlightValue: boolean;
+  flashlightAutoShutoff: boolean;
 }
 
 @Injectable({
@@ -35,6 +36,7 @@ export class SettingsService {
     keepalive: true, // prevent device from sleep
     autoSyncFlash: 'never', // turn on flash automatically
     lastSyncFlashlightValue: false,
+    flashlightAutoShutoff: true,
   };
   private current: AppSettings;
 
@@ -71,6 +73,14 @@ export class SettingsService {
 
   set keepalive(val: boolean) {
     this.setKey('keepalive', val);
+  }
+
+  get flashlightAutoShutoff(): boolean {
+    return this.getKey('flashlightAutoShutoff');
+  }
+
+  set flashlightAutoShutoff(val: boolean) {
+    this.setKey('flashlightAutoShutoff', val);
   }
 
   getKey(key) {

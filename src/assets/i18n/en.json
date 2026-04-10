@@ -28,6 +28,7 @@
         "always": "Always"
       },
       "preventSleep": "Prevent device sleep",
+      "flashlightAutoShutoff": "Auto-stop flashlight after 10 min",
       "reset": {
         "title": "Reset settings",
         "message": "Are you sure you'd like to reset settings?"
@@ -75,6 +76,7 @@
   },
   "signal": {
     "flashlightToggle": "Flashlight",
-    "countDownLabel": "Next sequence in"
+    "countDownLabel": "Next sequence in",
+    "autoShutoff": "Flashlight auto-stopped after 10 min to protect your LED"
   }
 }

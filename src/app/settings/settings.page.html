@@ -39,6 +39,10 @@
       <ion-label>{{ 'pages.settings.preventSleep' | translate }}</ion-label>
       <ion-toggle [(ngModel)]="settings.keepalive" slot="end"></ion-toggle>
     </ion-item>
+    <ion-item>
+      <ion-label>{{ 'pages.settings.flashlightAutoShutoff' | translate }}</ion-label>
+      <ion-toggle [(ngModel)]="settings.flashlightAutoShutoff" slot="end"></ion-toggle>
+    </ion-item>
     <ion-item-divider></ion-item-divider>
     <ion-item button (click)="resetConfirm()">
       {{ 'pages.settings.reset.title' | translate }}
