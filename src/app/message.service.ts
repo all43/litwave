@@ -2,6 +2,8 @@ import { App } from '@capacitor/app';
 import { Injectable, NgZone } from '@angular/core';
 import { MorseService } from './morse.service';
 import { MESSAGE_PRESETS } from './presets';
+import { MessageConfig, buildConfig, calcTimeToNextSequence, calcJoinBit, DIT_LENGTH_MS } from './message-timing';
+import { encodeBinaryWithBoundaries } from './morse-encode';
 import {
   from,
   Observable,
@@ -26,12 +28,6 @@ import {
   filter,
 } from 'rxjs/operators';
 
-interface MessageConfig {
-  binaryEncoded: boolean[];
-  sequenceLength: number;
-  repeatEvery: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -39,7 +35,7 @@ export class MessageService {
   public message$ = new BehaviorSubject<string>(MESSAGE_PRESETS[0].message);
   public countDown$: Observable<number>;
   public stream$: Observable<boolean>;
-  private ditLength = 300; // dit length in milliseconds
+  private readonly ditLength = DIT_LENGTH_MS;
   private countDownAccuracy = 100; // number of milliseconds to update countdown timer
   /*
     BehaviorSubject used because regular subject could emit first value before subscriber connects,
@@ -70,25 +66,49 @@ export class MessageService {
           share(),
         );
 
-        // take binary morse stream and emit values with timed delay
-        const morseStream$ = from(config.binaryEncoded).pipe(
-          concatMap((val) => of(val).pipe(
-            delay(this.ditLength),
-          )),
-          distinctUntilChanged(),
-          endWith(false), // switch off at the end
+        // builds a morse bit stream for the given slice of binaryEncoded
+        const makeMorseStream$ = (bits: boolean[]) =>
+          from(bits).pipe(
+            concatMap((val) => of(val).pipe(delay(this.ditLength))),
+            distinctUntilChanged(),
+            endWith(false),
+          );
+
+        // mid-cycle join: when trigger fires, jump to nearest upcoming letter boundary
+        const joinPlay$ = this.trigger$.pipe(
+          filter((val) => val),
+          switchMap(() =>
+            defer(() => {
+              const joinBit = calcJoinBit(config, Date.now(), this.ditLength);
+              if (joinBit === 0) {
+                return of<boolean>(); // no join — wait for sequenceInterval$
+              }
+              const msUntilJoinBit = joinBit * this.ditLength - (Date.now() % config.repeatEvery);
+              return timer(msUntilJoinBit).pipe(
+                switchMap(() =>
+                  makeMorseStream$(config.binaryEncoded.slice(joinBit)).pipe(
+                    takeUntil(sequenceInterval$),
+                    takeUntil(this.trigger$.pipe(filter((v) => v === false))),
+                    endWith(false),
+                  )
+                ),
+              );
+            })
+          ),
         );
 
-        const stream$ = sequenceInterval$.pipe(
-          switchMap(() => morseStream$.pipe(
-            takeUntil(this.trigger$.pipe(
-                filter((val) => val === false),
-              ),
+        const stream$ = merge(
+          // full plays on every epoch boundary
+          sequenceInterval$.pipe(
+            switchMap(() =>
+              makeMorseStream$(config.binaryEncoded).pipe(
+                takeUntil(this.trigger$.pipe(filter((val) => val === false))),
+                endWith(false),
+              )
             ),
-            endWith(false),
-          )),
-          share(),
-        );
+          ),
+          joinPlay$,
+        ).pipe(share());
 
         // emits number of milliseconds left until next seq. starts
         const countDown$ = merge(
@@ -155,17 +175,14 @@ export class MessageService {
   }
 
   private buildConfig(message: string): MessageConfig {
-    const binaryEncoded = this.morse.encodeBinary(message);
-    const sequenceLength = binaryEncoded.length * this.ditLength;
-    const pauseLength = this.ditLength * 14;
-    const repeatEvery = sequenceLength + pauseLength >= 30000 ? 60000 : 30000;
-    return { binaryEncoded, sequenceLength, repeatEvery };
+    return buildConfig(
+      message,
+      (msg) => encodeBinaryWithBoundaries(msg),
+      this.ditLength,
+    );
   }
 
   private calcTimeToNextSequence(repeatEvery: number): number {
-    const next = new Date();
-    next.setMinutes(next.getMinutes() + 1, 0, 0);
-    const diff = next.getTime() - Date.now();
-    return diff < repeatEvery ? diff : diff - repeatEvery;
+    return calcTimeToNextSequence(repeatEvery);
   }
 }
