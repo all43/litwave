@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A mobile app that synchronizes smartphone flashlights and screens across devices using time-based sync (clock-minute alignment). No server, no internet, no Bluetooth, no venue hardware — fully decentralized.
+A mobile app that synchronizes smartphone flashlights and screens across devices using time-based sync (epoch-modulo alignment). No server, no internet, no Bluetooth, no venue hardware — fully decentralized.
 
 ## Rebranding Status
 
@@ -16,9 +16,13 @@ Rebranding from "Organise!" to "Litwave" is complete:
 
 - **Angular 19 + Ionic 8 + Capacitor 8** — hybrid mobile app targeting iOS & Android
 - **TypeScript 5.7, RxJS 7.8**
+- **Key modules:**
+  - `morse-encode.ts` — pure text → morse → binary encoding, no Angular deps; exports `encodeBinary` and `encodeBinaryWithBoundaries` (tracks letter start bit indices)
+  - `message-timing.ts` — pure timing functions; `buildConfig`, `calcTimeToNextSequence`, `calcJoinBit`; tested via Vitest
+  - `message-timing.spec.ts` — 37 Vitest tests including sync-correctness proofs
 - **Key services:**
-  - `morse.service.ts` — text → morse code → binary encoding
-  - `message.service.ts` — reactive RxJS timing engine with BehaviorSubject for message switching, syncs to clock-minute boundaries, 300ms dit length
+  - `morse.service.ts` — Angular wrapper; delegates encoding to `morse-encode.ts`
+  - `message.service.ts` — reactive RxJS timing engine; epoch-modulo sync, mid-cycle letter-boundary join, 300ms dit length
   - `flashlight.service.ts` — hardware flashlight control, syncs to morse stream
   - `settings.service.ts` — persisted settings via @capacitor/preferences + i18n (EN/RU)
   - `notifications.service.ts` — local notification scheduling
@@ -35,8 +39,9 @@ Rebranding from "Organise!" to "Litwave" is complete:
 
 ## Key Technical Decisions
 
-- Time sync aligns to minute boundaries — no coordination between devices needed
-- Message repeats every 30s or 60s depending on morse sequence length
+- **Sync:** `Date.now() % repeatEvery` — epoch-modulo alignment; all NTP-synced devices agree automatically, no coordination needed
+- **Slot sizing:** `repeatEvery = ceil((sequenceLength + pauseLength) / 5000) * 5000` — tightest 5s-grid slot that fits message + 14-dit pause (GO: 15s, STOP THE WAR: 35s; was hardcoded 30s/60s)
+- **Mid-cycle join:** devices joining mid-cycle snap to the next letter boundary within the current cycle (`calcJoinBit`), enabled for messages ≥ 15s; short messages just wait for next epoch boundary
 - App pauses signal when backgrounded, resumes on foreground
 - `custom-webpack.config.js` injects package version for the about page
 - All native plugins are Capacitor-native (no Cordova):
@@ -87,6 +92,7 @@ Static PWA in `src/website/`. Features:
 ```bash
 npm start            # dev server
 npm run build        # production build
+npm test             # run Vitest unit tests
 npm run build:website # build website to dist/website/
 npm run deploy:website # build + deploy website to Cloudflare Pages
 npm run lint         # eslint
