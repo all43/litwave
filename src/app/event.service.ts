@@ -24,7 +24,7 @@ export class EventService {
     if (existing >= 0) {
       events[existing] = event;
     } else {
-      events.push(event);
+      events.unshift(event);
     }
     this.events$.next([...events]);
     await this.save();
@@ -40,6 +40,11 @@ export class EventService {
     await this.save();
   }
 
+  async clearActiveEvent(): Promise<void> {
+    this.activeEventId$.next(null);
+    await Preferences.remove({ key: this.activeKey });
+  }
+
   async setActiveEvent(id: string): Promise<void> {
     const event = this.events$.value.find((e) => e.id === id);
     if (event) {
@@ -50,32 +55,15 @@ export class EventService {
   }
 
   generateUrl(event: LitwaveEvent): string {
-    const params = new URLSearchParams();
-    params.set('msg', event.message);
-    if (event.scheduledTime) {
-      params.set('t', event.scheduledTime.toString());
-    }
-    if (event.name) {
-      params.set('name', event.name);
-    }
-    return `https://litwave.app/event?${params.toString()}`;
+    return `https://litwave.app/event?d=${this.encodePayload(event)}`;
   }
 
   generateDeepLink(event: LitwaveEvent): string {
-    const params = new URLSearchParams();
-    params.set('msg', event.message);
-    if (event.scheduledTime) {
-      params.set('t', event.scheduledTime.toString());
-    }
-    if (event.name) {
-      params.set('name', event.name);
-    }
-    return `litwave://event?${params.toString()}`;
+    return `litwave://event?d=${this.encodePayload(event)}`;
   }
 
   parseUrl(url: string): LitwaveEvent | null {
     try {
-      // Handle both litwave:// and https://litwave.app/event? formats
       let searchParams: URLSearchParams;
       if (url.startsWith('litwave://')) {
         const queryString = url.split('?')[1];
@@ -86,27 +74,51 @@ export class EventService {
         searchParams = parsed.searchParams;
       }
 
+      // New base64 payload format
+      const d = searchParams.get('d');
+      if (d) {
+        return this.decodePayload(d);
+      }
+
+      // Legacy plain-param format (backwards compat)
       const msg = searchParams.get('msg');
       if (!msg) { return null; }
-
-      const event: LitwaveEvent = {
-        id: this.generateId(),
-        message: msg.toUpperCase(),
-      };
-
+      const event: LitwaveEvent = { id: this.generateId(), message: msg.toUpperCase() };
       const t = searchParams.get('t');
       if (t) {
-        const timestamp = parseInt(t, 10);
-        if (!isNaN(timestamp)) {
-          event.scheduledTime = timestamp;
-        }
+        const ts = parseInt(t, 10);
+        if (!isNaN(ts)) { event.scheduledTime = ts; }
       }
-
       const name = searchParams.get('name');
-      if (name) {
-        event.name = name;
-      }
+      if (name) { event.name = name; }
+      return event;
+    } catch {
+      return null;
+    }
+  }
 
+  private encodePayload(event: LitwaveEvent): string {
+    const payload: Record<string, string | number> = { msg: event.message };
+    if (event.name) { payload.name = event.name; }
+    if (event.scheduledTime) { payload.t = event.scheduledTime; }
+    // URL-safe base64 (no +, /, or padding =)
+    return btoa(JSON.stringify(payload))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  }
+
+  private decodePayload(encoded: string): LitwaveEvent | null {
+    try {
+      // Restore standard base64 padding
+      const padded = encoded.replace(/-/g, '+').replace(/_/g, '/')
+        + '=='.slice(0, (4 - encoded.length % 4) % 4);
+      const payload = JSON.parse(atob(padded));
+      if (!payload.msg) { return null; }
+      const event: LitwaveEvent = { id: this.generateId(), message: String(payload.msg).toUpperCase() };
+      if (payload.name) { event.name = String(payload.name); }
+      if (payload.t) {
+        const ts = Number(payload.t);
+        if (!isNaN(ts)) { event.scheduledTime = ts; }
+      }
       return event;
     } catch {
       return null;

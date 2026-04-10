@@ -1,0 +1,104 @@
+{
+  "common": {
+    "title": "Litwave",
+    "autoLanguage": "Auto",
+    "menu": "Menú",
+    "sec": "seg.",
+    "ok": "OK",
+    "cancel": "Cancelar"
+  },
+  "pages": {
+    "home": {
+      "title": "Inicio"
+    },
+    "info": {
+      "title": "Acerca de Litwave",
+      "tagline": "Espectáculos de luz sincronizados para cualquier multitud",
+      "how": {
+        "pick": {
+          "title": "Elige un mensaje",
+          "body": "Elige un preset o escribe el tuyo. El mensaje se codifica en Morse y parpadea en cada dispositivo."
+        },
+        "start": {
+          "title": "Pulsa inicio",
+          "body": "Tu pantalla y linterna comienzan a parpadear sincronizadas con todos los demás."
+        },
+        "sync": {
+          "title": "Sin configuración",
+          "body": "La sincronización se basa en el reloj de tu teléfono. No necesitas Bluetooth, Wi-Fi ni equipos del lugar."
+        }
+      },
+      "noInternet": "Funciona completamente sin conexión — no necesita internet"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "version": "Versión",
+      "language": "Idioma",
+      "syncFlash": {
+        "label": "Linterna automática",
+        "never": "Nunca",
+        "useRecent": "Recordar",
+        "always": "Siempre"
+      },
+      "preventSleep": "Evitar suspensión",
+      "flashlightAutoShutoff": "Apagar linterna tras 10 min",
+      "reset": {
+        "title": "Restablecer ajustes",
+        "message": "¿Restablecer ajustes?"
+      }
+    },
+    "events": {
+      "title": "Eventos",
+      "create": "Crear evento",
+      "eventName": "Nombre",
+      "eventNamePlaceholder": "ej. Cumpleaños",
+      "message": "Mensaje",
+      "messagePlaceholder": "Elige un mensaje",
+      "customMessagePlaceholder": "Escribe el tuyo (máx. 30 caracteres)",
+      "scheduledTime": "Hora de inicio",
+      "noTime": "Opcional",
+      "addEvent": "Crear evento",
+      "savedEvents": "Eventos guardados",
+      "share": "Compartir",
+      "copyLink": "Copiar enlace",
+      "nativeShare": "Compartir",
+      "linkCopied": "Enlace copiado",
+      "eventCreated": "Evento creado",
+      "eventImported": "Evento importado",
+      "invalidQr": "Código QR inválido",
+      "scanNotSupported": "Escaneo no compatible",
+      "cameraPermissionDenied": "Se requiere permiso de cámara",
+      "scanError": "No se pudo escanear el código QR",
+      "swipeToDelete": "Desliza a la izquierda para eliminar"
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "messageTitle": "El evento empieza pronto",
+      "messageBody": "Prepárate",
+      "requestPermissions": "Permitir notificaciones",
+      "openSettings": "Abrir ajustes",
+      "disabled": "Notificaciones desactivadas",
+      "saved": "Ajustes de notificaciones guardados",
+      "options": {
+        "title": "Enviar notificación a las {{time}}",
+        "never": "Nunca",
+        "everyDay": "Cada día",
+        "workdays": "En días laborables",
+        "weekends": "Los fines de semana"
+      }
+    }
+  },
+  "presets": {
+    "categories": {
+      "general": "General",
+      "custom": "Personalizado",
+      "meme": "Meme",
+      "event": "Evento"
+    }
+  },
+  "signal": {
+    "flashlightToggle": "Linterna",
+    "countDownLabel": "Sincronizando en",
+    "autoShutoff": "Linterna apagada automáticamente tras 10 min para proteger el LED"
+  }
+}

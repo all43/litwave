@@ -2,10 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { TranslateService } from '@ngx-translate/core';
-import * as EN from '../assets/i18n/en.json';
-import * as RU from '../assets/i18n/ru.json';
 
-type LanguageCode = 'ru' | 'by' | 'en' | 'auto';
+type LanguageCode = 'en' | 'ru' | 'uk' | 'es' | 'de' | 'fr' | 'pt' | 'pl' | 'auto';
 
 export type LanguageItem = {
   name: string;
@@ -28,14 +26,20 @@ export class SettingsService {
   readonly settingsKey = 'settings';
   readonly defaultLanguage: LanguageCode = 'en';
   readonly languages: LanguageItem[] = [
-    { name: 'Русский', code: 'ru' },
     { name: 'English', code: 'en' },
+    { name: 'Русский', code: 'ru' },
+    { name: 'Українська', code: 'uk' },
+    { name: 'Español', code: 'es' },
+    { name: 'Deutsch', code: 'de' },
+    { name: 'Français', code: 'fr' },
+    { name: 'Português', code: 'pt' },
+    { name: 'Polski', code: 'pl' },
   ];
   private defaults: AppSettings = {
     selectedLanguage: 'auto',
     keepalive: true, // prevent device from sleep
-    autoSyncFlash: 'never', // turn on flash automatically
-    lastSyncFlashlightValue: false,
+    autoSyncFlash: 'useRecent',
+    lastSyncFlashlightValue: true,
     flashlightAutoShutoff: true,
   };
   private current: AppSettings;
@@ -95,9 +99,6 @@ export class SettingsService {
   public async init() {
     const ret = await Preferences.get({ key: this.settingsKey });
     this.current = JSON.parse(ret.value) || {};
-    //  we don't plan to have much translations so we just import i18n files without using loader
-    this.translate.setTranslation('en', EN);
-    this.translate.setTranslation('ru', RU);
     this.translate.setDefaultLang(this.defaultLanguage);
     this.useLanguage(this.getKey('selectedLanguage'));
 

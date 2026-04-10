@@ -7,7 +7,14 @@
     "build": "ng build",
     "build:website": "mkdir -p dist/website && cp -r src/website/* dist/website/",
     "deploy:website": "npm run build:website && npx wrangler pages deploy dist/website --project-name=litwave",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "test": "vitest run",
+    "generate:assets": "capacitor-assets generate --iconBackgroundColor '#0f172a' --iconBackgroundColorDark '#0f172a' --splashBackgroundColor '#0f172a' --splashBackgroundColorDark '#0f172a'",
+    "sync": "ng build && cap sync",
+    "open:ios": "npm run sync && cap open ios",
+    "open:android": "npm run sync && cap open android",
+    "run:ios": "npm run sync && cap run ios",
+    "run:android": "npm run sync && cap run android"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +40,7 @@
     "@capawesome/capacitor-torch": "^8.0.0",
     "@ionic/angular": "^8.4.0",
     "@ngx-translate/core": "^16.0.0",
+    "@ngx-translate/http-loader": "^17.0.0",
     "capacitor-native-settings": "^8.1.0",
     "qrcode": "^1.5.4",
     "rxjs": "~7.8.0",
@@ -49,13 +57,15 @@
     "@angular/cli": "~19.2.0",
     "@angular/compiler": "~19.2.0",
     "@angular/compiler-cli": "~19.2.0",
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.2.0",
     "@ionic/angular-toolkit": "^12.0.0",
     "@types/qrcode": "^1.5.6",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.57.0",
-    "typescript": "~5.7.0"
+    "typescript": "~5.7.0",
+    "vitest": "^4.1.4"
   },
   "description": "Synchronized crowd lighting app"
 }

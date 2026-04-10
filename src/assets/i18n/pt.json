@@ -1,0 +1,104 @@
+{
+  "common": {
+    "title": "Litwave",
+    "autoLanguage": "Auto",
+    "menu": "Menu",
+    "sec": "seg.",
+    "ok": "OK",
+    "cancel": "Cancelar"
+  },
+  "pages": {
+    "home": {
+      "title": "Início"
+    },
+    "info": {
+      "title": "Sobre o Litwave",
+      "tagline": "Shows de luz sincronizados para qualquer multidão",
+      "how": {
+        "pick": {
+          "title": "Escolha uma mensagem",
+          "body": "Escolha um preset ou digite o seu. A mensagem é codificada em Morse e piscada em cada dispositivo."
+        },
+        "start": {
+          "title": "Pressione iniciar",
+          "body": "Sua tela e lanterna começam a piscar em sincronia com todos os outros."
+        },
+        "sync": {
+          "title": "Sem configuração",
+          "body": "A sincronização é baseada no relógio do seu celular. Sem Bluetooth, sem Wi-Fi, sem equipamentos do local."
+        }
+      },
+      "noInternet": "Funciona totalmente offline — sem necessidade de internet"
+    },
+    "settings": {
+      "title": "Configurações",
+      "version": "Versão",
+      "language": "Idioma",
+      "syncFlash": {
+        "label": "Lanterna auto.",
+        "never": "Nunca",
+        "useRecent": "Lembrar",
+        "always": "Sempre"
+      },
+      "preventSleep": "Evitar suspensão",
+      "flashlightAutoShutoff": "Desligar lanterna após 10 min",
+      "reset": {
+        "title": "Redefinir configurações",
+        "message": "Redefinir configurações?"
+      }
+    },
+    "events": {
+      "title": "Eventos",
+      "create": "Criar evento",
+      "eventName": "Nome",
+      "eventNamePlaceholder": "ex. Aniversário",
+      "message": "Mensagem",
+      "messagePlaceholder": "Escolha uma mensagem",
+      "customMessagePlaceholder": "Digite a sua (máx. 30 caracteres)",
+      "scheduledTime": "Horário de início",
+      "noTime": "Opcional",
+      "addEvent": "Criar evento",
+      "savedEvents": "Eventos salvos",
+      "share": "Compartilhar",
+      "copyLink": "Copiar link",
+      "nativeShare": "Compartilhar",
+      "linkCopied": "Link copiado",
+      "eventCreated": "Evento criado",
+      "eventImported": "Evento importado",
+      "invalidQr": "QR code inválido",
+      "scanNotSupported": "Escaneamento não suportado",
+      "cameraPermissionDenied": "Permissão de câmera necessária",
+      "scanError": "Não foi possível escanear o QR code",
+      "swipeToDelete": "Deslize para a esquerda para excluir"
+    },
+    "notifications": {
+      "title": "Notificações",
+      "messageTitle": "Evento começa em breve",
+      "messageBody": "Esteja pronto",
+      "requestPermissions": "Permitir notificações",
+      "openSettings": "Abrir configurações",
+      "disabled": "Notificações desativadas",
+      "saved": "Configurações de notificações salvas",
+      "options": {
+        "title": "Enviar notificação às {{time}}",
+        "never": "Nunca",
+        "everyDay": "Todo dia",
+        "workdays": "Nos dias úteis",
+        "weekends": "Nos fins de semana"
+      }
+    }
+  },
+  "presets": {
+    "categories": {
+      "general": "Geral",
+      "custom": "Personalizado",
+      "meme": "Meme",
+      "event": "Evento"
+    }
+  },
+  "signal": {
+    "flashlightToggle": "Lanterna",
+    "countDownLabel": "Sincronizando em",
+    "autoShutoff": "Lanterna desligada automaticamente após 10 min para proteger o LED"
+  }
+}

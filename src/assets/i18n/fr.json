@@ -1,0 +1,104 @@
+{
+  "common": {
+    "title": "Litwave",
+    "autoLanguage": "Auto",
+    "menu": "Menu",
+    "sec": "sec.",
+    "ok": "OK",
+    "cancel": "Annuler"
+  },
+  "pages": {
+    "home": {
+      "title": "Accueil"
+    },
+    "info": {
+      "title": "À propos de Litwave",
+      "tagline": "Spectacles lumineux synchronisés pour n'importe quelle foule",
+      "how": {
+        "pick": {
+          "title": "Choisir un message",
+          "body": "Choisissez un preset ou tapez le vôtre. Le message est encodé en morse et clignote sur chaque appareil."
+        },
+        "start": {
+          "title": "Appuyer sur démarrer",
+          "body": "Votre écran et votre lampe de poche commencent à clignoter en sync avec tous les autres."
+        },
+        "sync": {
+          "title": "Aucune configuration",
+          "body": "La synchronisation est basée sur l'horloge de votre téléphone. Pas de Bluetooth, pas de Wi-Fi, pas d'équipement de salle requis."
+        }
+      },
+      "noInternet": "Fonctionne entièrement hors ligne — aucune connexion internet requise"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "version": "Version",
+      "language": "Langue",
+      "syncFlash": {
+        "label": "Lampe auto.",
+        "never": "Jamais",
+        "useRecent": "Mémoriser",
+        "always": "Toujours"
+      },
+      "preventSleep": "Empêcher la mise en veille",
+      "flashlightAutoShutoff": "Éteindre la lampe après 10 min",
+      "reset": {
+        "title": "Réinitialiser les paramètres",
+        "message": "Réinitialiser les paramètres ?"
+      }
+    },
+    "events": {
+      "title": "Événements",
+      "create": "Créer un événement",
+      "eventName": "Nom",
+      "eventNamePlaceholder": "ex. Anniversaire",
+      "message": "Message",
+      "messagePlaceholder": "Choisir un message",
+      "customMessagePlaceholder": "Tapez le vôtre (max. 30 caractères)",
+      "scheduledTime": "Heure de début",
+      "noTime": "Optionnel",
+      "addEvent": "Créer un événement",
+      "savedEvents": "Événements enregistrés",
+      "share": "Partager",
+      "copyLink": "Copier le lien",
+      "nativeShare": "Partager",
+      "linkCopied": "Lien copié",
+      "eventCreated": "Événement créé",
+      "eventImported": "Événement importé",
+      "invalidQr": "QR code invalide",
+      "scanNotSupported": "Scan non pris en charge",
+      "cameraPermissionDenied": "Permission caméra requise",
+      "scanError": "Impossible de scanner le QR code",
+      "swipeToDelete": "Glisser à gauche pour supprimer"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "messageTitle": "L'événement commence bientôt",
+      "messageBody": "Soyez prêt",
+      "requestPermissions": "Autoriser les notifications",
+      "openSettings": "Ouvrir les paramètres",
+      "disabled": "Notifications désactivées",
+      "saved": "Paramètres de notifications enregistrés",
+      "options": {
+        "title": "Envoyer une notification à {{time}}",
+        "never": "Jamais",
+        "everyDay": "Chaque jour",
+        "workdays": "Les jours ouvrables",
+        "weekends": "Le week-end"
+      }
+    }
+  },
+  "presets": {
+    "categories": {
+      "general": "Général",
+      "custom": "Personnalisé",
+      "meme": "Mème",
+      "event": "Événement"
+    }
+  },
+  "signal": {
+    "flashlightToggle": "Lampe de poche",
+    "countDownLabel": "Sync dans",
+    "autoShutoff": "Lampe éteinte automatiquement après 10 min pour protéger la LED"
+  }
+}

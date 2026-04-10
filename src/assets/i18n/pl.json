@@ -1,0 +1,104 @@
+{
+  "common": {
+    "title": "Litwave",
+    "autoLanguage": "Auto",
+    "menu": "Menu",
+    "sec": "sek.",
+    "ok": "OK",
+    "cancel": "Anuluj"
+  },
+  "pages": {
+    "home": {
+      "title": "Główna"
+    },
+    "info": {
+      "title": "O Litwave",
+      "tagline": "Zsynchronizowane pokazy świetlne dla każdego tłumu",
+      "how": {
+        "pick": {
+          "title": "Wybierz wiadomość",
+          "body": "Wybierz preset lub wpisz własny. Wiadomość jest kodowana alfabetem Morse'a i miga na każdym urządzeniu."
+        },
+        "start": {
+          "title": "Naciśnij start",
+          "body": "Ekran i latarka zaczynają migać w synchronizacji z wszystkimi innymi uczestnikami."
+        },
+        "sync": {
+          "title": "Bez konfiguracji",
+          "body": "Synchronizacja opiera się na zegarze twojego telefonu. Nie potrzeba Bluetootha, Wi-Fi ani sprzętu miejsca."
+        }
+      },
+      "noInternet": "Działa całkowicie offline — nie wymaga internetu"
+    },
+    "settings": {
+      "title": "Ustawienia",
+      "version": "Wersja",
+      "language": "Język",
+      "syncFlash": {
+        "label": "Auto latarka",
+        "never": "Nigdy",
+        "useRecent": "Zapamiętaj",
+        "always": "Zawsze"
+      },
+      "preventSleep": "Nie wygaszaj ekranu",
+      "flashlightAutoShutoff": "Wyłącz latarkę po 10 min",
+      "reset": {
+        "title": "Resetuj ustawienia",
+        "message": "Zresetować ustawienia?"
+      }
+    },
+    "events": {
+      "title": "Wydarzenia",
+      "create": "Utwórz wydarzenie",
+      "eventName": "Nazwa",
+      "eventNamePlaceholder": "np. Urodziny",
+      "message": "Wiadomość",
+      "messagePlaceholder": "Wybierz wiadomość",
+      "customMessagePlaceholder": "Wpisz własną (maks. 30 znaków)",
+      "scheduledTime": "Czas rozpoczęcia",
+      "noTime": "Opcjonalnie",
+      "addEvent": "Utwórz wydarzenie",
+      "savedEvents": "Zapisane wydarzenia",
+      "share": "Udostępnij",
+      "copyLink": "Kopiuj link",
+      "nativeShare": "Udostępnij",
+      "linkCopied": "Link skopiowany",
+      "eventCreated": "Wydarzenie utworzone",
+      "eventImported": "Wydarzenie zaimportowane",
+      "invalidQr": "Nieprawidłowy kod QR",
+      "scanNotSupported": "Skanowanie nieobsługiwane",
+      "cameraPermissionDenied": "Wymagane uprawnienie do kamery",
+      "scanError": "Nie można zeskanować kodu QR",
+      "swipeToDelete": "Przesuń w lewo, aby usunąć"
+    },
+    "notifications": {
+      "title": "Powiadomienia",
+      "messageTitle": "Wydarzenie wkrótce",
+      "messageBody": "Bądź gotowy",
+      "requestPermissions": "Zezwól na powiadomienia",
+      "openSettings": "Otwórz ustawienia",
+      "disabled": "Powiadomienia wyłączone",
+      "saved": "Ustawienia powiadomień zapisane",
+      "options": {
+        "title": "Wyślij powiadomienie o {{time}}",
+        "never": "Nigdy",
+        "everyDay": "Codziennie",
+        "workdays": "W dni robocze",
+        "weekends": "W weekendy"
+      }
+    }
+  },
+  "presets": {
+    "categories": {
+      "general": "Ogólne",
+      "custom": "Własne",
+      "meme": "Memy",
+      "event": "Wydarzenie"
+    }
+  },
+  "signal": {
+    "flashlightToggle": "Latarka",
+    "countDownLabel": "Synchronizacja za",
+    "autoShutoff": "Latarka wyłączona automatycznie po 10 min dla ochrony LED"
+  }
+}

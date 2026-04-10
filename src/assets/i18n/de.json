@@ -1,0 +1,104 @@
+{
+  "common": {
+    "title": "Litwave",
+    "autoLanguage": "Auto",
+    "menu": "Menü",
+    "sec": "Sek.",
+    "ok": "OK",
+    "cancel": "Abbrechen"
+  },
+  "pages": {
+    "home": {
+      "title": "Start"
+    },
+    "info": {
+      "title": "Über Litwave",
+      "tagline": "Synchronisierte Lichtshows für jede Menge",
+      "how": {
+        "pick": {
+          "title": "Nachricht wählen",
+          "body": "Wähle einen Preset oder gib deine eigene Nachricht ein. Diese wird in Morsecode übersetzt und auf jedem Gerät geblinkt."
+        },
+        "start": {
+          "title": "Start drücken",
+          "body": "Dein Bildschirm und deine Taschenlampe beginnen synchron mit allen anderen zu blinken."
+        },
+        "sync": {
+          "title": "Kein Setup nötig",
+          "body": "Die Synchronisation basiert auf der Uhr deines Handys. Kein Bluetooth, kein WLAN, keine Venue-Hardware erforderlich."
+        }
+      },
+      "noInternet": "Funktioniert vollständig offline — kein Internet erforderlich"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "version": "Version",
+      "language": "Sprache",
+      "syncFlash": {
+        "label": "Auto-Taschenlampe",
+        "never": "Nie",
+        "useRecent": "Merken",
+        "always": "Immer"
+      },
+      "preventSleep": "Gerät wach halten",
+      "flashlightAutoShutoff": "Taschenlampe nach 10 Min. ausschalten",
+      "reset": {
+        "title": "Einstellungen zurücksetzen",
+        "message": "Einstellungen zurücksetzen?"
+      }
+    },
+    "events": {
+      "title": "Events",
+      "create": "Event erstellen",
+      "eventName": "Name",
+      "eventNamePlaceholder": "z. B. Geburtstagsparty",
+      "message": "Nachricht",
+      "messagePlaceholder": "Nachricht wählen",
+      "customMessagePlaceholder": "Eigene eingeben (max. 30 Zeichen)",
+      "scheduledTime": "Startzeit",
+      "noTime": "Optional",
+      "addEvent": "Event erstellen",
+      "savedEvents": "Gespeicherte Events",
+      "share": "Teilen",
+      "copyLink": "Link kopieren",
+      "nativeShare": "Teilen",
+      "linkCopied": "Link kopiert",
+      "eventCreated": "Event erstellt",
+      "eventImported": "Event importiert",
+      "invalidQr": "Ungültiger QR-Code",
+      "scanNotSupported": "Scannen nicht unterstützt",
+      "cameraPermissionDenied": "Kamera-Berechtigung erforderlich",
+      "scanError": "QR-Code konnte nicht gescannt werden",
+      "swipeToDelete": "Nach links wischen zum Löschen"
+    },
+    "notifications": {
+      "title": "Benachrichtigungen",
+      "messageTitle": "Event beginnt bald",
+      "messageBody": "Bitte bereit sein",
+      "requestPermissions": "Benachrichtigungen erlauben",
+      "openSettings": "Geräteeinstellungen öffnen",
+      "disabled": "Benachrichtigungen deaktiviert",
+      "saved": "Benachrichtigungseinstellungen gespeichert",
+      "options": {
+        "title": "Benachrichtigung um {{time}} senden",
+        "never": "Nie",
+        "everyDay": "Jeden Tag",
+        "workdays": "An Werktagen",
+        "weekends": "Am Wochenende"
+      }
+    }
+  },
+  "presets": {
+    "categories": {
+      "general": "Allgemein",
+      "custom": "Eigenes",
+      "meme": "Meme",
+      "event": "Event"
+    }
+  },
+  "signal": {
+    "flashlightToggle": "Taschenlampe",
+    "countDownLabel": "Synchronisierung in",
+    "autoShutoff": "Taschenlampe nach 10 Min. automatisch ausgeschaltet zum LED-Schutz"
+  }
+}

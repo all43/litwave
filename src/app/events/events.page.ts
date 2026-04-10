@@ -18,14 +18,26 @@ import { MESSAGE_PRESETS, MessagePreset } from '../presets';
 export class EventsPage {
   presets: MessagePreset[] = MESSAGE_PRESETS;
   newEventName = '';
-  newEventMessage: string = MESSAGE_PRESETS[0].message;
-  newEventCustomMessage = '';
   newEventTime: Date | null = null;
   showDatePicker = false;
   showShareModal = false;
+  showMessagePicker = false;
   shareUrl = '';
-  dateTimeValue: string;
+  sharingEvent: LitwaveEvent | null = null;
+  dateTimeValue: string | undefined;
   minDate: string;
+
+  // Message picker state
+  eventMessage = '';
+  eventMessageLabel = '';
+  pickerCategory: MessagePreset['category'] | 'custom' = 'general';
+  pendingPreset: MessagePreset | null = null;
+  pendingCustom = '';
+
+  get filteredPickerPresets(): MessagePreset[] {
+    if (this.pickerCategory === 'custom') { return []; }
+    return this.presets.filter(p => p.category === this.pickerCategory);
+  }
 
   constructor(
     public eventService: EventService,
@@ -37,19 +49,65 @@ export class EventsPage {
   }
 
   getEffectiveMessage(): string {
-    return (this.newEventCustomMessage || this.newEventMessage || '').toUpperCase();
+    return this.eventMessage;
   }
 
-  onCustomMessageInput(): void {
-    this.newEventCustomMessage = this.newEventCustomMessage.toUpperCase();
+  openMessagePicker(): void {
+    this.pendingPreset = null;
+    this.pendingCustom = '';
+    // pre-select current message if it matches a preset
+    const match = this.presets.find(p => p.message === this.eventMessage);
+    if (match) {
+      this.pickerCategory = match.category;
+      this.pendingPreset = match;
+    } else if (this.eventMessage) {
+      this.pickerCategory = 'custom';
+      this.pendingCustom = this.eventMessage;
+    }
+    this.showMessagePicker = true;
+  }
+
+  onPickerCategoryChange(cat: MessagePreset['category'] | 'custom'): void {
+    this.pickerCategory = cat;
+    this.pendingPreset = null;
+  }
+
+  selectPreset(preset: MessagePreset): void {
+    this.eventMessage = preset.message;
+    this.eventMessageLabel = preset.label;
+    this.showMessagePicker = false;
+  }
+
+  confirmCustomMessage(): void {
+    const text = this.pendingCustom.trim().toUpperCase();
+    if (!text) { return; }
+    this.eventMessage = text;
+    this.eventMessageLabel = this.pendingCustom.trim();
+    this.showMessagePicker = false;
+  }
+
+  openDatePicker(): void {
+    if (!this.newEventTime) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(22, 0, 0, 0);
+      this.dateTimeValue = tomorrow.toISOString();
+    }
+    this.showDatePicker = true;
   }
 
   onDateTimeChange(event: any): void {
     const val = event.detail.value;
     if (val) {
       this.dateTimeValue = val;
-      this.newEventTime = new Date(val);
     }
+  }
+
+  confirmDatePicker(): void {
+    if (this.dateTimeValue) {
+      this.newEventTime = new Date(this.dateTimeValue);
+    }
+    this.showDatePicker = false;
   }
 
   async createEvent(): Promise<void> {
@@ -68,16 +126,24 @@ export class EventsPage {
 
     // Reset form
     this.newEventName = '';
-    this.newEventCustomMessage = '';
+    this.eventMessage = '';
+    this.eventMessageLabel = '';
     this.newEventTime = null;
     this.showDatePicker = false;
 
     this.showToast('pages.events.eventCreated');
   }
 
+  clearTime(ev?: Event): void {
+    ev?.stopPropagation();
+    this.newEventTime = null;
+    this.dateTimeValue = undefined;
+    this.showDatePicker = false;
+  }
+
   async activateEvent(event: LitwaveEvent): Promise<void> {
     await this.eventService.setActiveEvent(event.id);
-    this.router.navigate(['/home']);
+    this.router.navigate(['/tabs/home']);
   }
 
   async deleteEvent(id: string): Promise<void> {
@@ -86,6 +152,7 @@ export class EventsPage {
 
   shareEvent(event: LitwaveEvent, ev: Event): void {
     ev.stopPropagation();
+    this.sharingEvent = event;
     this.shareUrl = this.eventService.generateUrl(event);
     this.showShareModal = true;
   }

@@ -1,8 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title>{{ 'pages.events.title' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="scanQr()">
@@ -13,12 +10,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Create Event Form -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>{{ 'pages.events.create' | translate }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
+
+  <!-- ── Create Event Form ──────────────────────────────── -->
+  <div class="form-section">
+    <h2 class="form-title">{{ 'pages.events.create' | translate }}</h2>
+
+    <ion-list lines="full">
       <ion-item>
         <ion-input
           [label]="'pages.events.eventName' | translate"
@@ -28,62 +25,73 @@
         ></ion-input>
       </ion-item>
 
-      <ion-item>
-        <ion-select
-          [label]="'pages.events.message' | translate"
-          labelPlacement="stacked"
-          [(ngModel)]="newEventMessage"
-          interface="popover"
-        >
-          <ion-select-option *ngFor="let preset of presets" [value]="preset.message">
-            {{ preset.label }}
-          </ion-select-option>
-        </ion-select>
+      <ion-item button (click)="openMessagePicker()">
+        <ion-icon slot="start" name="chatbubble-outline"></ion-icon>
+        <ion-label>
+          <p class="field-sublabel">{{ 'pages.events.message' | translate }}</p>
+          <span *ngIf="eventMessageLabel">{{ eventMessageLabel }}</span>
+          <span *ngIf="!eventMessageLabel" class="placeholder">{{ 'pages.events.messagePlaceholder' | translate }}</span>
+        </ion-label>
+        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
       </ion-item>
 
-      <ion-item>
-        <ion-input
-          [label]="'pages.events.customMessage' | translate"
-          labelPlacement="stacked"
-          [(ngModel)]="newEventCustomMessage"
-          [placeholder]="'pages.events.customMessagePlaceholder' | translate"
-          (ionInput)="onCustomMessageInput()"
-          maxlength="30"
-        ></ion-input>
+      <!-- Scheduled time -->
+      <ion-item button (click)="openDatePicker()">
+        <ion-icon slot="start" name="time-outline"></ion-icon>
+        <ion-label>
+          <ng-container *ngIf="newEventTime">{{ newEventTime | date:'d MMM yyyy, HH:mm' }}</ng-container>
+          <ng-container *ngIf="!newEventTime">{{ 'pages.events.scheduledTime' | translate }}</ng-container>
+        </ion-label>
+        <ion-note *ngIf="!newEventTime" slot="end">{{ 'pages.events.noTime' | translate }}</ion-note>
+        <ion-button *ngIf="newEventTime" fill="clear" slot="end" (click)="clearTime($event)">
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
       </ion-item>
+    </ion-list>
 
-      <ion-item button (click)="showDatePicker = !showDatePicker">
-        <ion-label>{{ 'pages.events.scheduledTime' | translate }}</ion-label>
-        <ion-note slot="end">{{ newEventTime ? (newEventTime | date:'medium') : ('pages.events.now' | translate) }}</ion-note>
-      </ion-item>
+    <div class="datetime-container" *ngIf="showDatePicker">
       <ion-datetime
-        *ngIf="showDatePicker"
         [value]="dateTimeValue"
         (ionChange)="onDateTimeChange($event)"
         presentation="date-time"
         [min]="minDate"
+        class="inline-datetime"
       ></ion-datetime>
+      <div class="datetime-footer">
+        <ion-button fill="clear" (click)="showDatePicker = false">
+          {{ 'common.cancel' | translate }}
+        </ion-button>
+        <ion-button (click)="confirmDatePicker()">
+          {{ 'common.ok' | translate }}
+        </ion-button>
+      </div>
+    </div>
 
-      <ion-button expand="block" (click)="createEvent()" [disabled]="!getEffectiveMessage()">
+    <div class="form-actions">
+      <ion-button expand="block" (click)="createEvent()" [disabled]="!getEffectiveMessage() || showDatePicker">
         {{ 'pages.events.addEvent' | translate }}
       </ion-button>
-    </ion-card-content>
-  </ion-card>
+    </div>
+  </div>
 
-  <!-- Event List -->
+  <!-- ── Saved Events ───────────────────────────────────── -->
   <ion-list *ngIf="(eventService.events$ | async)?.length">
     <ion-list-header>
       <ion-label>{{ 'pages.events.savedEvents' | translate }}</ion-label>
     </ion-list-header>
+    <p class="swipe-hint">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      {{ 'pages.events.swipeToDelete' | translate }}
+    </p>
 
     <ion-item-sliding *ngFor="let event of eventService.events$ | async">
-      <ion-item [color]="(eventService.activeEventId$ | async) === event.id ? 'primary' : ''" (click)="activateEvent(event)">
-        <ion-icon name="radio-button-on" slot="start" *ngIf="(eventService.activeEventId$ | async) === event.id"></ion-icon>
-        <ion-icon name="radio-button-off" slot="start" *ngIf="(eventService.activeEventId$ | async) !== event.id"></ion-icon>
+      <ion-item [class.event-active]="(eventService.activeEventId$ | async) === event.id" (click)="activateEvent(event)">
+        <ion-icon name="radio-button-on"  slot="start" color="primary" *ngIf="(eventService.activeEventId$ | async) === event.id"></ion-icon>
+        <ion-icon name="radio-button-off" slot="start"                  *ngIf="(eventService.activeEventId$ | async) !== event.id"></ion-icon>
         <ion-label>
           <h2>{{ event.name || event.message }}</h2>
-          <p>{{ event.message }}</p>
-          <p *ngIf="event.scheduledTime">{{ event.scheduledTime * 1000 | date:'medium' }}</p>
+          <p *ngIf="event.name">{{ event.message }}</p>
+          <p *ngIf="event.scheduledTime">{{ event.scheduledTime * 1000 | date:'d MMM yyyy, HH:mm' }}</p>
         </ion-label>
         <ion-button fill="clear" slot="end" (click)="shareEvent(event, $event)">
           <ion-icon slot="icon-only" name="share-outline"></ion-icon>
@@ -98,12 +106,60 @@
     </ion-item-sliding>
   </ion-list>
 
-  <!-- Share Modal -->
+  <!-- ── Message Picker ───────────────────────────────────── -->
+  <ion-modal
+    [isOpen]="showMessagePicker"
+    (didDismiss)="showMessagePicker = false"
+    [initialBreakpoint]="0.6"
+    [breakpoints]="[0, 0.6]"
+    [handle]="true"
+  >
+    <ng-template>
+      <div class="picker-shell">
+        <div class="picker-cats">
+          <button class="cat-btn" [class.active]="pickerCategory === 'general'" (click)="onPickerCategoryChange('general')">{{ 'presets.categories.general' | translate }}</button>
+          <button class="cat-btn" [class.active]="pickerCategory === 'meme'"    (click)="onPickerCategoryChange('meme')">{{ 'presets.categories.meme' | translate }}</button>
+          <button class="cat-btn" [class.active]="pickerCategory === 'event'"   (click)="onPickerCategoryChange('event')">{{ 'presets.categories.event' | translate }}</button>
+          <button class="cat-btn" [class.active]="pickerCategory === 'custom'"  (click)="onPickerCategoryChange('custom')">{{ 'presets.categories.custom' | translate }}</button>
+        </div>
+
+        <div class="picker-list" *ngIf="pickerCategory !== 'custom'">
+          <button
+            class="preset-row"
+            *ngFor="let preset of filteredPickerPresets"
+            [class.selected]="eventMessage === preset.message"
+            (click)="selectPreset(preset)"
+          >
+            <ion-icon [name]="eventMessage === preset.message ? 'radio-button-on' : 'radio-button-off'" class="row-radio"></ion-icon>
+            <span class="row-label">{{ preset.label }}</span>
+            <span class="row-message">{{ preset.message }}</span>
+          </button>
+        </div>
+
+        <div class="picker-custom" *ngIf="pickerCategory === 'custom'">
+          <ion-input
+            [(ngModel)]="pendingCustom"
+            [placeholder]="'pages.events.customMessagePlaceholder' | translate"
+            (ionInput)="pendingCustom = pendingCustom.toUpperCase()"
+            maxlength="30"
+            class="custom-input"
+          ></ion-input>
+          <div class="picker-confirm">
+            <ion-button expand="block" [disabled]="!pendingCustom.trim()" (click)="confirmCustomMessage()">
+              Use {{ pendingCustom.trim() || '…' }}
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- ── Share Modal ────────────────────────────────────── -->
   <ion-modal [isOpen]="showShareModal" (didDismiss)="showShareModal = false">
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>{{ 'pages.events.share' | translate }}</ion-title>
+          <ion-title>{{ sharingEvent?.name || sharingEvent?.message }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="showShareModal = false">{{ 'common.ok' | translate }}</ion-button>
           </ion-buttons>
@@ -117,7 +173,7 @@
             <ion-icon slot="start" name="copy-outline"></ion-icon>
             {{ 'pages.events.copyLink' | translate }}
           </ion-button>
-          <ion-button expand="block" (click)="nativeShare()">
+          <ion-button expand="block" fill="outline" (click)="nativeShare()">
             <ion-icon slot="start" name="share-social-outline"></ion-icon>
             {{ 'pages.events.nativeShare' | translate }}
           </ion-button>
@@ -125,4 +181,5 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
 </ion-content>
