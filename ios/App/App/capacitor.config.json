@@ -3,14 +3,20 @@
 	"appName": "Litwave",
 	"webDir": "www",
 	"bundledWebRuntime": false,
+	"server": {
+		"androidScheme": "https"
+	},
 	"packageClassList": [
+		"KeepAwakePlugin",
+		"BarcodeScannerPlugin",
 		"AppPlugin",
+		"ClipboardPlugin",
 		"HapticsPlugin",
 		"KeyboardPlugin",
 		"LocalNotificationsPlugin",
 		"PreferencesPlugin",
+		"SharePlugin",
 		"StatusBarPlugin",
-		"KeepAwakePlugin",
 		"TorchPlugin",
 		"NativeSettingsPlugin"
 	]
