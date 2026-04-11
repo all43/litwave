@@ -12,9 +12,23 @@ const binaryMapping: Record<string, boolean[]> = {
   ' ': [false],
 };
 
-// Normalize before encoding: expand multi-char substitutions (ß → ss)
+// Normalize before encoding. Strategy:
+//   1. Explicit multi-char expansions (ß→ss, œ→oe, ł→l)
+//   2. NFD decomposition strips remaining combining diacritics (ą→a, č→c, etc.)
+//   3. Chars already in the map (ä, ö, å, Cyrillic…) are left untouched
 function normalize(str: string): string {
-  return str.toLowerCase().replace(/ß/g, 'ss');
+  return str
+    .toLowerCase()
+    .replace(/ß/g, 'ss')
+    .replace(/œ/g, 'oe')
+    .replace(/ł/g, 'l')
+    .split('')
+    .map(c => {
+      if (c in map || c === ' ') return c;
+      const base = c.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      return base.length === 1 ? base : c;
+    })
+    .join('');
 }
 
 export function getUnsupportedChars(str: string): string[] {
