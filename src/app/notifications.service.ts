@@ -31,6 +31,10 @@ export class NotificationsService {
     if (!event.scheduledTime) { return; }
     const fireAt = (event.scheduledTime - this.minutesBefore * 60) * 1000;
     if (fireAt <= Date.now()) { return; } // already past, skip
+    if (this.permission !== 'granted') {
+      await this.requestPermissions();
+      if (this.permission !== 'granted') { return; }
+    }
     await LocalNotifications.schedule({
       notifications: [{
         id: this.eventNotifId(event.id),
