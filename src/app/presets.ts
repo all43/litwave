@@ -10,6 +10,7 @@ export const MESSAGE_PRESETS: MessagePreset[] = [
   { label: 'SOS', message: 'SOS', category: 'general' },
   { label: 'Love', message: 'LOVE', category: 'general' },
   { label: 'Peace', message: 'PEACE', category: 'general' },
+  { label: 'No War', message: 'NO WAR', category: 'general' },
   { label: 'Go!', message: 'GO', category: 'general' },
   { label: 'Yes', message: 'YES', category: 'general' },
   { label: 'No', message: 'NO', category: 'general' },
