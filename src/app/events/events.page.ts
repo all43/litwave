@@ -124,10 +124,14 @@ export class EventsPage {
         header: this.translate.instant('pages.events.goFlashTitle'),
         buttons: [
           { text: this.translate.instant('common.cancel'), role: 'cancel' },
-          { text: this.translate.instant('pages.events.goFlashConfirm'), handler: () => this.router.navigate(['/tabs/home']) },
+          { text: this.translate.instant('pages.events.goFlashConfirm'), role: 'confirm' },
         ],
       });
       await alert.present();
+      const { role } = await alert.onDidDismiss();
+      if (role === 'confirm') {
+        this.router.navigate(['/tabs/home']);
+      }
     }
   }
 

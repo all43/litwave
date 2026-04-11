@@ -114,17 +114,17 @@ export class HomePage {
   // ── Helpers ───────────────────────────────────────────────
 
   private async confirmLeaveEvent(): Promise<boolean> {
-    return new Promise(async (resolve) => {
-      const alert = await this.alertCtrl.create({
-        header: this.translate.instant('pages.home.leaveEventTitle'),
-        message: this.translate.instant('pages.home.leaveEventMessage'),
-        buttons: [
-          { text: this.translate.instant('common.cancel'), role: 'cancel', handler: () => resolve(false) },
-          { text: this.translate.instant('pages.home.leaveEventConfirm'), handler: () => resolve(true) },
-        ],
-      });
-      await alert.present();
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant('pages.home.leaveEventTitle'),
+      message: this.translate.instant('pages.home.leaveEventMessage'),
+      buttons: [
+        { text: this.translate.instant('common.cancel'), role: 'cancel' },
+        { text: this.translate.instant('pages.home.leaveEventConfirm'), role: 'confirm' },
+      ],
     });
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    return role === 'confirm';
   }
 
 }

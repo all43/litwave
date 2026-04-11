@@ -144,8 +144,10 @@ export class MessageService {
             const targetMs = Date.now() + timeout;
             return interval(this.countDownAccuracy).pipe(
               map(() => Math.max(0, targetMs - Date.now())),
-              takeWhile((remaining) => remaining > 0),
-              endWith(0),
+              // inclusive takeWhile emits the terminal 0, replacing endWith(0)
+              takeWhile((remaining) => remaining > 0, true),
+              // stop immediately on background so stale value never shows on resume
+              takeUntil(this.trigger$.pipe(filter(v => v === false))),
             );
           }),
         );
