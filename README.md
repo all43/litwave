@@ -1,70 +1,73 @@
 # Litwave
 
-Turn any crowd into a synchronized light show — no wristbands, no hardware, no setup. Just smartphones.
+**Synchronized crowd light shows. Share a QR code, flash together. Zero setup.**
 
-Litwave is a mobile app that synchronizes smartphone flashlights and screens across any number of devices using time-based synchronization. No internet connection, no Bluetooth, no special equipment needed at the venue. Every phone independently syncs to the same clock, creating a unified visual experience.
+Litwave turns any crowd into a synchronized light show using nothing but the clock already in everyone's pocket. No Wi-Fi, no Bluetooth, no venue hardware — every phone stays in sync automatically.
 
-## Origin Story
+[litwave.app](https://litwave.app) · [Privacy Policy](https://litwave.app/privacy) · MIT License
 
-This project started in February 2022 as "Organise!" — an app designed to synchronize smartphone flashlights to signal "STOP WAR" in Morse code during the early days of the Russia-Ukraine war. The idea was that thousands of phones could flash the same message in unison, creating a visible act of solidarity. The project was shelved when circumstances made it impractical, but the core technology — decentralized time-synced flashlight control — turned out to be genuinely compelling beyond its original purpose.
+## How it works
 
-## Market Positioning
+Every phone already shares the same atomic clock time (via NTP). Litwave uses epoch-modulo alignment: each device independently calculates `now % repeatEvery` and starts its flash sequence at the same phase. No coordination between phones is ever needed.
 
-The synchronized crowd lighting market is dominated by two approaches:
+## Perfect for
 
-- **LED wristbands** (PixMob, Xylobands) — $5-10/person, require logistics, create e-waste
-- **B2B smartphone platforms** (CUE Audio, CrowdGlow) — require venue hardware (ultrasonic speakers, BLE transmitters), enterprise sales, pre-configured shows
-
-Litwave occupies an **unserved niche**: a self-serve, zero-infrastructure, consumer-first crowd lighting app.
-
-| | LED Wristbands | B2B Platforms | Litwave |
-|---|---|---|---|
-| Cost per person | $5-10 | Enterprise pricing | Free |
-| Hardware needed | Wristbands + controllers | Venue equipment | None |
-| Setup required | Event team | Pre-configured shows | None — just open the app |
-| Internet at venue | No | Varies | No |
-| Who can use it | Event organizers | Event organizers | Anyone |
-| E-waste | Significant | None | None |
-
-**Primary target:** Flashmobs, parties, and grassroots gatherings — where participants are already committed and the organizer shares a QR/link beforehand. This sidesteps the biggest problem in this space: the chicken-and-egg adoption barrier (where 70-80% of a random crowd won't download an app for a one-time use).
-
-**Also works for:** Concerts, festivals, sports events, weddings, birthday surprises, DJ sets — any gathering where people want to create a shared light experience.
-
-**Why this approach works:** Pre-coordinated groups mean near-100% adoption. The QR/URL scheme sharing fits naturally — organizer creates event config, shares link, everyone joins. Meme presets give the app standalone viral value beyond organized events.
+- **Flash mobs** — organizer shares a link or QR code beforehand; everyone opens it, presses start at the same moment
+- **Parties and surprises** — schedule an event, share with guests, lights flash in unison at the exact right second
+- **Concerts and festivals** — any crowd that wants to move as one
+- **Sports fan sections, weddings, DJ sets** — any gathering where a shared visual moment matters
 
 ## Features
 
-- Morse code encoding of messages into synchronized flash patterns
-- Time-based synchronization aligned to clock boundaries (no server needed)
-- Flashlight (LED) and screen flash control
-- Preset messages to avoid user errors
-- **Events** — create, save, and manage flashmob events with custom messages and scheduled times
-- **Deep linking** — share events via `litwave://` or `https://litwave.app/event?...` URLs; all config is in the URL payload itself
-- **QR codes** — generate and scan QR codes for event sharing
-- **Website** ([litwave.app](https://litwave.app)) — create and share events from any browser, with full-screen signal mode, morse preview, and PWA support
-- Device keep-awake mode
-- Local notification reminders for scheduled events
-- Multi-language support (English, Russian)
-- Works fully offline
+- **Events** — create a named event with a scheduled start time, share via QR code or link; recipients import in one tap
+- **Presets** — built-in messages for concerts, sports, and celebrations; type any custom message
+- **Morse encoding** — messages encoded to Morse code and flashed on screen and flashlight simultaneously
+- **Mid-cycle join** — join mid-sequence and snap to the nearest letter boundary; no waiting for the next cycle
+- **Offline-first** — no internet, no account, no server; event payload lives in the share link itself
+- **Multilingual** — EN, RU, UK, DE, ES, FR, PT, PL; Latin, Cyrillic, German, Scandinavian Morse support
 
-## Tech Stack
+## Market positioning
 
-- Angular + Ionic Framework
-- Capacitor (iOS & Android)
-- TypeScript
-- RxJS for reactive signal timing
+The synchronized crowd lighting market is dominated by LED wristbands ($5–10/person, logistics, e-waste) and B2B platforms (venue hardware, enterprise sales). Litwave is the self-serve, zero-infrastructure, consumer option — free for anyone, works with the hardware already in their pocket.
+
+The primary target is pre-coordinated groups (flash mobs, parties) where near-100% adoption is achievable because participants are already committed. The QR/link share model fits this perfectly: organizer creates the event, shares the link, everyone joins.
+
+## Tech stack
+
+- Angular 19 + Ionic 8 + Capacitor 8 (iOS & Android)
+- TypeScript 5.7 + RxJS 7.8
+- Pure timing functions in [`message-timing.ts`](src/app/message-timing.ts), tested with Vitest (37 tests)
+- [`@capawesome/capacitor-torch`](https://github.com/capawesome-team/capacitor-plugins) — flashlight without camera permission
+- [`@capacitor/barcode-scanner`](https://github.com/ionic-team/capacitor-barcode-scanner) — QR scanning
 
 ## Development
 
 ```bash
 npm install
-npm start            # dev server
-npm run build        # production build
-npm run build:website # build website to dist/website/
+npm start             # dev server
+npm test              # Vitest unit tests
+npm run build         # production build
+npm run build:website # build static website to dist/website/
 npm run deploy:website # deploy website to Cloudflare Pages
-npm run lint         # lint
+npm run lint          # eslint
 ```
 
-## Status
+iOS and Android builds via Capacitor:
 
-Actively developed. Rebranded from "Organise!" to Litwave with events, deep linking, QR codes, and a companion website.
+```bash
+npx cap sync
+npx cap open ios
+npx cap open android
+```
+
+## Website
+
+The companion PWA at [litwave.app](https://litwave.app) allows event creation and sharing without installing the app. Source in [`src/website/`](src/website/).
+
+## Origin
+
+This started in February 2022 as "Organise!" — an app to synchronize flashlights flashing "STOP WAR" in Morse code during the early days of the Russia-Ukraine war. The core technology turned out to be compelling beyond its original purpose and was rebranded to Litwave.
+
+## License
+
+MIT © 2025 Evgenii Malikov
