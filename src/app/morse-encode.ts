@@ -12,12 +12,17 @@ const binaryMapping: Record<string, boolean[]> = {
   ' ': [false],
 };
 
+// Normalize before encoding: expand multi-char substitutions (ß → ss)
+function normalize(str: string): string {
+  return str.toLowerCase().replace(/ß/g, 'ss');
+}
+
 export function getUnsupportedChars(str: string): string[] {
-  return [...new Set([...str.toLowerCase()].filter(c => c !== ' ' && !(c in map)))];
+  return [...new Set([...normalize(str)].filter(c => c !== ' ' && !(c in map)))];
 }
 
 function encodeFormatted(str: string): string {
-  const encoded = [...str.toLowerCase()].filter(c => c in map).map((char) => map[char]);
+  const encoded = [...normalize(str)].filter(c => c in map).map((char) => map[char]);
   return encoded
     .map((char) => char.split('').join(innerSeparator))
     .join(charSeparator);
@@ -40,7 +45,7 @@ const symbolBits: Record<string, number> = { '.': 1, '-': 3 };
 
 export function encodeBinaryWithBoundaries(str: string): BinaryWithBoundaries {
   const bits = encodeBinary(str);
-  const chars = [...str.toLowerCase()];
+  const chars = [...normalize(str)];
   const letterStarts: number[] = [];
 
   // Track bit position in parallel with encodeBinary's logic:
