@@ -8,8 +8,8 @@
 	},
 	"packageClassList": [
 		"KeepAwakePlugin",
-		"BarcodeScannerPlugin",
 		"AppPlugin",
+		"CapacitorBarcodeScannerPlugin",
 		"ClipboardPlugin",
 		"HapticsPlugin",
 		"KeyboardPlugin",

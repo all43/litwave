@@ -4,7 +4,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Share } from '@capacitor/share';
 import { Clipboard } from '@capacitor/clipboard';
-import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning';
+import { CapacitorBarcodeScanner, CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
 import { EventService } from '../event.service';
 import { LitwaveEvent } from '../models/event.model';
 import { MessagePreset } from '../presets';
@@ -161,34 +161,11 @@ export class EventsPage {
 
   async scanQr(): Promise<void> {
     try {
-      const { supported } = await BarcodeScanner.isSupported();
-      if (!supported) {
-        this.showToast('pages.events.scanNotSupported');
-        return;
-      }
-
-      const { camera } = await BarcodeScanner.checkPermissions();
-      if (camera === 'denied') {
-        this.showToast('pages.events.cameraPermissionDenied');
-        return;
-      }
-      if (camera !== 'granted') {
-        const result = await BarcodeScanner.requestPermissions();
-        if (result.camera !== 'granted') {
-          this.showToast('pages.events.cameraPermissionDenied');
-          return;
-        }
-      }
-
-      const { barcodes } = await BarcodeScanner.scan({
-        formats: [BarcodeFormat.QrCode],
+      const result = await CapacitorBarcodeScanner.scanBarcode({
+        hint: CapacitorBarcodeScannerTypeHint.QR_CODE,
       });
-
-      if (barcodes.length > 0) {
-        const rawValue = barcodes[0].rawValue;
-        if (rawValue) {
-          this.handleScannedUrl(rawValue);
-        }
+      if (result.ScanResult) {
+        this.handleScannedUrl(result.ScanResult);
       }
     } catch {
       this.showToast('pages.events.scanError');
