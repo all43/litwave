@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192"><rect width="192" height="192" rx="38.400000000000006" fill="#4f46e5"/><text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle" fill="white" font-family="Arial" font-weight="bold" font-size="48">LW</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" fill="#0f172a"/>
+  <circle cx="28.5" cy="96"   r="11.25" fill="#60a5fa" opacity="0.75"/>
+  <circle cx="58.1" cy="81.7" r="11.25" fill="#60a5fa" opacity="0.90"/>
+  <circle cx="96"   cy="96"   r="11.25" fill="#60a5fa" opacity="0.75"/>
+  <circle cx="125.6" cy="110.3" r="11.25" fill="#60a5fa" opacity="0.55"/>
+  <circle cx="163.5" cy="96"  r="11.25" fill="#60a5fa" opacity="0.75"/>
+</svg>
