@@ -110,20 +110,35 @@ export class MessageService {
           joinPlay$,
         ).pipe(share());
 
+        // When join play actually starts (first true bit), reset countdown to 0
+        // so the display hides while the join sequence is playing rather than
+        // showing "Syncing in X sec" while the screen is already flashing.
+        const joinStarted$ = joinPlay$.pipe(
+          distinctUntilChanged(),
+          filter((v): v is true => v === true),
+          map((): number => 0),
+        );
+
         // emits number of milliseconds left until next seq. starts
         const countDown$ = merge(
             timeToNextSequence$,
+            joinStarted$,
             sequenceInterval$
               .pipe(
                 delay(config.sequenceLength),
                 map(() => config.repeatEvery - config.sequenceLength),
               ),
           ).pipe(
-          switchMap((timeout) => interval(this.countDownAccuracy).pipe(
-            scan((acc, _) => acc - this.countDownAccuracy, timeout),
-            takeWhile((remaining) => remaining >= 0),
-            endWith(0),
-          )),
+          switchMap((timeout) => {
+            // Anchor to wall-clock time so the display stays accurate even if
+            // the 100 ms interval is throttled by iOS/Android (e.g. after wake).
+            const targetMs = Date.now() + timeout;
+            return interval(this.countDownAccuracy).pipe(
+              map(() => Math.max(0, targetMs - Date.now())),
+              takeWhile((remaining) => remaining > 0),
+              endWith(0),
+            );
+          }),
         );
 
         return merge(
@@ -167,6 +182,12 @@ export class MessageService {
   }
 
   resetTimer(): void {
+    // Explicit false before true guarantees any in-flight morse stream sees the
+    // takeUntil(trigger$ === false) and stops cleanly before the new cycle starts.
+    // Without this, if trigger$ is already true (e.g. appStateChange(false) was
+    // missed on a quick lock/unlock) the old stream keeps playing until the next
+    // sequenceInterval$ fires, which can be a full repeatEvery ms away.
+    this.trigger$.next(false);
     this.trigger$.next(true);
   }
 
