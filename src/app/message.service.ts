@@ -110,19 +110,28 @@ export class MessageService {
           joinPlay$,
         ).pipe(share());
 
-        // When join play actually starts (first true bit), reset countdown to 0
-        // so the display hides while the join sequence is playing rather than
-        // showing "Syncing in X sec" while the screen is already flashing.
-        const joinStarted$ = joinPlay$.pipe(
-          distinctUntilChanged(),
-          filter((v): v is true => v === true),
-          map((): number => 0),
+        // Countdown should show time to FIRST flash, not time to epoch boundary.
+        // When a mid-cycle join is active the first flash is at msUntilJoinBit
+        // (within the current cycle, potentially much sooner than the next epoch
+        // boundary). Both calcJoinBit and calcTimeToNextSequence run in the same
+        // defer so Date.now() is consistent with the joinPlay$ calculation.
+        const timeToFirstFlash$ = this.trigger$.pipe(
+          filter((val) => val),
+          switchMap(() =>
+            defer(() => {
+              const joinBit = calcJoinBit(config, Date.now(), this.ditLength);
+              if (joinBit === 0) {
+                return of(this.calcTimeToNextSequence(config.repeatEvery));
+              }
+              const msUntilJoinBit = joinBit * this.ditLength - (Date.now() % config.repeatEvery);
+              return of(msUntilJoinBit);
+            })
+          ),
         );
 
         // emits number of milliseconds left until next seq. starts
         const countDown$ = merge(
-            timeToNextSequence$,
-            joinStarted$,
+            timeToFirstFlash$,
             sequenceInterval$
               .pipe(
                 delay(config.sequenceLength),
