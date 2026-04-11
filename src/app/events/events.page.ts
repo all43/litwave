@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Share } from '@capacitor/share';
 import { Clipboard } from '@capacitor/clipboard';
@@ -34,6 +34,7 @@ export class EventsPage {
     public eventService: EventService,
     private router: Router,
     private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private translate: TranslateService,
   ) {
     this.minDate = new Date().toISOString();
@@ -104,7 +105,7 @@ export class EventsPage {
     this.newEventTime = null;
     this.showDatePicker = false;
 
-    this.showToast('pages.events.eventCreated');
+    await this.showToast('pages.events.eventCreated');
   }
 
   clearTime(ev?: Event): void {
@@ -115,8 +116,19 @@ export class EventsPage {
   }
 
   async activateEvent(event: LitwaveEvent): Promise<void> {
+    const isAlreadyActive = this.eventService.activeEventId$.value === event.id;
     await this.eventService.setActiveEvent(event.id);
-    this.router.navigate(['/tabs/home']);
+
+    if (isAlreadyActive) {
+      const alert = await this.alertCtrl.create({
+        header: this.translate.instant('pages.events.goFlashTitle'),
+        buttons: [
+          { text: this.translate.instant('common.cancel'), role: 'cancel' },
+          { text: this.translate.instant('pages.events.goFlashConfirm'), handler: () => this.router.navigate(['/tabs/home']) },
+        ],
+      });
+      await alert.present();
+    }
   }
 
   async deleteEvent(id: string): Promise<void> {

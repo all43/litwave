@@ -12,7 +12,10 @@
     "home": {
       "title": "Головна",
       "modeEvent": "Подія",
-      "modePreset": "Пресет"
+      "modePreset": "Пресет",
+      "leaveEventTitle": "Перейти на пресет?",
+      "leaveEventMessage": "Активна подія буде деактивована.",
+      "leaveEventConfirm": "Перейти"
     },
     "info": {
       "title": "Про Litwave",
@@ -72,7 +75,9 @@
       "scanNotSupported": "Сканування не підтримується",
       "cameraPermissionDenied": "Потрібен доступ до камери",
       "scanError": "Не вдалося відсканувати QR-код",
-      "swipeToDelete": "Проведіть вліво для видалення"
+      "swipeToDelete": "Проведіть вліво для видалення",
+      "goFlashTitle": "На головний екран?",
+      "goFlashConfirm": "Перейти"
     },
     "notifications": {
       "title": "Сповіщення",

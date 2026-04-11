@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { KeepAwake } from '@capacitor-community/keep-awake';
+import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '../settings.service';
 import { MessageService } from '../message.service';
 import { EventService } from '../event.service';
@@ -38,6 +39,7 @@ export class HomePage {
     public eventService: EventService,
     private alertCtrl: AlertController,
     private router: Router,
+    private translate: TranslateService,
   ) {
     // Sync mode and message with active event state
     this.eventService.activeEventId$.subscribe((id) => {
@@ -110,11 +112,11 @@ export class HomePage {
   private async confirmLeaveEvent(): Promise<boolean> {
     return new Promise(async (resolve) => {
       const alert = await this.alertCtrl.create({
-        header: 'Leave event mode?',
-        message: 'You will switch to a preset instead of the active event.',
+        header: this.translate.instant('pages.home.leaveEventTitle'),
+        message: this.translate.instant('pages.home.leaveEventMessage'),
         buttons: [
-          { text: 'Cancel', role: 'cancel', handler: () => resolve(false) },
-          { text: 'Switch', handler: () => resolve(true) },
+          { text: this.translate.instant('common.cancel'), role: 'cancel', handler: () => resolve(false) },
+          { text: this.translate.instant('pages.home.leaveEventConfirm'), handler: () => resolve(true) },
         ],
       });
       await alert.present();

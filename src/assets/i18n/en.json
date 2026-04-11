@@ -12,7 +12,10 @@
     "home": {
       "title": "Home",
       "modeEvent": "Event",
-      "modePreset": "Preset"
+      "modePreset": "Preset",
+      "leaveEventTitle": "Switch to preset?",
+      "leaveEventMessage": "The active event will be deactivated.",
+      "leaveEventConfirm": "Switch"
     },
     "info": {
       "title": "About Litwave",
@@ -72,7 +75,9 @@
       "scanNotSupported": "Barcode scanning not supported",
       "cameraPermissionDenied": "Camera permission required",
       "scanError": "Could not scan QR code",
-      "swipeToDelete": "Swipe left to delete"
+      "swipeToDelete": "Swipe left to delete",
+      "goFlashTitle": "Go to main screen?",
+      "goFlashConfirm": "Go"
     },
     "notifications": {
       "title": "Notifications",

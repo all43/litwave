@@ -12,7 +12,10 @@
     "home": {
       "title": "Accueil",
       "modeEvent": "Événement",
-      "modePreset": "Preset"
+      "modePreset": "Preset",
+      "leaveEventTitle": "Passer au preset ?",
+      "leaveEventMessage": "L'événement actif sera désactivé.",
+      "leaveEventConfirm": "Changer"
     },
     "info": {
       "title": "À propos de Litwave",
@@ -72,7 +75,9 @@
       "scanNotSupported": "Scan non pris en charge",
       "cameraPermissionDenied": "Permission caméra requise",
       "scanError": "Impossible de scanner le QR code",
-      "swipeToDelete": "Glisser à gauche pour supprimer"
+      "swipeToDelete": "Glisser à gauche pour supprimer",
+      "goFlashTitle": "Aller à l'écran principal ?",
+      "goFlashConfirm": "Aller"
     },
     "notifications": {
       "title": "Notifications",

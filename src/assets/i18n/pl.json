@@ -12,7 +12,10 @@
     "home": {
       "title": "Główna",
       "modeEvent": "Wydarzenie",
-      "modePreset": "Preset"
+      "modePreset": "Preset",
+      "leaveEventTitle": "Przełączyć na preset?",
+      "leaveEventMessage": "Aktywne wydarzenie zostanie dezaktywowane.",
+      "leaveEventConfirm": "Przełącz"
     },
     "info": {
       "title": "O Litwave",
@@ -72,7 +75,9 @@
       "scanNotSupported": "Skanowanie nieobsługiwane",
       "cameraPermissionDenied": "Wymagane uprawnienie do kamery",
       "scanError": "Nie można zeskanować kodu QR",
-      "swipeToDelete": "Przesuń w lewo, aby usunąć"
+      "swipeToDelete": "Przesuń w lewo, aby usunąć",
+      "goFlashTitle": "Przejść do ekranu głównego?",
+      "goFlashConfirm": "Przejdź"
     },
     "notifications": {
       "title": "Powiadomienia",

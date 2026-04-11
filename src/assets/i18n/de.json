@@ -12,7 +12,10 @@
     "home": {
       "title": "Start",
       "modeEvent": "Event",
-      "modePreset": "Preset"
+      "modePreset": "Preset",
+      "leaveEventTitle": "Zu Preset wechseln?",
+      "leaveEventMessage": "Das aktive Event wird deaktiviert.",
+      "leaveEventConfirm": "Wechseln"
     },
     "info": {
       "title": "Über Litwave",
@@ -72,7 +75,9 @@
       "scanNotSupported": "Scannen nicht unterstützt",
       "cameraPermissionDenied": "Kamera-Berechtigung erforderlich",
       "scanError": "QR-Code konnte nicht gescannt werden",
-      "swipeToDelete": "Nach links wischen zum Löschen"
+      "swipeToDelete": "Nach links wischen zum Löschen",
+      "goFlashTitle": "Zum Hauptbildschirm?",
+      "goFlashConfirm": "Los"
     },
     "notifications": {
       "title": "Benachrichtigungen",
