@@ -81,19 +81,19 @@
     },
     "notifications": {
       "title": "Notifications",
-      "messageTitle": "Event start soon",
-      "messageBody": "Please be ready",
-      "requestPermissions": "Request permissions",
+      "messageTitle": "Event starts soon",
+      "messageBody": "Get ready",
+      "permissionsTitle": "Enable notifications",
+      "requestPermissions": "Allow notifications",
       "openSettings": "Open device settings",
-      "disabled": "Notifications disabled",
-      "saved": "Notifications settings saved",
-      "options": {
-        "title": "Send notification at {{time}}",
-        "never": "Never",
-        "everyDay": "Every day",
-        "workdays": "On workdays",
-        "weekends": "On weekends"
-      }
+      "disabled": "Disabled",
+      "permissionPromptInfo": "Allow notifications to receive reminders before events.",
+      "permissionDeniedInfo": "Notifications are blocked. Open device settings to enable them.",
+      "permissionWebDeniedNote": "If that doesn't work, enable notifications for this site in your browser settings.",
+      "upcomingTitle": "Upcoming reminders",
+      "noUpcoming": "No events with scheduled time",
+      "notifyAt": "Reminder at {{time}}",
+      "past": "Already passed"
     }
   },
   "presets": {

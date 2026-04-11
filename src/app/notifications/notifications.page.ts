@@ -1,98 +1,70 @@
-import { Component } from '@angular/core';
-import { Weekday } from '@capacitor/local-notifications';
-import { ToastController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 import { NotificationsService } from '../notifications.service';
+import { EventService } from '../event.service';
+import { LitwaveEvent } from '../models/event.model';
 
-type NotificationOptionsKey = 'never' | 'everyDay' | 'workdays' | 'weekends';
-type NotificationOptions = {
-  [key in NotificationOptionsKey]: Weekday[] | null;
-};;
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.page.html',
   styleUrls: ['./notifications.page.scss'],
   standalone: false,
 })
-export class NotificationsPage {
-
-  notificationOptions: NotificationOptions = {
-    never: null,
-    everyDay: [
-      Weekday.Monday,
-      Weekday.Tuesday,
-      Weekday.Wednesday,
-      Weekday.Thursday,
-      Weekday.Friday,
-      Weekday.Saturday,
-      Weekday.Sunday,
-    ],
-    workdays: [
-      Weekday.Monday,
-      Weekday.Tuesday,
-      Weekday.Wednesday,
-      Weekday.Thursday,
-      Weekday.Friday,
-    ],
-    weekends: [
-      Weekday.Saturday,
-      Weekday.Sunday,
-    ],
-  };
-
-  notificationOptionsKeys: NotificationOptionsKey[];
+export class NotificationsPage implements OnInit, OnDestroy {
+  scheduledEvents: LitwaveEvent[] = [];
+  private sub: Subscription;
 
   constructor(
     public notifications: NotificationsService,
-    private translate: TranslateService,
-    private toast: ToastController,
-  ) {
-    this.notificationOptionsKeys = Object.keys(this.notificationOptions) as NotificationOptionsKey[];
+    private eventService: EventService,
+    private platform: Platform,
+  ) {}
+
+  ngOnInit() {
+    this.notifications.refreshPending();
+    this.sub = this.eventService.events$.subscribe(events => {
+      this.scheduledEvents = events.filter(e => !!e.scheduledTime);
+    });
   }
 
-  get notificationTime() {
-    return `${this.notifications.eventHour}:00`;
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
   get showRequestButton() {
-    return this.notifications.permission === 'prompt' || this.notifications.permission === 'prompt-with-rationale';
+    const p = this.notifications.permission;
+    return p === 'prompt' || p === 'prompt-with-rationale'
+      || (p === 'denied' && !this.platform.is('capacitor'));
   }
 
   get showSettingsButton() {
-    return this.notifications.permission === 'denied';
+    return this.notifications.permission === 'denied' && this.platform.is('capacitor');
   }
 
-  get showControls() {
-    return this.notifications.permission === 'granted';
+  get needsPermission() {
+    return this.showRequestButton || this.showSettingsButton;
   }
 
-  get notificationOption(): NotificationOptionsKey {
-    const notificationsLength = this.notifications.pendingNotifications.length;
-    const mapping: {[key: number]: NotificationOptionsKey} = {
-      0: 'never',
-      2: 'weekends',
-      5: 'workdays',
-      7: 'everyDay',
-    };
-    return mapping[notificationsLength];
+  get showWebDeniedNote() {
+    return this.notifications.permission === 'denied' && !this.platform.is('capacitor');
   }
 
-  set notificationOption(value: NotificationOptionsKey) {
-    if (value === 'never') {
-      this.notifications.cancel().then(() => this.presentToast('disabled'));
+  reminderTime(event: LitwaveEvent): string {
+    const ms = (event.scheduledTime! - this.notifications.minutesBefore * 60) * 1000;
+    return new Date(ms).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
+  isPast(event: LitwaveEvent): boolean {
+    const ms = (event.scheduledTime! - this.notifications.minutesBefore * 60) * 1000;
+    return ms <= Date.now();
+  }
+
+  async toggleNotification(event: LitwaveEvent): Promise<void> {
+    if (this.notifications.isScheduled(event.id)) {
+      await this.notifications.cancelEventNotification(event.id);
     } else {
-      const weekdays = this.notificationOptions[value];
-      const body = this.translate.instant('pages.notifications.messageBody');
-      const title = this.translate.instant('pages.notifications.messageTitle');
-      this.notifications.set(weekdays, body, title).then(() => this.presentToast());
+      await this.notifications.scheduleEventNotification(event);
     }
-  }
-
-  async presentToast(message = 'saved') {
-    const toast = await this.toast.create({
-      message: this.translate.instant(`pages.notifications.${message}`),
-      duration: 1500,
-    });
-    toast.present();
   }
 }

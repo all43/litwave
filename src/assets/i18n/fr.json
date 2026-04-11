@@ -83,17 +83,17 @@
       "title": "Notifications",
       "messageTitle": "L'événement commence bientôt",
       "messageBody": "Soyez prêt",
+      "permissionsTitle": "Activer les notifications",
       "requestPermissions": "Autoriser les notifications",
       "openSettings": "Ouvrir les paramètres",
-      "disabled": "Notifications désactivées",
-      "saved": "Paramètres de notifications enregistrés",
-      "options": {
-        "title": "Envoyer une notification à {{time}}",
-        "never": "Jamais",
-        "everyDay": "Chaque jour",
-        "workdays": "Les jours ouvrables",
-        "weekends": "Le week-end"
-      }
+      "disabled": "Désactivé",
+      "permissionPromptInfo": "Autorisez les notifications pour recevoir des rappels avant les événements.",
+      "permissionDeniedInfo": "Les notifications sont bloquées. Ouvrez les paramètres de l'appareil pour les activer.",
+      "permissionWebDeniedNote": "Si cela ne fonctionne pas, activez les notifications pour ce site dans les paramètres du navigateur.",
+      "upcomingTitle": "Rappels à venir",
+      "noUpcoming": "Aucun événement avec heure programmée",
+      "notifyAt": "Rappel à {{time}}",
+      "past": "Déjà passé"
     }
   },
   "presets": {

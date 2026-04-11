@@ -83,17 +83,17 @@
       "title": "Notificaciones",
       "messageTitle": "El evento empieza pronto",
       "messageBody": "Prepárate",
+      "permissionsTitle": "Activar notificaciones",
       "requestPermissions": "Permitir notificaciones",
       "openSettings": "Abrir ajustes",
-      "disabled": "Notificaciones desactivadas",
-      "saved": "Ajustes de notificaciones guardados",
-      "options": {
-        "title": "Enviar notificación a las {{time}}",
-        "never": "Nunca",
-        "everyDay": "Cada día",
-        "workdays": "En días laborables",
-        "weekends": "Los fines de semana"
-      }
+      "disabled": "Desactivado",
+      "permissionPromptInfo": "Permite las notificaciones para recibir recordatorios antes de los eventos.",
+      "permissionDeniedInfo": "Las notificaciones están bloqueadas. Abre los ajustes del dispositivo para activarlas.",
+      "permissionWebDeniedNote": "Si no funciona, activa las notificaciones para este sitio en los ajustes del navegador.",
+      "upcomingTitle": "Próximos recordatorios",
+      "noUpcoming": "No hay eventos con hora programada",
+      "notifyAt": "Recordatorio a las {{time}}",
+      "past": "Ya ha pasado"
     }
   },
   "presets": {

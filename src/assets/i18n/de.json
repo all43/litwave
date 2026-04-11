@@ -83,17 +83,17 @@
       "title": "Benachrichtigungen",
       "messageTitle": "Event beginnt bald",
       "messageBody": "Bitte bereit sein",
+      "permissionsTitle": "Benachrichtigungen aktivieren",
       "requestPermissions": "Benachrichtigungen erlauben",
       "openSettings": "Geräteeinstellungen öffnen",
-      "disabled": "Benachrichtigungen deaktiviert",
-      "saved": "Benachrichtigungseinstellungen gespeichert",
-      "options": {
-        "title": "Benachrichtigung um {{time}} senden",
-        "never": "Nie",
-        "everyDay": "Jeden Tag",
-        "workdays": "An Werktagen",
-        "weekends": "Am Wochenende"
-      }
+      "disabled": "Deaktiviert",
+      "permissionPromptInfo": "Erlaube Benachrichtigungen, um Erinnerungen vor Events zu erhalten.",
+      "permissionDeniedInfo": "Benachrichtigungen sind blockiert. Öffne die Geräteeinstellungen, um sie zu aktivieren.",
+      "permissionWebDeniedNote": "Falls das nicht hilft, erlaube Benachrichtigungen für diese Seite in den Browsereinstellungen.",
+      "upcomingTitle": "Bevorstehende Erinnerungen",
+      "noUpcoming": "Keine Events mit geplanter Zeit",
+      "notifyAt": "Erinnerung um {{time}}",
+      "past": "Bereits vergangen"
     }
   },
   "presets": {

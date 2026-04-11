@@ -1,64 +1,61 @@
 import { Injectable, NgZone } from '@angular/core';
 import { PermissionState } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
-import { LocalNotifications, PendingLocalNotificationSchema, Weekday } from '@capacitor/local-notifications';
+import { LocalNotifications, PendingLocalNotificationSchema } from '@capacitor/local-notifications';
 import { NativeSettings, AndroidSettings, IOSSettings } from 'capacitor-native-settings';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { LitwaveEvent } from './models/event.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
-  // TODO: decide if we need permission state and notifications as observables
+  readonly minutesBefore = 5; // notify N minutes before event start
 
-  readonly eventHour = 22; // hour event starts
-  readonly notifySecondsBefore = 25; // send notification n seconds before event time
   permission: PermissionState;
   pendingNotifications: PendingLocalNotificationSchema[] = [];
   private resumeSubscription: Subscription;
 
-
-
   constructor(
-      private platform: Platform,
-      private router: Router,
-      private ngZone: NgZone,
-    ) {
+    private platform: Platform,
+    private router: Router,
+    private ngZone: NgZone,
+    private translate: TranslateService,
+  ) {
     this.init();
   }
 
-  public async set(weekdays: Weekday[], body: string, title: string) {
-    await this.cancel();
-    const notifications = weekdays.map((day) => ({
-      id: day,
-      body,
-      title,
-      sound: 'td.mp3',
-      channelId: 'eventAlarm',
-      allowWhileIdle: true,
-      schedule: {
-        repeats: true,
-        on: {
-          hour: this.eventHour - 1,
-          minute: 59,
-          second: 60 - this.notifySecondsBefore,
-          weekday: day,
-          f: 2,
-        },
-      },
-    }));
-    const { notifications: notificationDescriptors } = await LocalNotifications.schedule({
-      notifications,
+  async scheduleEventNotification(event: LitwaveEvent): Promise<void> {
+    if (!event.scheduledTime) { return; }
+    const fireAt = (event.scheduledTime - this.minutesBefore * 60) * 1000;
+    if (fireAt <= Date.now()) { return; } // already past, skip
+    await LocalNotifications.schedule({
+      notifications: [{
+        id: this.eventNotifId(event.id),
+        title: event.name || event.message,
+        body: this.translate.instant('pages.notifications.messageBody'),
+        channelId: 'eventAlarm',
+        schedule: { at: new Date(fireAt), allowWhileIdle: true },
+        extra: { eventId: event.id },
+      }],
     });
-    this.getPendingNotifications();
+    await this.refreshPending();
   }
 
-  public cancel() {
-    return LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+  async cancelEventNotification(eventId: string): Promise<void> {
+    await LocalNotifications.cancel({ notifications: [{ id: this.eventNotifId(eventId) }] });
+    await this.refreshPending();
+  }
+
+  isScheduled(eventId: string): boolean {
+    const id = this.eventNotifId(eventId);
+    return this.pendingNotifications.some(n => n.id === id);
   }
 
   public openSettings() {
+    if (!this.platform.is('capacitor')) { return; }
     return NativeSettings.open({
       optionAndroid: AndroidSettings.ApplicationDetails,
       optionIOS: IOSSettings.App,
@@ -76,11 +73,17 @@ export class NotificationsService {
     this.permission = permission;
   }
 
-  private async getPendingNotifications() {
+  async refreshPending(): Promise<void> {
     const { notifications } = await LocalNotifications.getPending();
     this.pendingNotifications = notifications;
-    console.log(notifications);
-    return notifications;
+  }
+
+  private eventNotifId(id: string): number {
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = ((hash << 5) - hash + id.charCodeAt(i)) & 0x7fffffff;
+    }
+    return hash || 1;
   }
 
   private async createChannel() {
@@ -111,7 +114,7 @@ export class NotificationsService {
         });
       });
     }
-    this.getPendingNotifications();
+    this.refreshPending();
     this.attachListener();
     if (this.platform.is('android')) {
       // create channel on android if not yet created
@@ -123,11 +126,10 @@ export class NotificationsService {
   }
 
   private attachListener() {
-    const listener = () => {
+    LocalNotifications.addListener('localNotificationActionPerformed', () => {
       this.ngZone.run(() => {
-        this.router.navigate(['/'], { replaceUrl: true });
+        this.router.navigate(['/tabs/home'], { replaceUrl: true });
       });
-    };
-    LocalNotifications.addListener('localNotificationActionPerformed', listener);
+    });
   }
 }

@@ -83,17 +83,17 @@
       "title": "Powiadomienia",
       "messageTitle": "Wydarzenie wkrótce",
       "messageBody": "Bądź gotowy",
+      "permissionsTitle": "Włącz powiadomienia",
       "requestPermissions": "Zezwól na powiadomienia",
       "openSettings": "Otwórz ustawienia",
-      "disabled": "Powiadomienia wyłączone",
-      "saved": "Ustawienia powiadomień zapisane",
-      "options": {
-        "title": "Wyślij powiadomienie o {{time}}",
-        "never": "Nigdy",
-        "everyDay": "Codziennie",
-        "workdays": "W dni robocze",
-        "weekends": "W weekendy"
-      }
+      "disabled": "Wyłączone",
+      "permissionPromptInfo": "Zezwól na powiadomienia, aby otrzymywać przypomnienia przed wydarzeniami.",
+      "permissionDeniedInfo": "Powiadomienia są zablokowane. Otwórz ustawienia urządzenia, aby je włączyć.",
+      "permissionWebDeniedNote": "Jeśli to nie pomoże, włącz powiadomienia dla tej strony w ustawieniach przeglądarki.",
+      "upcomingTitle": "Nadchodzące przypomnienia",
+      "noUpcoming": "Brak wydarzeń z ustawionym czasem",
+      "notifyAt": "Przypomnienie o {{time}}",
+      "past": "Już minęło"
     }
   },
   "presets": {

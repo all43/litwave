@@ -3,6 +3,7 @@ import { Preferences } from '@capacitor/preferences';
 import { BehaviorSubject } from 'rxjs';
 import { LitwaveEvent } from './models/event.model';
 import { MessageService } from './message.service';
+import { NotificationsService } from './notifications.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,10 @@ export class EventService {
   events$ = new BehaviorSubject<LitwaveEvent[]>([]);
   activeEventId$ = new BehaviorSubject<string | null>(null);
 
-  constructor(private messageService: MessageService) {
+  constructor(
+    private messageService: MessageService,
+    private notifications: NotificationsService,
+  ) {
     this.load();
   }
 
@@ -28,6 +32,7 @@ export class EventService {
     }
     this.events$.next([...events]);
     await this.save();
+    this.notifications.scheduleEventNotification(event);
   }
 
   async removeEvent(id: string): Promise<void> {
@@ -38,6 +43,7 @@ export class EventService {
       await Preferences.remove({ key: this.activeKey });
     }
     await this.save();
+    this.notifications.cancelEventNotification(id);
   }
 
   async clearActiveEvent(): Promise<void> {
