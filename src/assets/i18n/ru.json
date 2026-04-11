@@ -51,7 +51,8 @@
       "signalTuning": {
         "section": "Синхронизация сигнала",
         "screenTransition": "Плавность экрана",
-        "flashlightDelay": "Задержка фонарика"
+        "flashlightDelay": "Задержка фонарика",
+        "test": "Тест вспышки (– – –)"
       },
       "appSection": "Приложение",
       "reset": {

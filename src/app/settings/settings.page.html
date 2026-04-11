@@ -4,6 +4,9 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- full-screen flash overlay for signal timing test -->
+<div class="test-flash-overlay" [class.on]="testActive" [style.transition]="screenTransition"></div>
+
 <ion-content>
   <ion-list>
     <ion-item>
@@ -62,8 +65,7 @@
     <ion-item>
       <ion-range
         [label]="('pages.settings.signalTuning.screenTransition' | translate) + ': ' + settings.screenTransitionMs + 'ms'"
-        [value]="settings.screenTransitionMs"
-        (ionChange)="onScreenTransitionChange($event)"
+        [(ngModel)]="settings.screenTransitionMs"
         min="0" max="100" step="5"
         pin="true"
         [pinFormatter]="msFormatter"
@@ -72,12 +74,15 @@
     <ion-item>
       <ion-range
         [label]="('pages.settings.signalTuning.flashlightDelay' | translate) + ': ' + settings.flashlightDelayMs + 'ms'"
-        [value]="settings.flashlightDelayMs"
-        (ionChange)="onFlashlightDelayChange($event)"
+        [(ngModel)]="settings.flashlightDelayMs"
         min="0" max="100" step="5"
         pin="true"
         [pinFormatter]="msFormatter"
       ></ion-range>
+    </ion-item>
+    <ion-item button (click)="runTest()">
+      <ion-label>{{ 'pages.settings.signalTuning.test' | translate }}</ion-label>
+      <ion-icon slot="end" name="flash-outline"></ion-icon>
     </ion-item>
 
     <ion-item-divider>

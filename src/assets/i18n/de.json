@@ -51,7 +51,8 @@
       "signalTuning": {
         "section": "Signal-Timing",
         "screenTransition": "Bildschirmübergang",
-        "flashlightDelay": "Taschenlampen-Verzögerung"
+        "flashlightDelay": "Taschenlampen-Verzögerung",
+        "test": "Blitztest (– – –)"
       },
       "appSection": "App",
       "reset": {

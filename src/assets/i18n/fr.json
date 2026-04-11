@@ -51,7 +51,8 @@
       "signalTuning": {
         "section": "Synchronisation du signal",
         "screenTransition": "Fondu d'écran",
-        "flashlightDelay": "Délai lampe torche"
+        "flashlightDelay": "Délai lampe torche",
+        "test": "Test flash (– – –)"
       },
       "appSection": "Application",
       "reset": {

@@ -4,9 +4,10 @@ import { Component, OnInit } from '@angular/core';
 declare const __NPM_PACKAGE_VERSION__: string;
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
+import { Torch } from '@capawesome/capacitor-torch';
 import { LanguageItem, SettingsService } from '../settings.service';
 import { NotificationsService } from '../notifications.service';
-import { FlashlightService } from '../flashlight.service';
+import { DIT_LENGTH_MS } from '../message-timing';
 
 @Component({
   selector: 'app-settings',
@@ -19,27 +20,61 @@ export class SettingsPage implements OnInit {
   version = __NPM_PACKAGE_VERSION__;
   msFormatter = (value: number) => `${value}ms`;
 
+  testActive = false;
+  private testTimeouts: ReturnType<typeof setTimeout>[] = [];
+
+  get screenTransition(): string {
+    const ms = this.settings.screenTransitionMs;
+    return ms > 0 ? `opacity ${ms}ms` : 'none';
+  }
+
   constructor(
     public settings: SettingsService,
     public notifications: NotificationsService,
     private translate: TranslateService,
     private alertController: AlertController,
-    private flashlight: FlashlightService,
   ) {
     this.languages = [...settings.languages];
     this.languages.unshift({ code: 'auto', name: this.translate.instant('common.autoLanguage') });
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewDidLeave() {
+    this.cancelTest();
   }
 
-  onScreenTransitionChange(event: CustomEvent) {
-    this.settings.screenTransitionMs = event.detail.value as number;
+  // O = – – – — three dahs, long flashes are easier to judge alignment
+  runTest() {
+    this.cancelTest();
+    const dit = DIT_LENGTH_MS;
+    const dah = dit * 3;
+    const gap = dit;       // inter-element gap
+    const torchDelay = this.settings.flashlightDelayMs;
+
+    // dah on/off edges: on─dah─off─gap─on─dah─off─gap─on─dah─off
+    const onAt  = [0,              dah + gap,              (dah + gap) * 2          ];
+    const offAt = [dah,            dah + gap + dah,        (dah + gap) * 2 + dah    ];
+
+    onAt.forEach(t => {
+      this.testTimeouts.push(setTimeout(() => { this.testActive = true; },  t));
+      this.testTimeouts.push(setTimeout(() => { this.tryTorch(true); }, t + torchDelay));
+    });
+    offAt.forEach(t => {
+      this.testTimeouts.push(setTimeout(() => { this.testActive = false; }, t));
+      this.testTimeouts.push(setTimeout(() => { this.tryTorch(false); }, t + torchDelay));
+    });
   }
 
-  onFlashlightDelayChange(event: CustomEvent) {
-    this.settings.flashlightDelayMs = event.detail.value as number;
-    this.flashlight.setDelay(event.detail.value as number);
+  private cancelTest() {
+    this.testTimeouts.forEach(clearTimeout);
+    this.testTimeouts = [];
+    this.testActive = false;
+    this.tryTorch(false);
+  }
+
+  private tryTorch(on: boolean): void {
+    (on ? Torch.enable() : Torch.disable()).catch(() => {}); // no-op on web
   }
 
   async resetConfirm() {

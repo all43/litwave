@@ -15,7 +15,6 @@ export class FlashlightService {
   readonly shutoff$ = new Subject<void>();
   private subscription: Subscription;
   private shutoffTimer: ReturnType<typeof setTimeout>;
-  private synced = false;
 
   constructor(private message: MessageService, private settings: SettingsService) { }
 
@@ -28,7 +27,6 @@ export class FlashlightService {
   }
 
   sync() {
-    this.synced = true;
     this.buildSubscription();
 
     if (this.settings.flashlightAutoShutoff) {
@@ -39,15 +37,7 @@ export class FlashlightService {
     }
   }
 
-  // Apply a new delay immediately without requiring the user to toggle off/on.
-  setDelay(ms: number) {
-    if (this.synced) {
-      this.buildSubscription();
-    }
-  }
-
   unsync() {
-    this.synced = false;
     this.subscription?.unsubscribe();
     clearTimeout(this.shutoffTimer);
     this.off();

@@ -51,7 +51,8 @@
       "signalTuning": {
         "section": "Signal timing",
         "screenTransition": "Screen fade",
-        "flashlightDelay": "Flashlight delay"
+        "flashlightDelay": "Flashlight delay",
+        "test": "Test flash (– – –)"
       },
       "appSection": "App",
       "reset": {

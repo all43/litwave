@@ -51,7 +51,8 @@
       "signalTuning": {
         "section": "Sincronización de señal",
         "screenTransition": "Transición de pantalla",
-        "flashlightDelay": "Retraso de linterna"
+        "flashlightDelay": "Retraso de linterna",
+        "test": "Test de flash (– – –)"
       },
       "appSection": "Aplicación",
       "reset": {

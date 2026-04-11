@@ -51,7 +51,8 @@
       "signalTuning": {
         "section": "Synchronizacja sygnału",
         "screenTransition": "Przenikanie ekranu",
-        "flashlightDelay": "Opóźnienie latarki"
+        "flashlightDelay": "Opóźnienie latarki",
+        "test": "Test błysku (– – –)"
       },
       "appSection": "Aplikacja",
       "reset": {
