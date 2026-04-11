@@ -76,6 +76,7 @@
       "scanNotSupported": "Scannen nicht unterstützt",
       "cameraPermissionDenied": "Kamera-Berechtigung erforderlich",
       "scanError": "QR-Code konnte nicht gescannt werden",
+      "unsupportedChars": "Kein Morsezeichen für: {{chars}}",
       "swipeToDelete": "Nach links wischen zum Löschen",
       "goFlashTitle": "Zum Hauptbildschirm?",
       "goFlashConfirm": "Los"

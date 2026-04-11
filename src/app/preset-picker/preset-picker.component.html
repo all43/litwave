@@ -35,12 +35,15 @@
     <ion-input
       [(ngModel)]="pendingCustom"
       [placeholder]="'pages.events.customMessagePlaceholder' | translate"
-      (ionInput)="pendingCustom = pendingCustom.toUpperCase()"
+      (ionInput)="pendingCustom = pendingCustom.toUpperCase(); onCustomInput()"
       maxlength="30"
       class="custom-input"
     ></ion-input>
+    <ion-note *ngIf="unsupportedChars.length > 0" color="danger" class="picker-error">
+      {{ 'pages.events.unsupportedChars' | translate: { chars: unsupportedChars.join(', ') } }}
+    </ion-note>
     <div class="picker-confirm">
-      <ion-button expand="block" [disabled]="!pendingCustom.trim()" (click)="confirmCustom()">
+      <ion-button expand="block" [disabled]="!pendingCustom.trim() || unsupportedChars.length > 0" (click)="confirmCustom()">
         {{ 'common.save' | translate }}
       </ion-button>
     </div>

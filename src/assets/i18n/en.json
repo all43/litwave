@@ -76,6 +76,7 @@
       "scanNotSupported": "Barcode scanning not supported",
       "cameraPermissionDenied": "Camera permission required",
       "scanError": "Could not scan QR code",
+      "unsupportedChars": "No Morse code for: {{chars}}",
       "swipeToDelete": "Swipe left to delete",
       "goFlashTitle": "Go to main screen?",
       "goFlashConfirm": "Go"

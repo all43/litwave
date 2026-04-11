@@ -76,6 +76,7 @@
       "scanNotSupported": "Сканирование не поддерживается",
       "cameraPermissionDenied": "Нужен доступ к камере",
       "scanError": "Не удалось отсканировать QR-код",
+      "unsupportedChars": "Нет кода Морзе для: {{chars}}",
       "swipeToDelete": "Проведите влево для удаления",
       "goFlashTitle": "На главный экран?",
       "goFlashConfirm": "Перейти"

@@ -12,8 +12,12 @@ const binaryMapping: Record<string, boolean[]> = {
   ' ': [false],
 };
 
+export function getUnsupportedChars(str: string): string[] {
+  return [...new Set([...str.toLowerCase()].filter(c => c !== ' ' && !(c in map)))];
+}
+
 function encodeFormatted(str: string): string {
-  const encoded = [...str.toLowerCase()].map((char) => map[char] ?? map['_']);
+  const encoded = [...str.toLowerCase()].filter(c => c in map).map((char) => map[char]);
   return encoded
     .map((char) => char.split('').join(innerSeparator))
     .join(charSeparator);
@@ -50,7 +54,7 @@ export function encodeBinaryWithBoundaries(str: string): BinaryWithBoundaries {
     }
     if (char !== ' ') {
       letterStarts.push(bitPos);
-      const morse = map[char] ?? map['_'];
+      const morse = map[char] ?? '';
       [...morse].forEach((sym, si) => {
         if (si > 0) bitPos += 1; // innerSeparator
         bitPos += symbolBits[sym] ?? 0;

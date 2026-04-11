@@ -107,8 +107,10 @@ export class EventService {
     const payload: Record<string, string | number> = { msg: event.message };
     if (event.name) { payload.name = event.name; }
     if (event.scheduledTime) { payload.t = event.scheduledTime; }
-    // URL-safe base64 (no +, /, or padding =)
-    return btoa(JSON.stringify(payload))
+    // URL-safe base64 (no +, /, or padding =); TextEncoder handles non-Latin1
+    const bytes = new TextEncoder().encode(JSON.stringify(payload));
+    const binary = String.fromCharCode(...bytes);
+    return btoa(binary)
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
 
@@ -117,7 +119,9 @@ export class EventService {
       // Restore standard base64 padding
       const padded = encoded.replace(/-/g, '+').replace(/_/g, '/')
         + '=='.slice(0, (4 - encoded.length % 4) % 4);
-      const payload = JSON.parse(atob(padded));
+      const binary = atob(padded);
+      const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+      const payload = JSON.parse(new TextDecoder().decode(bytes));
       if (!payload.msg) { return null; }
       const event: LitwaveEvent = { id: this.generateId(), message: String(payload.msg).toUpperCase() };
       if (payload.name) { event.name = String(payload.name); }

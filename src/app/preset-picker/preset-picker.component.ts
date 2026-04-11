@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MESSAGE_PRESETS, MessagePreset } from '../presets';
+import { getUnsupportedChars } from '../morse-encode';
 
 @Component({
   selector: 'app-preset-picker',
@@ -16,6 +17,7 @@ export class PresetPickerComponent {
   presetCategories = [...new Set(MESSAGE_PRESETS.map(p => p.category))];
   activeCategory: MessagePreset['category'] | 'custom' = 'general';
   pendingCustom = '';
+  unsupportedChars: string[] = [];
 
   get filteredPresets(): MessagePreset[] {
     if (this.activeCategory === 'custom') { return []; }
@@ -30,10 +32,17 @@ export class PresetPickerComponent {
     this.presetSelected.emit(preset);
   }
 
+  onCustomInput(): void {
+    this.unsupportedChars = getUnsupportedChars(this.pendingCustom.trim());
+  }
+
   confirmCustom(): void {
     const text = this.pendingCustom.trim().toUpperCase();
     if (!text) { return; }
+    this.unsupportedChars = getUnsupportedChars(text);
+    if (this.unsupportedChars.length > 0) { return; }
     this.customConfirmed.emit(text);
     this.pendingCustom = '';
+    this.unsupportedChars = [];
   }
 }

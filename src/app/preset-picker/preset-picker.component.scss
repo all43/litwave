@@ -77,6 +77,12 @@
   color: var(--ion-color-step-400);
 }
 
+.picker-error {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
 .picker-custom {
   flex: 1;
   padding: 20px 16px;

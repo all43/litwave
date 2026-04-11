@@ -76,6 +76,7 @@
       "scanNotSupported": "Skanowanie nieobsługiwane",
       "cameraPermissionDenied": "Wymagane uprawnienie do kamery",
       "scanError": "Nie można zeskanować kodu QR",
+      "unsupportedChars": "Brak kodu Morse dla: {{chars}}",
       "swipeToDelete": "Przesuń w lewo, aby usunąć",
       "goFlashTitle": "Przejść do ekranu głównego?",
       "goFlashConfirm": "Przejdź"
