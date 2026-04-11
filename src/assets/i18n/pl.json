@@ -48,6 +48,7 @@
       },
       "preventSleep": "Nie wygaszaj ekranu",
       "flashlightAutoShutoff": "Wyłącz latarkę po 10 min",
+      "appSection": "Aplikacja",
       "reset": {
         "title": "Resetuj ustawienia",
         "message": "Zresetować ustawienia?"

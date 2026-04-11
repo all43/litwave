@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { SignalComponent } from '../signal/signal.component';
 import { combineLatest, map } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { KeepAwake } from '@capacitor-community/keep-awake';
@@ -18,6 +19,8 @@ export type HomeMode = 'event' | 'preset';
   standalone: false,
 })
 export class HomePage {
+  @ViewChild(SignalComponent) signal: SignalComponent;
+
   mode: HomeMode = 'preset';
 
   // Preset picker state
@@ -59,6 +62,7 @@ export class HomePage {
   }
 
   ionViewDidLeave() {
+    this.signal?.deactivate();
     KeepAwake.allowSleep();
   }
 

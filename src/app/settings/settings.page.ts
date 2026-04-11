@@ -5,6 +5,7 @@ declare const __NPM_PACKAGE_VERSION__: string;
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { LanguageItem, SettingsService } from '../settings.service';
+import { NotificationsService } from '../notifications.service';
 
 @Component({
   selector: 'app-settings',
@@ -16,7 +17,12 @@ export class SettingsPage implements OnInit {
   languages: LanguageItem[] = [];
   version = __NPM_PACKAGE_VERSION__;
 
-  constructor(public settings: SettingsService, private translate: TranslateService, private alertController: AlertController) {
+  constructor(
+    public settings: SettingsService,
+    public notifications: NotificationsService,
+    private translate: TranslateService,
+    private alertController: AlertController,
+  ) {
     this.languages = [...settings.languages];
     this.languages.unshift({ code: 'auto', name: this.translate.instant('common.autoLanguage') });
   }

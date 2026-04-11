@@ -62,6 +62,13 @@ export class SignalComponent implements OnInit, OnDestroy {
     this.shutoffSub?.unsubscribe();
   }
 
+  deactivate() {
+    if (this.isActive) {
+      this.isActive = false;
+      this.flashlight.unsync();
+    }
+  }
+
   toggleActive() {
     this.isActive = !this.isActive;
     if (this.isActive) {

@@ -48,6 +48,7 @@
       },
       "preventSleep": "Empêcher la mise en veille",
       "flashlightAutoShutoff": "Éteindre la lampe après 10 min",
+      "appSection": "Application",
       "reset": {
         "title": "Réinitialiser les paramètres",
         "message": "Réinitialiser les paramètres ?"

@@ -48,6 +48,7 @@
       },
       "preventSleep": "Evitar suspensión",
       "flashlightAutoShutoff": "Apagar linterna tras 10 min",
+      "appSection": "Aplicación",
       "reset": {
         "title": "Restablecer ajustes",
         "message": "¿Restablecer ajustes?"

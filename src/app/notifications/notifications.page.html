@@ -9,9 +9,10 @@
 
 <ion-content>
   <ion-list *ngIf="needsPermission">
-    <ion-list-header>
+    <ion-item-divider>
       <ion-label>{{ 'pages.notifications.permissionsTitle' | translate }}</ion-label>
-    </ion-list-header>
+      <ion-badge slot="end" color="danger">!</ion-badge>
+    </ion-item-divider>
     <ion-item *ngIf="showRequestButton" lines="none">
       <ion-note>{{ 'pages.notifications.permissionPromptInfo' | translate }}</ion-note>
     </ion-item>
@@ -30,9 +31,9 @@
   </ion-list>
 
   <ion-list>
-    <ion-list-header>
+    <ion-item-divider>
       <ion-label>{{ 'pages.notifications.upcomingTitle' | translate }}</ion-label>
-    </ion-list-header>
+    </ion-item-divider>
     <ion-item *ngFor="let event of scheduledEvents">
       <ion-label>
         <h3>{{ event.name || event.message }}</h3>

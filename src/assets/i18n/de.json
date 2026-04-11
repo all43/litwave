@@ -48,6 +48,7 @@
       },
       "preventSleep": "Gerät wach halten",
       "flashlightAutoShutoff": "Taschenlampe nach 10 Min. ausschalten",
+      "appSection": "App",
       "reset": {
         "title": "Einstellungen zurücksetzen",
         "message": "Einstellungen zurücksetzen?"

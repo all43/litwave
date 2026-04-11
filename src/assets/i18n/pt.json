@@ -48,6 +48,7 @@
       },
       "preventSleep": "Evitar suspensão",
       "flashlightAutoShutoff": "Desligar lanterna após 10 min",
+      "appSection": "Aplicativo",
       "reset": {
         "title": "Redefinir configurações",
         "message": "Redefinir configurações?"

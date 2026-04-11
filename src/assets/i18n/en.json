@@ -48,6 +48,7 @@
       },
       "preventSleep": "Prevent device sleep",
       "flashlightAutoShutoff": "Auto-stop flashlight after 10 min",
+      "appSection": "App",
       "reset": {
         "title": "Reset settings",
         "message": "Are you sure you'd like to reset settings?"
