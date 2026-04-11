@@ -24,7 +24,7 @@ Rebranding from "Organise!" to "Litwave" is complete:
   - `morse.service.ts` — Angular wrapper; delegates encoding to `morse-encode.ts`
   - `message.service.ts` — reactive RxJS timing engine; epoch-modulo sync, mid-cycle letter-boundary join, 300ms dit length
   - `flashlight.service.ts` — hardware flashlight control, syncs to morse stream
-  - `settings.service.ts` — persisted settings via @capacitor/preferences + i18n (EN/RU)
+  - `settings.service.ts` — persisted settings via @capacitor/preferences + i18n (EN/RU/UK/ES/DE/FR/PT/PL)
   - `notifications.service.ts` — local notification scheduling
   - `event.service.ts` — event CRUD, URL generation/parsing, Preferences persistence
 - **Event model** (`models/event.model.ts`) — `LitwaveEvent` interface (id, message, name, scheduledTime)
@@ -32,7 +32,7 @@ Rebranding from "Organise!" to "Litwave" is complete:
 - **QR display component** (`qr-display/`) — renders QR codes via `qrcode` npm package
 - **Presets** (`presets.ts`) — categorized message presets (general, meme, event)
 - **Signal component** (`signal.component.*`) — visual screen flash (black/white toggle) + flashlight toggle
-- **Translations** in `src/assets/i18n/{en,ru}.json`
+- **Translations** in `src/assets/i18n/{en,ru,uk,es,de,fr,pt,pl}.json` — loaded at runtime via `@ngx-translate/http-loader`; add a new language by dropping a JSON file, no code changes needed
 - **Morse mapping** in `src/app/morseMapping.json`
 - **Website** (`src/website/`) — static PWA on litwave.app for event creation/sharing without the app
 - Components use `standalone: false` (NgModule-based architecture)

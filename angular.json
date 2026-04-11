@@ -34,7 +34,7 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss"],
+            "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
             "allowedCommonJsDependencies": ["qrcode"]
           },
@@ -97,7 +97,10 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"]
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ],
+    "analytics": "fc8fcce6-c118-40e4-a761-ff0849fa0f99"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

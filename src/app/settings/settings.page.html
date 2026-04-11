@@ -1,8 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-title>{{ 'pages.settings.title' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,42 +7,79 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-label translate="pages.settings.language"></ion-label>
-      <ion-select [(ngModel)]="settings.selectedLanguage">
+      <ion-select
+        [label]="'pages.settings.language' | translate"
+        labelPlacement="start"
+        [(ngModel)]="settings.selectedLanguage"
+      >
         <ion-select-option [value]="lang.code" *ngFor="let lang of languages">{{ lang.name }}</ion-select-option>
       </ion-select>
     </ion-item>
+
     <ion-radio-group [(ngModel)]="settings.autoSyncFlash">
       <ion-list-header>
-        <ion-label>
-          {{ 'pages.settings.syncFlash.label' | translate }}
-        </ion-label>
+        <ion-label>{{ 'pages.settings.syncFlash.label' | translate }}</ion-label>
       </ion-list-header>
       <ion-item>
-        <ion-label>{{ 'pages.settings.syncFlash.never' | translate }}</ion-label>
-        <ion-radio value="never"></ion-radio>
+        <ion-radio value="never" labelPlacement="start" justify="start">
+          {{ 'pages.settings.syncFlash.never' | translate }}
+        </ion-radio>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'pages.settings.syncFlash.useRecent' | translate }}</ion-label>
-        <ion-radio value="useRecent"></ion-radio>
+        <ion-radio value="useRecent" labelPlacement="start" justify="start">
+          {{ 'pages.settings.syncFlash.useRecent' | translate }}
+        </ion-radio>
       </ion-item>
       <ion-item>
-        <ion-label>{{ 'pages.settings.syncFlash.always' | translate }}</ion-label>
-        <ion-radio value="always"></ion-radio>
+        <ion-radio value="always" labelPlacement="start" justify="start">
+          {{ 'pages.settings.syncFlash.always' | translate }}
+        </ion-radio>
       </ion-item>
     </ion-radio-group>
+
     <ion-item-divider></ion-item-divider>
+
     <ion-item>
-      <ion-label>{{ 'pages.settings.preventSleep' | translate }}</ion-label>
-      <ion-toggle [(ngModel)]="settings.keepalive" slot="end"></ion-toggle>
+      <ion-toggle
+        [(ngModel)]="settings.keepalive"
+        labelPlacement="start"
+        justify="start"
+      >
+        {{ 'pages.settings.preventSleep' | translate }}
+      </ion-toggle>
     </ion-item>
     <ion-item>
-      <ion-label>{{ 'pages.settings.flashlightAutoShutoff' | translate }}</ion-label>
-      <ion-toggle [(ngModel)]="settings.flashlightAutoShutoff" slot="end"></ion-toggle>
+      <ion-toggle
+        [(ngModel)]="settings.flashlightAutoShutoff"
+        labelPlacement="start"
+        justify="start"
+      >
+        {{ 'pages.settings.flashlightAutoShutoff' | translate }}
+      </ion-toggle>
     </ion-item>
+
     <ion-item-divider></ion-item-divider>
+
     <ion-item button (click)="resetConfirm()">
       {{ 'pages.settings.reset.title' | translate }}
+    </ion-item>
+
+    <ion-item-divider></ion-item-divider>
+
+    <ion-item button routerLink="/notifications" detail>
+      <ion-icon slot="start" name="notifications-outline"></ion-icon>
+      <ion-label>{{ 'pages.notifications.title' | translate }}</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/info" detail>
+      <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+      <ion-label>{{ 'pages.info.title' | translate }}</ion-label>
+    </ion-item>
+
+    <ion-item-divider></ion-item-divider>
+
+    <ion-item>
+      <ion-label>{{ 'pages.settings.version' | translate }}</ion-label>
+      <ion-text color="medium">{{ version }}</ion-text>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { combineLatest, map } from 'rxjs';
+import { AlertController } from '@ionic/angular';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import { SettingsService } from '../settings.service';
 import { MessageService } from '../message.service';
+import { EventService } from '../event.service';
 import { MESSAGE_PRESETS, MessagePreset } from '../presets';
+
+export type HomeMode = 'event' | 'preset';
 
 @Component({
   selector: 'app-home',
@@ -11,20 +17,39 @@ import { MESSAGE_PRESETS, MessagePreset } from '../presets';
   standalone: false,
 })
 export class HomePage {
-  presets = MESSAGE_PRESETS;
-  selectedCategory: MessagePreset['category'] = 'general';
-  selectedMessage: string;
-  filteredPresets: MessagePreset[];
+  mode: HomeMode = 'preset';
+
+  // Preset picker state
+  showPicker = false;
+  selectedPreset: MessagePreset = MESSAGE_PRESETS.find(p => p.message === this.settings.selectedPresetMessage)
+    ?? MESSAGE_PRESETS.filter(p => p.category === 'general')[0];
+  pendingPreset: MessagePreset | null = null;
+
+  activeEvent$ = combineLatest([
+    this.eventService.activeEventId$,
+    this.eventService.events$,
+  ]).pipe(
+    map(([id, events]) => id ? (events.find((e) => e.id === id) ?? null) : null),
+  );
 
   constructor(
     private settings: SettingsService,
     public messageService: MessageService,
+    public eventService: EventService,
+    private alertCtrl: AlertController,
+    private router: Router,
   ) {
-    this.filteredPresets = this.getPresetsForCategory(this.selectedCategory);
-    this.selectedMessage = this.filteredPresets[0].message;
+    // Sync mode and message with active event state
+    this.eventService.activeEventId$.subscribe((id) => {
+      if (id) {
+        this.mode = 'event';
+        // message already set by EventService
+      } else {
+        this.messageService.setMessage(this.selectedPreset.message);
+      }
+    });
   }
 
-  // note: ionic lifecycle hooks only work inside ionic page components
   ionViewDidEnter() {
     if (this.settings.keepalive) {
       KeepAwake.keepAwake();
@@ -35,19 +60,65 @@ export class HomePage {
     KeepAwake.allowSleep();
   }
 
-  onCategoryChange(category: MessagePreset['category']) {
-    this.selectedCategory = category;
-    this.filteredPresets = this.getPresetsForCategory(category);
-    this.selectedMessage = this.filteredPresets[0].message;
-    this.messageService.setMessage(this.selectedMessage);
+  // ── Mode switching ────────────────────────────────────────
+
+  async switchToPreset() {
+    const hasActiveEvent = !!this.eventService.activeEventId$.value;
+    if (hasActiveEvent) {
+      const confirmed = await this.confirmLeaveEvent();
+      if (!confirmed) { return; }
+    }
+    this.eventService.clearActiveEvent();
+    this.mode = 'preset';
+    this.messageService.setMessage(this.selectedPreset.message);
   }
 
-  onPresetChange(message: string) {
-    this.selectedMessage = message;
-    this.messageService.setMessage(message);
+  switchToEvent() {
+    this.mode = 'event';
+    // If there's already an active event the message is already set by EventService
+    if (!this.eventService.activeEventId$.value) {
+      this.router.navigate(['/tabs/events']);
+    }
   }
 
-  private getPresetsForCategory(category: MessagePreset['category']): MessagePreset[] {
-    return this.presets.filter((p) => p.category === category);
+  goToEvents() {
+    this.router.navigate(['/tabs/events']);
   }
+
+  // ── Preset picker ─────────────────────────────────────────
+
+  openPicker() {
+    this.pendingPreset = this.selectedPreset;
+    this.showPicker = true;
+  }
+
+  setPending(preset: MessagePreset) {
+    this.pendingPreset = preset;
+  }
+
+  confirmPreset() {
+    if (!this.pendingPreset) { return; }
+    this.selectedPreset = this.pendingPreset;
+    this.settings.selectedPresetMessage = this.selectedPreset.message;
+    this.messageService.setMessage(this.selectedPreset.message);
+    this.pendingPreset = null;
+    this.showPicker = false;
+  }
+
+  // ── Helpers ───────────────────────────────────────────────
+
+  private async confirmLeaveEvent(): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      const alert = await this.alertCtrl.create({
+        header: 'Leave event mode?',
+        message: 'You will switch to a preset instead of the active event.',
+        buttons: [
+          { text: 'Cancel', role: 'cancel', handler: () => resolve(false) },
+          { text: 'Switch', handler: () => resolve(true) },
+        ],
+      });
+      await alert.present();
+    });
+  }
+
 }

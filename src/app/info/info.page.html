@@ -1,14 +1,55 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="/settings"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ 'pages.info.title' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item routerLink="about" detail>{{ 'pages.about.title' | translate }}</ion-item>
+<ion-content class="ion-padding">
+
+  <div class="hero">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="20 160 480 200" class="hero-logo" aria-hidden="true">
+      <circle cx="76"  cy="256" r="40" fill="#60a5fa" opacity="0.75"/>
+      <circle cx="155" cy="218" r="40" fill="#60a5fa" opacity="0.90"/>
+      <circle cx="256" cy="256" r="40" fill="#60a5fa" opacity="0.75"/>
+      <circle cx="335" cy="294" r="40" fill="#60a5fa" opacity="0.55"/>
+      <circle cx="436" cy="256" r="40" fill="#60a5fa" opacity="0.75"/>
+    </svg>
+    <h1 class="hero-title">Litwave</h1>
+    <p class="hero-tagline">{{ 'pages.info.tagline' | translate }}</p>
+  </div>
+
+  <ion-list lines="none" class="how-list">
+    <ion-item class="how-item">
+      <ion-icon slot="start" name="phone-portrait-outline" color="primary"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3>{{ 'pages.info.how.pick.title' | translate }}</h3>
+        <p>{{ 'pages.info.how.pick.body' | translate }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="how-item">
+      <ion-icon slot="start" name="power-outline" color="primary"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3>{{ 'pages.info.how.start.title' | translate }}</h3>
+        <p>{{ 'pages.info.how.start.body' | translate }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item class="how-item">
+      <ion-icon slot="start" name="flash-outline" color="primary"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3>{{ 'pages.info.how.sync.title' | translate }}</h3>
+        <p>{{ 'pages.info.how.sync.body' | translate }}</p>
+      </ion-label>
+    </ion-item>
   </ion-list>
+
+  <p class="no-internet">
+    <ion-icon name="wifi-outline"></ion-icon>
+    {{ 'pages.info.noInternet' | translate }}
+  </p>
+
 </ion-content>

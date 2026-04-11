@@ -115,42 +115,12 @@
     [handle]="true"
   >
     <ng-template>
-      <div class="picker-shell">
-        <div class="picker-cats">
-          <button class="cat-btn" [class.active]="pickerCategory === 'general'" (click)="onPickerCategoryChange('general')">{{ 'presets.categories.general' | translate }}</button>
-          <button class="cat-btn" [class.active]="pickerCategory === 'meme'"    (click)="onPickerCategoryChange('meme')">{{ 'presets.categories.meme' | translate }}</button>
-          <button class="cat-btn" [class.active]="pickerCategory === 'event'"   (click)="onPickerCategoryChange('event')">{{ 'presets.categories.event' | translate }}</button>
-          <button class="cat-btn" [class.active]="pickerCategory === 'custom'"  (click)="onPickerCategoryChange('custom')">{{ 'presets.categories.custom' | translate }}</button>
-        </div>
-
-        <div class="picker-list" *ngIf="pickerCategory !== 'custom'">
-          <button
-            class="preset-row"
-            *ngFor="let preset of filteredPickerPresets"
-            [class.selected]="eventMessage === preset.message"
-            (click)="selectPreset(preset)"
-          >
-            <ion-icon [name]="eventMessage === preset.message ? 'radio-button-on' : 'radio-button-off'" class="row-radio"></ion-icon>
-            <span class="row-label">{{ preset.label }}</span>
-            <span class="row-message">{{ preset.message }}</span>
-          </button>
-        </div>
-
-        <div class="picker-custom" *ngIf="pickerCategory === 'custom'">
-          <ion-input
-            [(ngModel)]="pendingCustom"
-            [placeholder]="'pages.events.customMessagePlaceholder' | translate"
-            (ionInput)="pendingCustom = pendingCustom.toUpperCase()"
-            maxlength="30"
-            class="custom-input"
-          ></ion-input>
-          <div class="picker-confirm">
-            <ion-button expand="block" [disabled]="!pendingCustom.trim()" (click)="confirmCustomMessage()">
-              Use {{ pendingCustom.trim() || '…' }}
-            </ion-button>
-          </div>
-        </div>
-      </div>
+      <app-preset-picker
+        [selectedMessage]="eventMessage"
+        [showCustomTab]="true"
+        (presetSelected)="selectPreset($event)"
+        (customConfirmed)="onCustomConfirmed($event)"
+      ></app-preset-picker>
     </ng-template>
   </ion-modal>
 

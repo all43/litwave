@@ -11,33 +11,6 @@ import { EventService } from './event.service';
   standalone: false,
 })
 export class AppComponent {
-  menuItems = [
-    {
-      title: 'home',
-      icon: 'flashlight',
-      url: '/home',
-    },
-    {
-      title: 'events',
-      icon: 'calendar',
-      url: '/events',
-    },
-    {
-      title: 'info',
-      icon: 'information-circle',
-      url: '/info',
-    },
-    {
-      title: 'settings',
-      icon: 'settings',
-      url: '/settings',
-    },
-    {
-      title: 'notifications',
-      icon: 'notifications',
-      url: '/notifications',
-    },
-  ];
 
   constructor(
     private eventService: EventService,
@@ -55,7 +28,7 @@ export class AppComponent {
         if (event) {
           await this.eventService.addEvent(event);
           await this.eventService.setActiveEvent(event.id);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/tabs/home']);
           const toast = await this.toastCtrl.create({
             message: `Event imported: ${event.name || event.message}`,
             duration: 2000,

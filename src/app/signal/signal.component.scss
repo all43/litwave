@@ -3,25 +3,157 @@
   height: 100%;
 }
 
-ion-list {
-  display: flex;
-  flex-direction: column;
+.light-area {
   height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  transition: background-color 0.07s;
+
+  &.on {
+    background-color: #fff;
+  }
 }
 
-#light-area {
-    display: flex;
-    justify-content: center;
-    padding: 1em;
-    flex-grow: 1;
-    box-sizing: border-box;
-    background-color: black;
-    transition: background-color 0.07s;
-    span{
-      color: white;
-      font-size: x-large;
-    }
-    &.on {
-      background-color: white;
-    }
+// Outer flex column — button sits outside the blend-mode container
+.signal-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+// mix-blend-mode: difference makes text always visible:
+// white on black → white, white on white → black (inverted)
+.signal-content {
+  mix-blend-mode: difference;
+  color: #fff;
+  width: calc(100vw - 2rem);
+  max-width: 600px;
+  text-align: center;
+}
+
+// ── Power button ────────────────────────────────────────────
+.power-btn {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid var(--ion-color-primary);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s ease, box-shadow 0.25s ease;
+
+  &.active {
+    box-shadow: 0 0 0 10px rgba(96, 165, 250, 0.12),
+                0 0 48px rgba(96, 165, 250, 0.25);
   }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+// ── Logo SVG dots ────────────────────────────────────────────
+@keyframes dot-wave {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
+}
+
+@keyframes dot-wave-active {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+.logo-svg {
+  width: 64px;
+  height: 36px;
+  pointer-events: none;
+
+  circle {
+    fill: var(--ion-color-primary);
+    animation: dot-wave 1.8s ease-in-out infinite;
+
+    &:nth-child(1) { animation-delay: 0s; }
+    &:nth-child(2) { animation-delay: 0.15s; }
+    &:nth-child(3) { animation-delay: 0.30s; }
+    &:nth-child(4) { animation-delay: 0.45s; }
+    &:nth-child(5) { animation-delay: 0.60s; }
+  }
+}
+
+.power-btn.active .logo-svg circle {
+  animation-name: dot-wave-active;
+  animation-duration: 0.75s;
+}
+
+// ── Meta text ────────────────────────────────────────────────
+.meta {
+  text-align: center;
+  transition: opacity 0.3s ease;
+
+  &.dimmed {
+    opacity: 0.25;
+  }
+}
+
+.signal-message {
+  // font-size is bound dynamically based on message length
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 0.75rem;
+  // fixed height = 2 lines at max font, prevents layout shift
+  min-height: 6rem;
+  display: grid;
+  place-items: center;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
+}
+
+.signal-countdown {
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+// ── Flashlight button ────────────────────────────────────────
+.flashlight-btn {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: transparent;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: difference;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s ease, box-shadow 0.25s ease;
+
+  ion-icon {
+    font-size: 1.4rem;
+    pointer-events: none;
+  }
+
+  &.lit {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1),
+                0 0 24px rgba(255, 255, 255, 0.2);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}

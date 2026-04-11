@@ -5,11 +5,14 @@
     "menu": "Menu",
     "sec": "sek.",
     "ok": "OK",
-    "cancel": "Anuluj"
+    "cancel": "Anuluj",
+    "save": "Zapisz"
   },
   "pages": {
     "home": {
-      "title": "Główna"
+      "title": "Główna",
+      "modeEvent": "Wydarzenie",
+      "modePreset": "Preset"
     },
     "info": {
       "title": "O Litwave",
@@ -93,7 +96,7 @@
       "general": "Ogólne",
       "custom": "Własne",
       "meme": "Memy",
-      "event": "Wydarzenie"
+      "occasion": "Okazja"
     }
   },
   "signal": {

@@ -1,3 +1,84 @@
+// ── Create form ───────────────────────────────────────────────
+.form-section {
+  padding: 20px 16px 0;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.form-actions {
+  padding: 12px 0 20px;
+}
+
+.datetime-container {
+  background: #1a1a1a;
+  border-radius: 12px;
+  margin: 8px 0 4px;
+  overflow: hidden;
+}
+
+.inline-datetime {
+  --background: transparent;
+  --background-rgb: 26, 26, 26;
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+  --ion-color-step-150: #262626;
+  --ion-color-step-300: #4d4d4d;
+  --ion-color-step-500: #808080;
+  --ion-color-step-650: #a6a6a6;
+  width: 100%;
+  margin: 0;
+}
+
+.datetime-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 4px 8px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+// ── Saved events list ─────────────────────────────────────────
+.swipe-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  opacity: 0.4;
+  padding: 2px 16px 8px;
+  margin: 0;
+
+  ion-icon {
+    font-size: 0.8rem;
+  }
+}
+
+ion-item.event-active {
+  --border-color: var(--ion-color-primary);
+  --border-width: 0 0 0 3px;
+  --padding-start: 13px;
+
+  ion-label h2 {
+    color: var(--ion-color-primary);
+  }
+}
+
+// ── Message row ───────────────────────────────────────────────
+.field-sublabel {
+  font-size: 0.75rem;
+  color: var(--ion-color-step-500);
+  margin: 0 0 2px;
+}
+
+.placeholder {
+  color: var(--ion-color-step-400);
+}
+
+
+// ── Share modal ───────────────────────────────────────────────
 .qr-container {
   display: flex;
   flex-direction: column;
@@ -6,13 +87,9 @@
 }
 
 .share-url {
-  font-size: 12px;
+  font-size: 11px;
   word-break: break-all;
   text-align: center;
   color: var(--ion-color-medium);
   padding: 0 16px;
-}
-
-ion-datetime {
-  margin: 0 auto;
 }

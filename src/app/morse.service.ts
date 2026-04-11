@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as morseMapping from './morseMapping.json';
+import { encodeBinary as encodeBinaryPure } from './morse-encode';
 
 /*
   converts given string to text or binary morse code
@@ -35,9 +36,6 @@ export class MorseService {
   }
 
   public encodeBinary(str: string): boolean[] {
-    return [...this.encodeFormatted(str)].reduce((acc, char) => {
-      acc.push(...this.binaryMapping[char]);
-      return acc;
-    }, []);
+    return encodeBinaryPure(str);
   }
 }

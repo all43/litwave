@@ -1,0 +1,51 @@
+<div class="picker-shell">
+
+  <div class="picker-cats">
+    <button
+      class="cat-btn"
+      *ngFor="let cat of presetCategories"
+      [class.active]="activeCategory === cat"
+      (click)="selectCategory(cat)"
+    >{{ 'presets.categories.' + cat | translate }}</button>
+    <button
+      *ngIf="showCustomTab"
+      class="cat-btn"
+      [class.active]="activeCategory === 'custom'"
+      (click)="selectCategory('custom')"
+    >{{ 'presets.categories.custom' | translate }}</button>
+  </div>
+
+  <div class="picker-list" *ngIf="activeCategory !== 'custom'">
+    <button
+      class="preset-row"
+      *ngFor="let preset of filteredPresets"
+      [class.selected]="selectedMessage === preset.message"
+      (click)="selectPreset(preset)"
+    >
+      <ion-icon
+        [name]="selectedMessage === preset.message ? 'radio-button-on' : 'radio-button-off'"
+        class="row-radio"
+      ></ion-icon>
+      <span class="row-label">{{ preset.label }}</span>
+      <span class="row-message">{{ preset.message }}</span>
+    </button>
+  </div>
+
+  <div class="picker-custom" *ngIf="activeCategory === 'custom'">
+    <ion-input
+      [(ngModel)]="pendingCustom"
+      [placeholder]="'pages.events.customMessagePlaceholder' | translate"
+      (ionInput)="pendingCustom = pendingCustom.toUpperCase()"
+      maxlength="30"
+      class="custom-input"
+    ></ion-input>
+    <div class="picker-confirm">
+      <ion-button expand="block" [disabled]="!pendingCustom.trim()" (click)="confirmCustom()">
+        {{ 'common.save' | translate }}
+      </ion-button>
+    </div>
+  </div>
+
+  <ng-content></ng-content>
+
+</div>

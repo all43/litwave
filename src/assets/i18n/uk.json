@@ -5,11 +5,14 @@
     "menu": "Меню",
     "sec": "сек.",
     "ok": "OK",
-    "cancel": "Скасувати"
+    "cancel": "Скасувати",
+    "save": "Зберегти"
   },
   "pages": {
     "home": {
-      "title": "Головна"
+      "title": "Головна",
+      "modeEvent": "Подія",
+      "modePreset": "Пресет"
     },
     "info": {
       "title": "Про Litwave",
@@ -93,7 +96,7 @@
       "general": "Загальні",
       "custom": "Своє",
       "meme": "Меми",
-      "event": "Події"
+      "occasion": "Нагода"
     }
   },
   "signal": {

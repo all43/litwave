@@ -135,8 +135,10 @@ export class EventService {
     this.events$.next(events);
 
     const { value: activeId } = await Preferences.get({ key: this.activeKey });
-    if (activeId && events.some((e) => e.id === activeId)) {
-      this.activeEventId$.next(activeId);
+    const activeEvent = activeId ? events.find((e) => e.id === activeId) : null;
+    if (activeEvent) {
+      this.activeEventId$.next(activeEvent.id);
+      this.messageService.setMessage(activeEvent.message);
     }
   }
 

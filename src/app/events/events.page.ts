@@ -7,7 +7,7 @@ import { Clipboard } from '@capacitor/clipboard';
 import { BarcodeScanner, BarcodeFormat } from '@capacitor-mlkit/barcode-scanning';
 import { EventService } from '../event.service';
 import { LitwaveEvent } from '../models/event.model';
-import { MESSAGE_PRESETS, MessagePreset } from '../presets';
+import { MessagePreset } from '../presets';
 
 @Component({
   selector: 'app-events',
@@ -16,7 +16,6 @@ import { MESSAGE_PRESETS, MessagePreset } from '../presets';
   standalone: false,
 })
 export class EventsPage {
-  presets: MessagePreset[] = MESSAGE_PRESETS;
   newEventName = '';
   newEventTime: Date | null = null;
   showDatePicker = false;
@@ -30,14 +29,6 @@ export class EventsPage {
   // Message picker state
   eventMessage = '';
   eventMessageLabel = '';
-  pickerCategory: MessagePreset['category'] | 'custom' = 'general';
-  pendingPreset: MessagePreset | null = null;
-  pendingCustom = '';
-
-  get filteredPickerPresets(): MessagePreset[] {
-    if (this.pickerCategory === 'custom') { return []; }
-    return this.presets.filter(p => p.category === this.pickerCategory);
-  }
 
   constructor(
     public eventService: EventService,
@@ -53,23 +44,7 @@ export class EventsPage {
   }
 
   openMessagePicker(): void {
-    this.pendingPreset = null;
-    this.pendingCustom = '';
-    // pre-select current message if it matches a preset
-    const match = this.presets.find(p => p.message === this.eventMessage);
-    if (match) {
-      this.pickerCategory = match.category;
-      this.pendingPreset = match;
-    } else if (this.eventMessage) {
-      this.pickerCategory = 'custom';
-      this.pendingCustom = this.eventMessage;
-    }
     this.showMessagePicker = true;
-  }
-
-  onPickerCategoryChange(cat: MessagePreset['category'] | 'custom'): void {
-    this.pickerCategory = cat;
-    this.pendingPreset = null;
   }
 
   selectPreset(preset: MessagePreset): void {
@@ -78,11 +53,9 @@ export class EventsPage {
     this.showMessagePicker = false;
   }
 
-  confirmCustomMessage(): void {
-    const text = this.pendingCustom.trim().toUpperCase();
-    if (!text) { return; }
+  onCustomConfirmed(text: string): void {
     this.eventMessage = text;
-    this.eventMessageLabel = this.pendingCustom.trim();
+    this.eventMessageLabel = text;
     this.showMessagePicker = false;
   }
 
@@ -163,11 +136,15 @@ export class EventsPage {
   }
 
   async nativeShare(): Promise<void> {
-    await Share.share({
-      title: 'Litwave Event',
-      text: this.shareUrl,
-      url: this.shareUrl,
-    });
+    try {
+      await Share.share({
+        title: 'Litwave Event',
+        text: this.shareUrl,
+        url: this.shareUrl,
+      });
+    } catch (e: any) {
+      if (e?.name !== 'AbortError') { throw e; }
+    }
   }
 
   async scanQr(): Promise<void> {

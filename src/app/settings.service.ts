@@ -17,6 +17,7 @@ interface AppSettings {
   autoSyncFlash: AutoSyncOptions;
   lastSyncFlashlightValue: boolean;
   flashlightAutoShutoff: boolean;
+  selectedPresetMessage: string;
 }
 
 @Injectable({
@@ -41,6 +42,7 @@ export class SettingsService {
     autoSyncFlash: 'useRecent',
     lastSyncFlashlightValue: true,
     flashlightAutoShutoff: true,
+    selectedPresetMessage: '',
   };
   private current: AppSettings;
 
@@ -85,6 +87,14 @@ export class SettingsService {
 
   set flashlightAutoShutoff(val: boolean) {
     this.setKey('flashlightAutoShutoff', val);
+  }
+
+  get selectedPresetMessage(): string {
+    return this.getKey('selectedPresetMessage');
+  }
+
+  set selectedPresetMessage(val: string) {
+    this.setKey('selectedPresetMessage', val);
   }
 
   getKey(key) {

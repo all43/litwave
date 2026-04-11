@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FlashlightService } from '../flashlight.service';
 import { MessageService } from '../message.service';
 import { SettingsService } from '../settings.service';
@@ -13,8 +14,20 @@ import { SettingsService } from '../settings.service';
   standalone: false,
 })
 export class SignalComponent implements OnInit, OnDestroy {
+  isActive = false;
   syncFlashlight: boolean;
   private shutoffSub: Subscription;
+
+  messageFontSize$ = this.messageService.message$.pipe(
+    map(msg => {
+      const len = (msg || '').length;
+      if (len <= 6)  return '2.5rem';
+      if (len <= 10) return '2rem';
+      if (len <= 16) return '1.6rem';
+      if (len <= 22) return '1.3rem';
+      return '1.1rem';
+    })
+  );
 
   constructor(
     public messageService: MessageService,
@@ -23,7 +36,7 @@ export class SignalComponent implements OnInit, OnDestroy {
     private toastCtrl: ToastController,
     private translate: TranslateService,
   ) {
-    switch(settings.autoSyncFlash) {
+    switch (settings.autoSyncFlash) {
       case 'never':
         this.syncFlashlight = false;
         break;
@@ -32,12 +45,11 @@ export class SignalComponent implements OnInit, OnDestroy {
         break;
       case 'useRecent':
         this.syncFlashlight = settings.lastSyncFlashlightValue;
+        break;
     }
   }
 
   ngOnInit(): void {
-    this.toggleFlash(this.syncFlashlight);
-
     this.shutoffSub = this.flashlight.shutoff$.subscribe(() => {
       this.syncFlashlight = false;
       this.showShutoffToast();
@@ -45,17 +57,29 @@ export class SignalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.syncFlashlight = false;
+    this.isActive = false;
     this.flashlight.unsync();
     this.shutoffSub?.unsubscribe();
   }
 
-  toggleFlash(val) {
-    const action = val ? 'sync' : 'unsync';
-    this.flashlight[action]();
+  toggleActive() {
+    this.isActive = !this.isActive;
+    if (this.isActive) {
+      if (this.syncFlashlight) {
+        this.flashlight.sync();
+      }
+    } else {
+      this.flashlight.unsync();
+    }
+  }
+
+  toggleFlash(val: boolean) {
     this.syncFlashlight = val;
     if (this.settings.autoSyncFlash === 'useRecent') {
       this.settings.lastSyncFlashlightValue = val;
+    }
+    if (this.isActive) {
+      this.flashlight[val ? 'sync' : 'unsync']();
     }
   }
 

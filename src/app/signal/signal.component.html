@@ -1,11 +1,31 @@
-<ion-list>
-  <ion-item>
-    <ion-label>{{ 'signal.flashlightToggle' | translate }}</ion-label>
-    <ion-toggle slot="end" [ngModel]="syncFlashlight" (ngModelChange)="toggleFlash($event)"></ion-toggle>
-  </ion-item>
-  <div id="light-area" [ngClass]="{ on: messageService.stream$ | async }">
-    <span *ngIf="messageService.countDown$ | async as countDown">
-      {{ 'signal.countDownLabel' | translate }}: {{ (countDown / 1000) | number: '2.0-0' }} {{ 'common.sec' | translate }}
-    </span>
+<div class="light-area" [ngClass]="{ on: isActive && (messageService.stream$ | async) }">
+  <div class="signal-center">
+    <button class="power-btn" [class.active]="isActive" (click)="toggleActive()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="20 160 480 200" class="logo-svg" aria-hidden="true">
+        <circle cx="76"  cy="256" r="40" opacity="0.75"/>
+        <circle cx="155" cy="218" r="40" opacity="0.90"/>
+        <circle cx="256" cy="256" r="40" opacity="0.75"/>
+        <circle cx="335" cy="294" r="40" opacity="0.55"/>
+        <circle cx="436" cy="256" r="40" opacity="0.75"/>
+      </svg>
+    </button>
+
+    <div class="signal-content">
+    <div class="meta" [class.dimmed]="!isActive">
+      <div class="signal-message" [style.font-size]="messageFontSize$ | async">{{ messageService.message$ | async }}</div>
+      <ng-container *ngIf="isActive && (messageService.countDown$ | async) as countDown; else cdSpacer">
+        <div class="signal-countdown">
+          {{ 'signal.countDownLabel' | translate }}: {{ (countDown / 1000) | number: '1.0-0' }} {{ 'common.sec' | translate }}
+        </div>
+      </ng-container>
+      <ng-template #cdSpacer>
+        <div class="signal-countdown" aria-hidden="true">&nbsp;</div>
+      </ng-template>
+    </div>
+    </div>
   </div>
-</ion-list>
+
+  <button class="flashlight-btn" [class.lit]="syncFlashlight" (click)="toggleFlash(!syncFlashlight)">
+    <ion-icon [name]="syncFlashlight ? 'flashlight' : 'flashlight-outline'"></ion-icon>
+  </button>
+</div>

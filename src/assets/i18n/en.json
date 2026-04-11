@@ -5,21 +5,37 @@
     "menu": "Menu",
     "sec": "sec.",
     "ok": "OK",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "pages": {
     "home": {
-      "title": "Home"
+      "title": "Home",
+      "modeEvent": "Event",
+      "modePreset": "Preset"
     },
     "info": {
-      "title": "Information"
-    },
-    "about": {
-      "title": "About",
-      "version": "Version"
+      "title": "About Litwave",
+      "tagline": "Synchronized light shows for any crowd",
+      "how": {
+        "pick": {
+          "title": "Pick a message",
+          "body": "Choose a preset or type your own. The message is encoded in Morse and flashed by every device."
+        },
+        "start": {
+          "title": "Press start",
+          "body": "Your screen and flashlight start flashing in sync with everyone else who pressed start."
+        },
+        "sync": {
+          "title": "No setup needed",
+          "body": "Sync is based on the clock already in your phone. No Bluetooth, no Wi-Fi, no venue hardware required."
+        }
+      },
+      "noInternet": "Works fully offline — no internet connection needed"
     },
     "settings": {
       "title": "Settings",
+      "version": "Version",
       "language": "Language",
       "syncFlash": {
         "label": "Sync flash option",
@@ -39,11 +55,11 @@
       "create": "Create Event",
       "eventName": "Event Name",
       "eventNamePlaceholder": "e.g. Birthday Party",
-      "message": "Message Preset",
-      "customMessage": "Custom Message",
-      "customMessagePlaceholder": "Or type your own (max 30 chars)",
+      "message": "Message",
+      "messagePlaceholder": "Choose a message",
+      "customMessagePlaceholder": "Type your own (max 30 chars)",
       "scheduledTime": "Scheduled Time",
-      "now": "Now",
+      "noTime": "Optional",
       "addEvent": "Create Event",
       "savedEvents": "Saved Events",
       "share": "Share Event",
@@ -55,7 +71,8 @@
       "invalidQr": "Invalid QR code",
       "scanNotSupported": "Barcode scanning not supported",
       "cameraPermissionDenied": "Camera permission required",
-      "scanError": "Could not scan QR code"
+      "scanError": "Could not scan QR code",
+      "swipeToDelete": "Swipe left to delete"
     },
     "notifications": {
       "title": "Notifications",
@@ -74,9 +91,17 @@
       }
     }
   },
+  "presets": {
+    "categories": {
+      "general": "General",
+      "meme": "Meme",
+      "occasion": "Occasion",
+      "custom": "Custom"
+    }
+  },
   "signal": {
     "flashlightToggle": "Flashlight",
-    "countDownLabel": "Next sequence in",
+    "countDownLabel": "Syncing in",
     "autoShutoff": "Flashlight auto-stopped after 10 min to protect your LED"
   }
 }

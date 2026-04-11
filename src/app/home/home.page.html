@@ -1,39 +1,76 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      {{ 'common.title' | translate }}
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/events">
-        <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <ion-toolbar>
-    <ion-segment [value]="selectedCategory" (ionChange)="onCategoryChange($any($event).detail.value)">
-      <ion-segment-button value="general">
-        <ion-label>General</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="meme">
-        <ion-label>Meme</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="event">
-        <ion-label>Event</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-  <ion-toolbar>
-    <ion-segment [value]="selectedMessage" (ionChange)="onPresetChange($any($event).detail.value)" scrollable>
-      <ion-segment-button *ngFor="let preset of filteredPresets" [value]="preset.message">
-        <ion-label>{{ preset.label }}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+    <ion-title>{{ 'common.title' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <app-signal></app-signal>
+
+  <!-- ── Mode bar ─────────────────────────────────────────── -->
+  <div class="mode-bar">
+
+    <!-- Toggle -->
+    <div class="mode-toggle">
+      <button class="mode-btn" [class.active]="mode === 'event'" (click)="switchToEvent()">
+        <ion-icon name="calendar-outline"></ion-icon>
+        {{ 'pages.home.modeEvent' | translate }}
+      </button>
+      <button class="mode-btn" [class.active]="mode === 'preset'" (click)="switchToPreset()">
+        <ion-icon name="radio-outline"></ion-icon>
+        {{ 'pages.home.modePreset' | translate }}
+      </button>
+    </div>
+
+    <!-- Context -->
+    <div class="mode-context">
+
+      <!-- Event context -->
+      <ng-container *ngIf="mode === 'event'">
+        <ng-container *ngIf="activeEvent$ | async as event; else noEvent">
+          <span class="context-label">{{ event.name || event.message }}</span>
+          <button class="context-action" (click)="goToEvents()">Change
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </ng-container>
+        <ng-template #noEvent>
+          <span class="context-label context-label--dim">No event selected</span>
+          <button class="context-action context-action--primary" (click)="goToEvents()">Choose event
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </ng-template>
+      </ng-container>
+
+      <!-- Preset context -->
+      <ng-container *ngIf="mode === 'preset'">
+        <span class="context-label">{{ selectedPreset.label }}</span>
+        <button class="context-action context-action--primary" (click)="openPicker()">Change
+          <ion-icon name="chevron-up-outline"></ion-icon>
+        </button>
+      </ng-container>
+
+    </div>
+  </div>
 </ion-content>
+
+<!-- ── Preset picker (bottom sheet) ─────────────────────── -->
+<ion-modal
+  [isOpen]="showPicker"
+  (didDismiss)="showPicker = false"
+  [initialBreakpoint]="0.6"
+  [breakpoints]="[0, 0.6]"
+  [handle]="true"
+>
+  <ng-template>
+    <app-preset-picker
+      [selectedMessage]="pendingPreset?.message || selectedPreset.message"
+      (presetSelected)="setPending($event)"
+    >
+      <div class="picker-confirm">
+        <ion-button expand="block" [disabled]="!pendingPreset" (click)="confirmPreset()">
+          {{ pendingPreset ? ('Use ' + pendingPreset.label) : 'Select a preset' }}
+        </ion-button>
+      </div>
+    </app-preset-picker>
+  </ng-template>
+</ion-modal>

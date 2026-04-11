@@ -7,7 +7,7 @@ import { SignalComponent } from '../signal/signal.component';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   imports: [
@@ -16,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     HomePageRoutingModule,
     TranslateModule.forChild(),
+    SharedModule,
   ],
   declarations: [HomePage, SignalComponent]
 })

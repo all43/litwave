@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
+// eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
+declare const __NPM_PACKAGE_VERSION__: string;
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { LanguageItem, SettingsService } from '../settings.service';
@@ -11,6 +14,7 @@ import { LanguageItem, SettingsService } from '../settings.service';
 })
 export class SettingsPage implements OnInit {
   languages: LanguageItem[] = [];
+  version = __NPM_PACKAGE_VERSION__;
 
   constructor(public settings: SettingsService, private translate: TranslateService, private alertController: AlertController) {
     this.languages = [...settings.languages];

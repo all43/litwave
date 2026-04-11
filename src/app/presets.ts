@@ -1,7 +1,7 @@
 export interface MessagePreset {
   label: string;
   message: string;
-  category: 'general' | 'meme' | 'event';
+  category: 'general' | 'meme' | 'occasion';
 }
 
 export const MESSAGE_PRESETS: MessagePreset[] = [
@@ -27,10 +27,10 @@ export const MESSAGE_PRESETS: MessagePreset[] = [
   { label: 'To The Moon', message: 'TO THE MOON', category: 'meme' },
 
   // Event / flashmob
-  { label: 'We Are One', message: 'WE ARE ONE', category: 'event' },
-  { label: 'Happy Birthday', message: 'HAPPY BIRTHDAY', category: 'event' },
-  { label: 'Surprise', message: 'SURPRISE', category: 'event' },
-  { label: 'Thank You', message: 'THANK YOU', category: 'event' },
-  { label: 'Welcome', message: 'WELCOME', category: 'event' },
-  { label: 'Encore', message: 'ENCORE', category: 'event' },
+  { label: 'We Are One', message: 'WE ARE ONE', category: 'occasion' },
+  { label: 'Happy Birthday', message: 'HAPPY BIRTHDAY', category: 'occasion' },
+  { label: 'Surprise', message: 'SURPRISE', category: 'occasion' },
+  { label: 'Thank You', message: 'THANK YOU', category: 'occasion' },
+  { label: 'Welcome', message: 'WELCOME', category: 'occasion' },
+  { label: 'Encore', message: 'ENCORE', category: 'occasion' },
 ];
