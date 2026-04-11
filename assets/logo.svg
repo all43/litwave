@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- transparent background — color injected by @capacitor/assets -->
+  <circle cx="76"  cy="256" r="30" fill="#60a5fa" opacity="0.75"/>
+  <circle cx="155" cy="218" r="30" fill="#60a5fa" opacity="0.90"/>
+  <circle cx="256" cy="256" r="30" fill="#60a5fa" opacity="0.75"/>
+  <circle cx="335" cy="294" r="30" fill="#60a5fa" opacity="0.55"/>
+  <circle cx="436" cy="256" r="30" fill="#60a5fa" opacity="0.75"/>
+</svg>
