@@ -93,7 +93,9 @@ npx cap sync && npx cap open android
 
 ## Origin
 
-Started in February 2022 as "Organise!" — an app to flash "STOP WAR" in synchronized Morse code across thousands of phones during the early days of the Russia-Ukraine war. Rebranded to Litwave after the core synchronization technology proved useful for flashmobs and crowd events more broadly.
+Started in February 2022 as "Organise!" — an app to flash "STOP WAR" in synchronized Morse code across thousands of phones during the early days of the Russia-Ukraine war. By the time it was ready to ship, Russia had introduced criminal sentences for public anti-war protest, making it too dangerous to publish. The app was shelved.
+
+The synchronization technology sat unused until it became clear it had broader value for flashmobs and crowd events. Rebranded to Litwave and rebuilt from there.
 
 ## License
 
