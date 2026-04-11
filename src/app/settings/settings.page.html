@@ -57,6 +57,30 @@
     </ion-item>
 
     <ion-item-divider>
+      <ion-label>{{ 'pages.settings.signalTuning.section' | translate }}</ion-label>
+    </ion-item-divider>
+    <ion-item>
+      <ion-range
+        [label]="('pages.settings.signalTuning.screenTransition' | translate) + ': ' + settings.screenTransitionMs + 'ms'"
+        [value]="settings.screenTransitionMs"
+        (ionChange)="onScreenTransitionChange($event)"
+        min="0" max="100" step="5"
+        pin="true"
+        [pinFormatter]="msFormatter"
+      ></ion-range>
+    </ion-item>
+    <ion-item>
+      <ion-range
+        [label]="('pages.settings.signalTuning.flashlightDelay' | translate) + ': ' + settings.flashlightDelayMs + 'ms'"
+        [value]="settings.flashlightDelayMs"
+        (ionChange)="onFlashlightDelayChange($event)"
+        min="0" max="100" step="5"
+        pin="true"
+        [pinFormatter]="msFormatter"
+      ></ion-range>
+    </ion-item>
+
+    <ion-item-divider>
       <ion-label>{{ 'pages.settings.appSection' | translate }}</ion-label>
     </ion-item-divider>
 

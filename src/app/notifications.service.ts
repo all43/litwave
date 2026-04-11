@@ -31,9 +31,10 @@ export class NotificationsService {
     if (!event.scheduledTime) { return; }
     const fireAt = (event.scheduledTime - this.minutesBefore * 60) * 1000;
     if (fireAt <= Date.now()) { return; } // already past, skip
-    if (this.permission !== 'granted') {
+    // PermissionState type omits 'granted' but the runtime value can be 'granted'
+    if ((this.permission as string) !== 'granted') {
       await this.requestPermissions();
-      if (this.permission !== 'granted') { return; }
+      if ((this.permission as string) !== 'granted') { return; }
     }
     await LocalNotifications.schedule({
       notifications: [{

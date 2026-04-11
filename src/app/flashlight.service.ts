@@ -3,6 +3,7 @@ import { Torch } from '@capawesome/capacitor-torch';
 import { MessageService } from './message.service';
 import { SettingsService } from './settings.service';
 import { Subject, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 const SESSION_LIMIT_MS = 10 * 60 * 1000; // 10 minutes — protects LED from sustained thermal stress
 
@@ -14,6 +15,7 @@ export class FlashlightService {
   readonly shutoff$ = new Subject<void>();
   private subscription: Subscription;
   private shutoffTimer: ReturnType<typeof setTimeout>;
+  private synced = false;
 
   constructor(private message: MessageService, private settings: SettingsService) { }
 
@@ -26,14 +28,8 @@ export class FlashlightService {
   }
 
   sync() {
-    this.subscription = this.message.stream$
-      .subscribe((state) => {
-      if (state) {
-        Torch.enable();
-      } else {
-        Torch.disable();
-      }
-    });
+    this.synced = true;
+    this.buildSubscription();
 
     if (this.settings.flashlightAutoShutoff) {
       this.shutoffTimer = setTimeout(() => {
@@ -43,11 +39,28 @@ export class FlashlightService {
     }
   }
 
-  unsync() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+  // Apply a new delay immediately without requiring the user to toggle off/on.
+  setDelay(ms: number) {
+    if (this.synced) {
+      this.buildSubscription();
     }
+  }
+
+  unsync() {
+    this.synced = false;
+    this.subscription?.unsubscribe();
     clearTimeout(this.shutoffTimer);
     this.off();
+  }
+
+  private buildSubscription() {
+    this.subscription?.unsubscribe();
+    const delayMs = this.settings.flashlightDelayMs;
+    const source$ = delayMs > 0
+      ? this.message.stream$.pipe(delay(delayMs))
+      : this.message.stream$;
+    this.subscription = source$.subscribe((state) => {
+      state ? Torch.enable() : Torch.disable();
+    });
   }
 }

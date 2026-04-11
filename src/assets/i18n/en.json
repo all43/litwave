@@ -48,6 +48,11 @@
       },
       "preventSleep": "Prevent device sleep",
       "flashlightAutoShutoff": "Auto-stop flashlight after 10 min",
+      "signalTuning": {
+        "section": "Signal timing",
+        "screenTransition": "Screen fade",
+        "flashlightDelay": "Flashlight delay"
+      },
       "appSection": "App",
       "reset": {
         "title": "Reset settings",

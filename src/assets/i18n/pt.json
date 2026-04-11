@@ -48,6 +48,11 @@
       },
       "preventSleep": "Evitar suspensão",
       "flashlightAutoShutoff": "Desligar lanterna após 10 min",
+      "signalTuning": {
+        "section": "Sincronização do sinal",
+        "screenTransition": "Transição de tela",
+        "flashlightDelay": "Atraso da lanterna"
+      },
       "appSection": "Aplicativo",
       "reset": {
         "title": "Redefinir configurações",

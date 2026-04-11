@@ -48,6 +48,11 @@
       },
       "preventSleep": "Nie wygaszaj ekranu",
       "flashlightAutoShutoff": "Wyłącz latarkę po 10 min",
+      "signalTuning": {
+        "section": "Synchronizacja sygnału",
+        "screenTransition": "Przenikanie ekranu",
+        "flashlightDelay": "Opóźnienie latarki"
+      },
       "appSection": "Aplikacja",
       "reset": {
         "title": "Resetuj ustawienia",

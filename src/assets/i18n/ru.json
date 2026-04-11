@@ -48,6 +48,11 @@
       },
       "preventSleep": "Не выключать экран",
       "flashlightAutoShutoff": "Авто-выключение фонарика через 10 мин",
+      "signalTuning": {
+        "section": "Синхронизация сигнала",
+        "screenTransition": "Плавность экрана",
+        "flashlightDelay": "Задержка фонарика"
+      },
       "appSection": "Приложение",
       "reset": {
         "title": "Сброс настроек",

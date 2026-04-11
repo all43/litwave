@@ -48,6 +48,11 @@
       },
       "preventSleep": "Не вимикати екран",
       "flashlightAutoShutoff": "Авто-вимкнення ліхтарика через 10 хв",
+      "signalTuning": {
+        "section": "Синхронізація сигналу",
+        "screenTransition": "Плавність екрана",
+        "flashlightDelay": "Затримка ліхтарика"
+      },
       "appSection": "Додаток",
       "reset": {
         "title": "Скинути налаштування",

@@ -29,6 +29,11 @@ export class SignalComponent implements OnInit, OnDestroy {
     })
   );
 
+  get screenTransition(): string {
+    const ms = this.settings.screenTransitionMs;
+    return ms > 0 ? `background-color ${ms}ms` : 'none';
+  }
+
   constructor(
     public messageService: MessageService,
     private flashlight: FlashlightService,

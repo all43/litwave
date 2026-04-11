@@ -48,6 +48,11 @@
       },
       "preventSleep": "Empêcher la mise en veille",
       "flashlightAutoShutoff": "Éteindre la lampe après 10 min",
+      "signalTuning": {
+        "section": "Synchronisation du signal",
+        "screenTransition": "Fondu d'écran",
+        "flashlightDelay": "Délai lampe torche"
+      },
       "appSection": "Application",
       "reset": {
         "title": "Réinitialiser les paramètres",

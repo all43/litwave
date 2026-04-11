@@ -18,6 +18,8 @@ interface AppSettings {
   lastSyncFlashlightValue: boolean;
   flashlightAutoShutoff: boolean;
   selectedPresetMessage: string;
+  screenTransitionMs: number;
+  flashlightDelayMs: number;
 }
 
 @Injectable({
@@ -43,6 +45,8 @@ export class SettingsService {
     lastSyncFlashlightValue: true,
     flashlightAutoShutoff: true,
     selectedPresetMessage: '',
+    screenTransitionMs: 0,
+    flashlightDelayMs: 0,
   };
   private current: AppSettings;
 
@@ -95,6 +99,22 @@ export class SettingsService {
 
   set selectedPresetMessage(val: string) {
     this.setKey('selectedPresetMessage', val);
+  }
+
+  get screenTransitionMs(): number {
+    return this.getKey('screenTransitionMs');
+  }
+
+  set screenTransitionMs(val: number) {
+    this.setKey('screenTransitionMs', val);
+  }
+
+  get flashlightDelayMs(): number {
+    return this.getKey('flashlightDelayMs');
+  }
+
+  set flashlightDelayMs(val: number) {
+    this.setKey('flashlightDelayMs', val);
   }
 
   getKey(key) {

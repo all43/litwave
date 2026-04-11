@@ -48,6 +48,11 @@
       },
       "preventSleep": "Evitar suspensión",
       "flashlightAutoShutoff": "Apagar linterna tras 10 min",
+      "signalTuning": {
+        "section": "Sincronización de señal",
+        "screenTransition": "Transición de pantalla",
+        "flashlightDelay": "Retraso de linterna"
+      },
       "appSection": "Aplicación",
       "reset": {
         "title": "Restablecer ajustes",

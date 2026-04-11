@@ -48,6 +48,11 @@
       },
       "preventSleep": "Gerät wach halten",
       "flashlightAutoShutoff": "Taschenlampe nach 10 Min. ausschalten",
+      "signalTuning": {
+        "section": "Signal-Timing",
+        "screenTransition": "Bildschirmübergang",
+        "flashlightDelay": "Taschenlampen-Verzögerung"
+      },
       "appSection": "App",
       "reset": {
         "title": "Einstellungen zurücksetzen",

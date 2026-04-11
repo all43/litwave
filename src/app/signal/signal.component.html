@@ -1,4 +1,4 @@
-<div class="light-area" [ngClass]="{ on: isActive && (messageService.stream$ | async) }">
+<div class="light-area" [ngClass]="{ on: isActive && (messageService.stream$ | async) }" [style.transition]="screenTransition">
   <div class="signal-center">
     <button class="power-btn" [class.active]="isActive" (click)="toggleActive()">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="20 160 480 200" class="logo-svg" aria-hidden="true">
