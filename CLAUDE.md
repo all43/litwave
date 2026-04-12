@@ -22,10 +22,10 @@ Rebranding from "Organise!" to "Litwave" is complete:
   - `message-timing.spec.ts` — 37 Vitest tests including sync-correctness proofs
 - **Key services:**
   - `morse.service.ts` — Angular wrapper; delegates encoding to `morse-encode.ts`
-  - `message.service.ts` — reactive RxJS timing engine; epoch-modulo sync, mid-cycle letter-boundary join, 300ms dit length
-  - `flashlight.service.ts` — hardware flashlight control, syncs to morse stream
-  - `settings.service.ts` — persisted settings via @capacitor/preferences + i18n (EN/RU/UK/ES/DE/FR/PT/PL)
-  - `notifications.service.ts` — local notification scheduling
+  - `message.service.ts` — reactive RxJS timing engine; epoch-modulo sync, mid-cycle letter-boundary join, 300ms dit length; pauses stream on background via `trigger$`
+  - `flashlight.service.ts` — hardware flashlight control; syncs to morse stream with optional `flashlightDelayMs` offset via RxJS `delay()`
+  - `settings.service.ts` — persisted settings via @capacitor/preferences + i18n (EN/RU/UK/ES/DE/FR/PT/PL); includes `screenTransitionMs` and `flashlightDelayMs` for per-device signal timing calibration
+  - `notifications.service.ts` — local notification scheduling; requests permission at scheduling time if not yet granted
   - `event.service.ts` — event CRUD, URL generation/parsing, Preferences persistence
 - **Event model** (`models/event.model.ts`) — `LitwaveEvent` interface (id, message, name, scheduledTime)
 - **Events page** (`events/`) — create, list, activate, share, delete events; QR scanner
@@ -42,8 +42,10 @@ Rebranding from "Organise!" to "Litwave" is complete:
 - **Sync:** `Date.now() % repeatEvery` — epoch-modulo alignment; all NTP-synced devices agree automatically, no coordination needed
 - **Slot sizing:** `repeatEvery = ceil((sequenceLength + pauseLength) / 5000) * 5000` — tightest 5s-grid slot that fits message + 14-dit pause (GO: 15s, STOP THE WAR: 35s; was hardcoded 30s/60s)
 - **Mid-cycle join:** devices joining mid-cycle snap to the next letter boundary within the current cycle (`calcJoinBit`), enabled for messages ≥ 15s; short messages just wait for next epoch boundary
-- App pauses signal when backgrounded, resumes on foreground
+- App pauses signal when backgrounded (RxJS `takeUntil` on `trigger$`), resumes and recalculates on foreground — prevents stale countdown on resume
+- **Signal timing calibration:** Settings → Signal timing lets users tune `screenTransitionMs` (CSS opacity transition on screen flash) and `flashlightDelayMs` (RxJS delay on torch subscription) independently; a `– – –` test pattern fires both so offset is visible in-situ
 - `custom-webpack.config.js` injects package version for the about page
+- `scripts/version-bump.js` — syncs `package.json` version → `MARKETING_VERSION` / `CURRENT_PROJECT_VERSION` (iOS) and `versionName` / `versionCode` (Android); build number = `git rev-list --count HEAD`
 - All native plugins are Capacitor-native (no Cordova):
   - `@capawesome/capacitor-torch` — flashlight control without camera permission
   - `@capacitor-community/keep-awake` — prevent device sleep
@@ -84,7 +86,7 @@ Static PWA in `src/website/`. Features:
 ## Planned Work
 
 - Add color screen flash options (not just black/white)
-- Rework notifications from fixed daily protest time to event-based
+- Rework event notifications scheduling (currently schedules on event creation; should reschedule if event time is edited)
 - Replace placeholder website icons with real ones
 
 ## Commands
@@ -93,7 +95,11 @@ Static PWA in `src/website/`. Features:
 npm start            # dev server
 npm run build        # production build
 npm test             # run Vitest unit tests
+npm run lint         # eslint
+npm run version:bump # sync package.json version → iOS pbxproj + Android gradle
+npm run sync         # version:bump + ng build + cap sync (use before opening native IDEs)
+npm run open:ios     # sync + open Xcode
+npm run open:android # sync + open Android Studio
 npm run build:website # build website to dist/website/
 npm run deploy:website # build + deploy website to Cloudflare Pages
-npm run lint         # eslint
 ```
