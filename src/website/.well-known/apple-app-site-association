@@ -1,0 +1,8 @@
+{
+  "applinks": {
+    "details": [{
+      "appIDs": ["JYQS25EAQG.app.litwave"],
+      "components": [{ "/": "/event*" }]
+    }]
+  }
+}

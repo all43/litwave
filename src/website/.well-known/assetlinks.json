@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.litwave",
+    "sha256_cert_fingerprints": ["54:39:BA:CE:14:41:0C:97:70:4E:D8:81:67:6B:3B:8E:C5:C4:F1:6D:C9:E3:84:4C:DB:D9:CD:5F:22:02:27:B1"]
+  }
+}]
