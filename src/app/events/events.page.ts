@@ -8,6 +8,7 @@ import { CapacitorBarcodeScanner, CapacitorBarcodeScannerTypeHint } from '@capac
 import { EventService } from '../event.service';
 import { LitwaveEvent } from '../models/event.model';
 import { MessagePreset } from '../presets';
+import { generateId } from '../../lib/event-codec';
 
 @Component({
   selector: 'app-events',
@@ -89,7 +90,7 @@ export class EventsPage {
     if (!message) { return; }
 
     const event: LitwaveEvent = {
-      id: this.eventService.generateId(),
+      id: generateId(),
       message,
       name: this.newEventName || undefined,
       scheduledTime: this.newEventTime ? Math.floor(this.newEventTime.getTime() / 1000) : undefined,

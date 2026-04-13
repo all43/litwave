@@ -94,6 +94,71 @@
           }
         }
       }
+    },
+    "web": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "prefix": "web",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.js",
+              "replaceDuplicatePlugins": true
+            },
+            "outputPath": "dist/website",
+            "index": "src/web/index.html",
+            "main": "src/web/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.web.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/web/assets",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/web/.well-known",
+                "output": ".well-known"
+              }
+            ],
+            "styles": ["src/web/styles.scss"],
+            "scripts": [],
+            "allowedCommonJsDependencies": ["qrcode"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.web.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "src/web/ngsw-config.json",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            },
+            "ci": {
+              "progress": false
+            }
+          }
+        }
+      }
     }
   },
   "cli": {
