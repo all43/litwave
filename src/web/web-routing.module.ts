@@ -5,6 +5,7 @@ import { HomePage } from './pages/home/home.component';
 const routes: Routes = [
   { path: '', component: HomePage },
   { path: 'event', component: HomePage },
+  { path: 'event/:payload', component: HomePage },
 ];
 
 @NgModule({

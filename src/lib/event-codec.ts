@@ -31,47 +31,42 @@ export function decodePayload(encoded: string): Omit<LitwaveEvent, 'id'> | null 
 }
 
 export function generateUrl(event: LitwaveEvent): string {
-  return `https://litwave.app/event?d=${encodePayload(event)}`;
+  return `https://litwave.app/event/${encodePayload(event)}`;
 }
 
 export function generateDeepLink(event: LitwaveEvent): string {
-  return `litwave://event?d=${encodePayload(event)}`;
+  return `litwave://event/${encodePayload(event)}`;
 }
 
 export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
 }
 
+function extractPayload(url: string): string | null {
+  const prefix = '/event/';
+  if (url.startsWith('litwave://')) {
+    const path = url.replace('litwave://', '');
+    const idx = path.indexOf(prefix);
+    if (idx === -1) { return null; }
+    return path.slice(idx + prefix.length) || null;
+  }
+  try {
+    const parsed = new URL(url);
+    if (!parsed.pathname.startsWith(prefix)) { return null; }
+    const payload = parsed.pathname.slice(prefix.length);
+    return payload || null;
+  } catch {
+    return null;
+  }
+}
+
 export function parseUrl(url: string): LitwaveEvent | null {
   try {
-    let searchParams: URLSearchParams;
-    if (url.startsWith('litwave://')) {
-      const queryString = url.split('?')[1];
-      if (!queryString) { return null; }
-      searchParams = new URLSearchParams(queryString);
-    } else {
-      const parsed = new URL(url);
-      searchParams = parsed.searchParams;
-    }
-
-    const d = searchParams.get('d');
-    if (d) {
-      const decoded = decodePayload(d);
-      if (!decoded) { return null; }
-      return { id: generateId(), ...decoded };
-    }
-
-    const msg = searchParams.get('msg');
-    if (!msg) { return null; }
-    const event: LitwaveEvent = { id: generateId(), message: msg.toUpperCase() };
-    const t = searchParams.get('t');
-    if (t) {
-      const ts = parseInt(t, 10);
-      if (!isNaN(ts)) { event.scheduledTime = ts; }
-    }
-    const name = searchParams.get('name');
-    if (name) { event.name = name; }
-    return event;
+    const encoded = extractPayload(url);
+    if (!encoded) { return null; }
+    const decoded = decodePayload(encoded);
+    if (!decoded) { return null; }
+    return { id: generateId(), ...decoded };
   } catch {
     return null;
   }

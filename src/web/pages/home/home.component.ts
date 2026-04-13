@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EventCreateComponent } from '../../components/event-create/event-create.component';
@@ -8,7 +8,7 @@ import { SignalFullscreenComponent } from '../../components/signal-fullscreen/si
 import { EventHistoryComponent } from '../../components/event-history/event-history.component';
 import { WebEventService } from '../../services/web-event.service';
 import { LitwaveEvent } from '../../../lib/event.model';
-import { generateUrl, generateDeepLink, generateId, parseUrl } from '../../../lib/event-codec';
+import { generateUrl, generateDeepLink, generateId, decodePayload } from '../../../lib/event-codec';
 
 @Component({
   selector: 'web-home',
@@ -65,27 +65,17 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe(params => {
-      const d = params.get('d');
-      const msg = params.get('msg');
-      if (d || msg) {
-        const url = d
-          ? `https://litwave.app/event?d=${d}`
-          : `https://litwave.app/event?msg=${msg}`;
-        const event = parseUrl(url);
-        if (event) {
+    this.route.paramMap.subscribe(params => {
+      const payload = params.get('payload');
+      if (payload) {
+        const decoded = decodePayload(payload);
+        if (decoded) {
           this.onGenerate({
-            message: event.message,
-            name: event.name || '',
-            scheduledTime: event.scheduledTime,
+            message: decoded.message,
+            name: decoded.name || '',
+            scheduledTime: decoded.scheduledTime,
           });
         }
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.currentEvent) {
-        // fullscreen component handles its own exit
       }
     });
   }
