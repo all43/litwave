@@ -14,6 +14,13 @@ import { TranslateModule } from '@ngx-translate/core';
       <h2>{{ 'pages.events.create' | translate }}</h2>
 
       <div class="form-group">
+        <label>{{ 'pages.events.eventName' | translate }}</label>
+        <input type="text"
+          [placeholder]="'pages.events.eventNamePlaceholder' | translate"
+          [(ngModel)]="eventName" />
+      </div>
+
+      <div class="form-group">
         <label>{{ 'pages.events.message' | translate }}</label>
         <div class="message-field" (click)="showPicker = !showPicker">
           <span *ngIf="selectedLabel" class="selected-text">{{ selectedLabel }}</span>
@@ -62,13 +69,6 @@ import { TranslateModule } from '@ngx-translate/core';
             </button>
           </div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label>{{ 'pages.events.eventName' | translate }}</label>
-        <input type="text"
-          [placeholder]="'pages.events.eventNamePlaceholder' | translate"
-          [(ngModel)]="eventName" />
       </div>
 
       <div class="form-group">
