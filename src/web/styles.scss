@@ -70,7 +70,7 @@ body {
 @media (min-width: 1024px) {
   .header h1 { font-size: 3.5rem; }
   .page-content { max-width: 1160px; padding: 0 32px; }
-  .main-layout { display: flex; gap: 24px; }
+  .main-layout { display: flex; gap: 24px; align-items: flex-start; }
   .main-layout > * { flex: 1 1 0; min-width: 0; }
 }
 
