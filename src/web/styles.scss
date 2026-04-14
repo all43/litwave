@@ -45,62 +45,33 @@ body {
   border-radius: 16px;
   padding: 32px;
   width: 100%;
+  margin-bottom: 16px;
+}
+
+.page-content {
+  width: 100%;
   max-width: 480px;
-  margin: 0 16px 16px;
+  padding: 0 16px;
+  margin-bottom: 16px;
 }
 
 .main-layout {
   width: 100%;
-  max-width: 480px;
-  margin: 0 16px;
 }
 
 @media (min-width: 768px) {
-  .card {
-    max-width: 560px;
-    padding: 36px;
-  }
-
-  .main-layout {
-    max-width: 560px;
-  }
-
-  .header {
-    padding: 64px 32px 32px;
-  }
-
-  .header h1 {
-    font-size: 3rem;
-  }
-
-  .picker-body {
-    max-height: 320px;
-  }
+  .card { padding: 36px; }
+  .page-content { max-width: 560px; }
+  .header { padding: 64px 32px 32px; }
+  .header h1 { font-size: 3rem; }
+  .picker-body { max-height: 320px; }
 }
 
 @media (min-width: 1024px) {
-  .header h1 {
-    font-size: 3.5rem;
-  }
-
-  .main-layout {
-    display: flex;
-    gap: 24px;
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  .main-layout > * {
-    flex: 1 1 0;
-    max-width: 560px;
-    min-width: 320px;
-  }
-
-  .main-layout .card,
-  .main-layout web-event-create .card {
-    margin: 0;
-  }
+  .header h1 { font-size: 3.5rem; }
+  .page-content { max-width: 1160px; padding: 0 32px; }
+  .main-layout { display: flex; gap: 24px; }
+  .main-layout > * { flex: 1 1 0; min-width: 0; }
 }
 
 .card h2 {
@@ -286,16 +257,7 @@ select option { background: #111; }
   text-align: center;
   color: var(--text-muted);
   font-size: 0.85rem;
-  max-width: 480px;
   width: 100%;
-}
-
-@media (min-width: 768px) {
-  .footer { max-width: 560px; }
-}
-
-@media (min-width: 1024px) {
-  .footer { max-width: 1160px; }
 }
 
 .badges {
@@ -552,33 +514,6 @@ select option { background: #111; }
 .date-picker-actions {
   display: flex;
   gap: 8px;
-}
-
-.main-layout {
-  width: 100%;
-  max-width: 480px;
-  margin: 0 16px;
-}
-
-@media (min-width: 1024px) {
-  .main-layout {
-    display: flex;
-    gap: 24px;
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  .main-layout > * {
-    flex: 1 1 0;
-    max-width: 560px;
-    min-width: 320px;
-  }
-
-  .main-layout .card,
-  .main-layout web-event-create .card {
-    margin: 0;
-  }
 }
 
 .date-picker-actions .btn { flex: 1; }

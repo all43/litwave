@@ -20,23 +20,25 @@ import { generateUrl, generateDeepLink, generateId, decodePayload } from '../../
       <p>{{ 'web.tagline' | translate }}</p>
     </div>
 
-    <div class="main-layout">
-      <div class="main-create">
-        <web-event-create (generate)="onGenerate($event)"></web-event-create>
+    <div class="page-content">
+      <div class="main-layout">
+        <div class="main-create">
+          <web-event-create (generate)="onGenerate($event)"></web-event-create>
+        </div>
+
+        <div class="card result-card" *ngIf="currentEvent">
+          <web-event-result
+            [event]="currentEvent"
+            [webUrl]="currentWebUrl"
+            [deepLink]="currentDeepLink">
+          </web-event-result>
+          <web-signal-preview [message]="currentEvent.message"></web-signal-preview>
+          <web-signal-fullscreen [message]="currentEvent.message"></web-signal-fullscreen>
+        </div>
       </div>
 
-      <div class="card result-card" *ngIf="currentEvent">
-        <web-event-result
-          [event]="currentEvent"
-          [webUrl]="currentWebUrl"
-          [deepLink]="currentDeepLink">
-        </web-event-result>
-        <web-signal-preview [message]="currentEvent.message"></web-signal-preview>
-        <web-signal-fullscreen [message]="currentEvent.message"></web-signal-fullscreen>
-      </div>
+      <web-event-history (loadEvent)="onLoadEvent($event)"></web-event-history>
     </div>
-
-    <web-event-history (loadEvent)="onLoadEvent($event)"></web-event-history>
 
     <div class="footer">
       <p>{{ 'web.footer' | translate }}</p>
