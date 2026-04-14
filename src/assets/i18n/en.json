@@ -112,6 +112,20 @@
       "custom": "Custom"
     }
   },
+  "web": {
+    "tagline": "Create and share synchronized flashlight events",
+    "footer": "No server. No internet needed by the app. All event data is in the link.",
+    "signalPreview": "Signal Preview",
+    "previewFlash": "Preview Flash",
+    "previewSound": "Preview Sound",
+    "stop": "Stop",
+    "startSignal": "Start Full-Screen Signal",
+    "exit": "Exit",
+    "noEvents": "No events yet. Create one above.",
+    "installLitwave": "Install Litwave",
+    "downloadQr": "Download QR Code",
+    "openInApp": "Open in Litwave"
+  },
   "signal": {
     "flashlightToggle": "Flashlight",
     "countDownLabel": "Syncing in",

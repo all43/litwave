@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { WebEventService } from '../../services/web-event.service';
 import { LitwaveEvent } from '../../../lib/event.model';
 
@@ -8,8 +9,8 @@ import { LitwaveEvent } from '../../../lib/event.model';
   standalone: false,
   template: `
     <div class="card">
-      <h2>Event History</h2>
-      <div *ngIf="!events.length" class="empty-state">No events yet. Create one above.</div>
+      <h2>{{ 'pages.events.savedEvents' | translate }}</h2>
+      <div *ngIf="!events.length" class="empty-state">{{ 'web.noEvents' | translate }}</div>
       <div *ngFor="let ev of events" class="history-item">
         <div class="history-info">
           <h3>{{ ev.name || ev.message }}</h3>

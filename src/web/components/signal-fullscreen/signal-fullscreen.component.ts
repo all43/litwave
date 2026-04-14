@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { createSignalEngine } from '../../../lib/signal-engine';
 import { createWebBackgroundAdapter } from '../../../lib/platform-background';
@@ -10,10 +11,10 @@ import { encodeBinaryWithBoundaries } from '../../../lib/morse-encode';
   standalone: false,
   template: `
     <button class="btn" *ngIf="message && !active" (click)="start()" style="margin-top:12px">
-      Start Full-Screen Signal
+      {{ 'web.startSignal' | translate }}
     </button>
     <div class="fullscreen-overlay" [class.active]="active" [class.on]="isOn">
-      <button class="fs-exit" (click)="stop()">Exit</button>
+      <button class="fs-exit" (click)="stop()">{{ 'web.exit' | translate }}</button>
       <div class="fs-message">{{ message }}</div>
       <div class="fs-countdown">{{ countdownText }}</div>
     </div>

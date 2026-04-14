@@ -1,7 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { WebRoutingModule } from './web-routing.module';
 import { WebComponent } from './web.component';
 import { HomePage } from './pages/home/home.component';
@@ -10,6 +13,11 @@ import { EventResultComponent } from './components/event-result/event-result.com
 import { SignalPreviewComponent } from './components/signal-preview/signal-preview.component';
 import { SignalFullscreenComponent } from './components/signal-fullscreen/signal-fullscreen.component';
 import { EventHistoryComponent } from './components/event-history/event-history.component';
+import { WebLanguageService } from './services/web-language.service';
+
+function initLang(lang: WebLanguageService) {
+  return () => {};
+}
 
 @NgModule({
   declarations: [
@@ -25,7 +33,13 @@ import { EventHistoryComponent } from './components/event-history/event-history.
     BrowserModule,
     CommonModule,
     FormsModule,
+    HttpClientModule,
     WebRoutingModule,
+    TranslateModule.forRoot(),
+  ],
+  providers: [
+    ...provideTranslateHttpLoader(),
+    { provide: APP_INITIALIZER, useFactory: initLang, deps: [WebLanguageService], multi: true },
   ],
   bootstrap: [WebComponent],
 })

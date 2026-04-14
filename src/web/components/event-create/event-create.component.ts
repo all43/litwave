@@ -1,50 +1,95 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { MESSAGE_PRESETS, MessagePreset } from '../../../lib/presets';
 import { getUnsupportedChars } from '../../../lib/morse-encode';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'web-event-create',
   standalone: false,
   template: `
     <div class="card">
-      <h2>Create Event</h2>
+      <h2>{{ 'pages.events.create' | translate }}</h2>
+
       <div class="form-group">
-        <label for="preset">Message Preset</label>
-        <select id="preset" (change)="onPresetChange($event)" [ngModel]="selectedPreset">
-          <ng-container *ngFor="let cat of categories">
-            <optgroup [label]="catLabels[cat]">
-              <option *ngFor="let p of presetsByCategory(cat)" [value]="p.message">{{ p.label }}</option>
-            </optgroup>
-          </ng-container>
-          <option value="">Custom...</option>
-        </select>
+        <label>{{ 'pages.events.message' | translate }}</label>
+        <div class="message-field" (click)="showPicker = !showPicker">
+          <span *ngIf="selectedLabel" class="selected-text">{{ selectedLabel }}</span>
+          <span *ngIf="!selectedLabel" class="placeholder">{{ 'pages.events.messagePlaceholder' | translate }}</span>
+          <span class="chevron">{{ showPicker ? '▲' : '▼' }}</span>
+        </div>
+
+        <div class="picker-panel" *ngIf="showPicker">
+          <div class="picker-tabs">
+            <button
+              *ngFor="let cat of categories"
+              class="picker-tab"
+              [class.active]="activeCategory === cat"
+              (click)="activeCategory = cat"
+            >{{ 'presets.categories.' + cat | translate }}</button>
+            <button
+              class="picker-tab"
+              [class.active]="activeCategory === 'custom'"
+              (click)="activeCategory = 'custom'"
+            >{{ 'presets.categories.custom' | translate }}</button>
+          </div>
+
+          <div class="picker-body" *ngIf="activeCategory !== 'custom'">
+            <button
+              *ngFor="let p of presetsByCategory(activeCategory)"
+              class="preset-row"
+              [class.selected]="selectedMessage === p.message"
+              (click)="selectPreset(p)"
+            >
+              <span class="radio"></span>
+              <span class="preset-label">{{ p.label }}</span>
+              <span class="preset-msg">{{ p.message }}</span>
+            </button>
+          </div>
+
+          <div class="custom-input-group" *ngIf="activeCategory === 'custom'">
+            <input type="text" maxlength="30"
+              [placeholder]="'pages.events.customMessagePlaceholder' | translate"
+              [ngModel]="customInput" (ngModelChange)="onCustomInput($event)" />
+            <div *ngIf="customUnsupported.length" class="validation-error">
+              {{ 'pages.events.unsupportedChars' | translate:{ chars: customUnsupported.join(', ') } }}
+            </div>
+            <button class="btn" (click)="confirmCustom()"
+              [disabled]="!customInput || customUnsupported.length > 0">
+              {{ 'common.save' | translate }}
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="customMsg">Or Custom Message (max 30 chars)</label>
-        <input type="text" id="customMsg" maxlength="30" placeholder="Type your message"
-               [ngModel]="customMessage" (ngModelChange)="onCustomChange($event)" />
-        <small *ngIf="unsupportedChars.length" style="color: var(--danger); font-size: 0.8rem; margin-top: 4px; display: block;">
-          Unsupported chars: {{ unsupportedChars.join(', ') }}
-        </small>
+        <label>{{ 'pages.events.eventName' | translate }}</label>
+        <input type="text"
+          [placeholder]="'pages.events.eventNamePlaceholder' | translate"
+          [(ngModel)]="eventName" />
       </div>
 
       <div class="form-group">
-        <label for="eventName">Event Name (optional)</label>
-        <input type="text" id="eventName" placeholder="e.g. Birthday Party"
-               [(ngModel)]="eventName" />
+        <label>{{ 'pages.events.scheduledTime' | translate }}</label>
+        <div class="date-field" (click)="toggleDatePicker()">
+          <span *ngIf="eventTime">{{ eventTime | date:'d MMM yyyy, HH:mm' }}</span>
+          <span *ngIf="!eventTime" class="placeholder">{{ 'pages.events.scheduledTime' | translate }}</span>
+          <span *ngIf="!eventTime" class="optional">{{ 'pages.events.noTime' | translate }}</span>
+          <button *ngIf="eventTime" class="clear-date" (click)="clearDate($event)">✕</button>
+        </div>
+        <div class="date-picker-panel" *ngIf="showDatePicker">
+          <input type="datetime-local" [(ngModel)]="datePickerValue" />
+          <div class="date-picker-actions">
+            <button class="btn btn-outline" (click)="cancelDatePicker()">{{ 'common.cancel' | translate }}</button>
+            <button class="btn" (click)="confirmDatePicker()">{{ 'common.ok' | translate }}</button>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="eventTime">Scheduled Time (optional)</label>
-        <input type="datetime-local" id="eventTime"
-               [(ngModel)]="eventTime" />
-      </div>
-
-      <button class="btn" (click)="onGenerate()" [disabled]="!effectiveMessage">
-        Generate QR Code & Link
+      <button class="btn" (click)="onGenerate()" [disabled]="!selectedMessage">
+        {{ 'pages.events.addEvent' | translate }}
       </button>
     </div>
   `,
@@ -53,54 +98,78 @@ export class EventCreateComponent {
   @Output() generate = new EventEmitter<{ message: string; name: string; scheduledTime?: number }>();
 
   presets = MESSAGE_PRESETS;
-  categories = ['general', 'meme', 'occasion'] as const;
-  catLabels: Record<string, string> = { general: 'General', meme: 'Meme', occasion: 'Event' };
-  selectedPreset = this.presets[0].message;
-  customMessage = '';
+  categories = [...new Set(MESSAGE_PRESETS.map(p => p.category))] as string[];
+  activeCategory = this.categories[0];
+  showPicker = false;
+  selectedMessage = '';
+  selectedLabel = '';
+  customInput = '';
+  customUnsupported: string[] = [];
   eventName = '';
-  eventTime = '';
-  unsupportedChars: string[] = [];
-
-  get effectiveMessage(): string {
-    return (this.customMessage || this.selectedPreset).toUpperCase();
-  }
+  eventTime: Date | null = null;
+  showDatePicker = false;
+  datePickerValue = '';
 
   presetsByCategory(cat: string): MessagePreset[] {
     return this.presets.filter(p => p.category === cat);
   }
 
-  onPresetChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.selectedPreset = value;
-    if (value) {
-      this.customMessage = '';
-    }
-    this.updateUnsupported();
+  selectPreset(preset: MessagePreset): void {
+    this.selectedMessage = preset.message;
+    this.selectedLabel = preset.label;
+    this.showPicker = false;
   }
 
-  onCustomChange(value: string): void {
-    this.customMessage = value.toUpperCase();
-    if (this.customMessage) {
-      this.selectedPreset = '';
+  onCustomInput(value: string): void {
+    this.customInput = value.toUpperCase();
+    this.customUnsupported = this.customInput ? getUnsupportedChars(this.customInput) : [];
+  }
+
+  confirmCustom(): void {
+    if (!this.customInput || this.customUnsupported.length > 0) return;
+    this.selectedMessage = this.customInput;
+    this.selectedLabel = this.customInput;
+    this.showPicker = false;
+  }
+
+  toggleDatePicker(): void {
+    this.showDatePicker = !this.showDatePicker;
+    if (this.showDatePicker && this.eventTime) {
+      this.datePickerValue = this.toLocalDatetimeString(this.eventTime);
     }
-    this.updateUnsupported();
+  }
+
+  confirmDatePicker(): void {
+    if (this.datePickerValue) {
+      this.eventTime = new Date(this.datePickerValue);
+    }
+    this.showDatePicker = false;
+  }
+
+  cancelDatePicker(): void {
+    this.showDatePicker = false;
+  }
+
+  clearDate(event: Event): void {
+    event.stopPropagation();
+    this.eventTime = null;
+    this.datePickerValue = '';
   }
 
   onGenerate(): void {
-    const msg = this.effectiveMessage;
-    if (!msg) return;
+    if (!this.selectedMessage) return;
     const result: { message: string; name: string; scheduledTime?: number } = {
-      message: msg,
+      message: this.selectedMessage,
       name: this.eventName || '',
     };
     if (this.eventTime) {
-      result.scheduledTime = Math.floor(new Date(this.eventTime).getTime() / 1000);
+      result.scheduledTime = Math.floor(this.eventTime.getTime() / 1000);
     }
     this.generate.emit(result);
   }
 
-  private updateUnsupported(): void {
-    const msg = this.effectiveMessage;
-    this.unsupportedChars = msg ? getUnsupportedChars(msg) : [];
+  private toLocalDatetimeString(date: Date): string {
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }

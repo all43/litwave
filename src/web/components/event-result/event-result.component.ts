@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LitwaveEvent } from '../../../lib/event.model';
+import { TranslateModule } from '@ngx-translate/core';
 import * as QRCode from 'qrcode';
 
 @Component({
@@ -12,9 +13,9 @@ import * as QRCode from 'qrcode';
       <p class="result-url">{{ webUrl }}</p>
       <div class="actions-row">
         <button class="btn" (click)="copyLink()">{{ copyLabel }}</button>
-        <a class="btn btn-outline" [href]="deepLink" style="margin-top:0">Open in Litwave</a>
+        <a class="btn btn-outline" [href]="deepLink" style="margin-top:0">{{ 'web.openInApp' | translate }}</a>
       </div>
-      <button class="btn btn-outline" (click)="downloadQr()" style="margin-top:12px">Download QR Code</button>
+      <button class="btn btn-outline" (click)="downloadQr()" style="margin-top:12px">{{ 'web.downloadQr' | translate }}</button>
     </div>
   `,
 })
@@ -22,12 +23,19 @@ export class EventResultComponent {
   @Input() event: LitwaveEvent | null = null;
   @Input() webUrl = '';
   @Input() deepLink = '';
-  copyLabel = 'Copy Link';
+  copyLabel = '';
 
   @ViewChild('qrCanvas') qrCanvas!: ElementRef<HTMLCanvasElement>;
+  private copyLabelBase = '';
+  private translate: any;
+
+  constructor() {
+    this.copyLabelBase = 'Copy Link';
+    this.copyLabel = this.copyLabelBase;
+  }
 
   ngOnChanges(): void {
-    this.copyLabel = 'Copy Link';
+    this.copyLabel = this.copyLabelBase;
     this.renderQr();
   }
 
@@ -55,7 +63,7 @@ export class EventResultComponent {
       document.body.removeChild(ta);
     }
     this.copyLabel = 'Copied!';
-    setTimeout(() => { this.copyLabel = 'Copy Link'; }, 2000);
+    setTimeout(() => { this.copyLabel = this.copyLabelBase; }, 2000);
   }
 
   downloadQr(): void {

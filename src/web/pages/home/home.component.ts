@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { EventCreateComponent } from '../../components/event-create/event-create.component';
 import { EventResultComponent } from '../../components/event-result/event-result.component';
 import { SignalPreviewComponent } from '../../components/signal-preview/signal-preview.component';
@@ -16,7 +17,7 @@ import { generateUrl, generateDeepLink, generateId, decodePayload } from '../../
   template: `
     <div class="header">
       <h1>Litwave</h1>
-      <p>Create and share synchronized flashlight events</p>
+      <p>{{ 'web.tagline' | translate }}</p>
     </div>
 
     <web-event-create (generate)="onGenerate($event)"></web-event-create>
@@ -34,9 +35,9 @@ import { generateUrl, generateDeepLink, generateId, decodePayload } from '../../
     <web-event-history (loadEvent)="onLoadEvent($event)"></web-event-history>
 
     <div class="footer">
-      <p>No server. No internet needed by the app. All event data is in the link.</p>
+      <p>{{ 'web.footer' | translate }}</p>
       <div class="install-banner" [class.visible]="showInstall">
-        <button class="btn" (click)="promptInstall()">Install Litwave</button>
+        <button class="btn" (click)="promptInstall()">{{ 'web.installLitwave' | translate }}</button>
       </div>
       <div class="badges">
         <a href="#">App Store (coming soon)</a>

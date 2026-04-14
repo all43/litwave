@@ -124,6 +124,11 @@
                 "glob": "**/*",
                 "input": "src/web/.well-known",
                 "output": ".well-known"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/i18n",
+                "output": "assets/i18n"
               }
             ],
             "styles": ["src/web/styles.scss"],

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { encodeBinary, encodeFormatted } from '../../../lib/morse-encode';
 
 @Component({
@@ -7,13 +8,13 @@ import { encodeBinary, encodeFormatted } from '../../../lib/morse-encode';
   standalone: false,
   template: `
     <div class="preview-section" *ngIf="message">
-      <label>Signal Preview</label>
+      <label>{{ 'web.signalPreview' | translate }}</label>
       <div class="morse-text">{{ morseFormatted }}</div>
-      <div class="flash-area" [class.on]="isOn">{{ isOn ? '' : (running ? '' : 'Press Preview to start') }}</div>
+      <div class="flash-area" [class.on]="isOn"></div>
       <div class="preview-controls">
-        <button class="btn btn-outline" (click)="startVisual()" [disabled]="running">Preview Flash</button>
-        <button class="btn btn-outline" (click)="startAudio()" [disabled]="running">Preview Sound</button>
-        <button class="btn btn-danger btn-sm" *ngIf="running" (click)="stop()">Stop</button>
+        <button class="btn btn-outline" (click)="startVisual()" [disabled]="running">{{ 'web.previewFlash' | translate }}</button>
+        <button class="btn btn-outline" (click)="startAudio()" [disabled]="running">{{ 'web.previewSound' | translate }}</button>
+        <button class="btn btn-danger btn-sm" *ngIf="running" (click)="stop()">{{ 'web.stop' | translate }}</button>
       </div>
     </div>
   `,
