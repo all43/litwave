@@ -19,12 +19,10 @@ import { generateId } from '../../lib/event-codec';
 export class EventsPage {
   newEventName = '';
   newEventTime: Date | null = null;
-  showDatePicker = false;
   showShareModal = false;
   showMessagePicker = false;
   shareUrl = '';
   sharingEvent: LitwaveEvent | null = null;
-  dateTimeValue: string | undefined;
   minDate: string;
 
   // Message picker state
@@ -61,28 +59,11 @@ export class EventsPage {
     this.showMessagePicker = false;
   }
 
-  openDatePicker(): void {
-    if (!this.newEventTime) {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(22, 0, 0, 0);
-      this.dateTimeValue = tomorrow.toISOString();
-    }
-    this.showDatePicker = true;
-  }
-
-  onDateTimeChange(event: any): void {
+  onDatetimeChange(event: any): void {
     const val = event.detail.value;
     if (val) {
-      this.dateTimeValue = val;
+      this.newEventTime = new Date(val);
     }
-  }
-
-  confirmDatePicker(): void {
-    if (this.dateTimeValue) {
-      this.newEventTime = new Date(this.dateTimeValue);
-    }
-    this.showDatePicker = false;
   }
 
   async createEvent(): Promise<void> {
@@ -104,7 +85,6 @@ export class EventsPage {
     this.eventMessage = '';
     this.eventMessageLabel = '';
     this.newEventTime = null;
-    this.showDatePicker = false;
 
     await this.showToast('pages.events.eventCreated');
   }
@@ -112,8 +92,6 @@ export class EventsPage {
   clearTime(ev?: Event): void {
     ev?.stopPropagation();
     this.newEventTime = null;
-    this.dateTimeValue = undefined;
-    this.showDatePicker = false;
   }
 
   async activateEvent(event: LitwaveEvent): Promise<void> {

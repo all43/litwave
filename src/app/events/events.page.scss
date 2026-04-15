@@ -13,32 +13,8 @@
   padding: 12px 0 20px;
 }
 
-.datetime-container {
-  background: #1a1a1a;
-  border-radius: 12px;
-  margin: 8px 0 4px;
-  overflow: hidden;
-}
-
-.inline-datetime {
-  --background: transparent;
-  --background-rgb: 26, 26, 26;
-  --ion-text-color: #ffffff;
-  --ion-text-color-rgb: 255, 255, 255;
-  --ion-color-step-150: #262626;
-  --ion-color-step-300: #4d4d4d;
-  --ion-color-step-500: #808080;
-  --ion-color-step-650: #a6a6a6;
-  width: 100%;
-  margin: 0;
-}
-
-.datetime-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 4px;
-  padding: 4px 8px 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+.placeholder {
+  color: var(--ion-color-step-400);
 }
 
 // ── Saved events list ─────────────────────────────────────────
@@ -71,10 +47,6 @@ ion-item.event-active {
   font-size: 0.75rem;
   color: var(--ion-color-step-500);
   margin: 0 0 2px;
-}
-
-.placeholder {
-  color: var(--ion-color-step-400);
 }
 
 

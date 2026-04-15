@@ -36,39 +36,20 @@
       </ion-item>
 
       <!-- Scheduled time -->
-      <ion-item button (click)="openDatePicker()">
+      <ion-item>
         <ion-icon slot="start" name="time-outline"></ion-icon>
-        <ion-label>
-          <ng-container *ngIf="newEventTime">{{ newEventTime | date:'d MMM yyyy, HH:mm' }}</ng-container>
-          <ng-container *ngIf="!newEventTime">{{ 'pages.events.scheduledTime' | translate }}</ng-container>
-        </ion-label>
-        <ion-note *ngIf="!newEventTime" slot="end">{{ 'pages.events.noTime' | translate }}</ion-note>
+        <ion-datetime-button datetime="event-datetime">
+          <span slot="date-target">{{ newEventTime ? (newEventTime | date:'d MMM yyyy, HH:mm') : ('pages.events.scheduledTime' | translate) }}</span>
+        </ion-datetime-button>
         <ion-button *ngIf="newEventTime" fill="clear" slot="end" (click)="clearTime($event)">
           <ion-icon slot="icon-only" name="close-outline"></ion-icon>
         </ion-button>
+        <ion-note *ngIf="!newEventTime" slot="end">{{ 'pages.events.noTime' | translate }}</ion-note>
       </ion-item>
     </ion-list>
 
-    <div class="datetime-container" *ngIf="showDatePicker">
-      <ion-datetime
-        [value]="dateTimeValue"
-        (ionChange)="onDateTimeChange($event)"
-        presentation="date-time"
-        [min]="minDate"
-        class="inline-datetime"
-      ></ion-datetime>
-      <div class="datetime-footer">
-        <ion-button fill="clear" (click)="showDatePicker = false">
-          {{ 'common.cancel' | translate }}
-        </ion-button>
-        <ion-button (click)="confirmDatePicker()">
-          {{ 'common.ok' | translate }}
-        </ion-button>
-      </div>
-    </div>
-
     <div class="form-actions">
-      <ion-button expand="block" (click)="createEvent()" [disabled]="!getEffectiveMessage() || showDatePicker">
+      <ion-button expand="block" (click)="createEvent()" [disabled]="!getEffectiveMessage()">
         {{ 'pages.events.addEvent' | translate }}
       </ion-button>
     </div>
@@ -149,6 +130,22 @@
           </ion-button>
         </div>
       </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- ── Date Picker Modal ──────────────────────────────── -->
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+        id="event-datetime"
+        presentation="date-time"
+        preferWheel="true"
+        [min]="minDate"
+        [showDefaultButtons]="true"
+        [cancelText]="'common.cancel' | translate"
+        [doneText]="'common.ok' | translate"
+        (ionChange)="onDatetimeChange($event)"
+      ></ion-datetime>
     </ng-template>
   </ion-modal>
 
