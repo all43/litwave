@@ -81,7 +81,7 @@ import { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance';
           <span *ngIf="!eventTime" class="optional">{{ 'pages.events.noTime' | translate }}</span>
           <button *ngIf="eventTime" class="clear-date" (click)="clearDate($event)">✕</button>
         </div>
-        <input #fpInput type="text" class="flatpickr-hidden" />
+        <input #fpInput type="text" class="flatpickr-input-hidden" />
       </div>
 
       <button class="btn" (click)="onGenerate()" [disabled]="!selectedMessage">
@@ -109,36 +109,14 @@ export class EventCreateComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.fp = flatpickr(this.fpInput.nativeElement, {
       enableTime: true,
-      dateFormat: 'U',
+      time_24hr: true,
+      dateFormat: 'Y-m-d H:i',
       minDate: new Date(),
-      inline: true,
-      static: true,
-      onChange: (_selectedDates: Date[], dateStr: string) => {
-        if (dateStr) {
-          this.eventTime = new Date(parseInt(dateStr, 10) * 1000);
-        }
-      },
-      onReady: (_selectedDates: Date[], _dateStr: string, instance: FlatpickrInstance) => {
-        const confirmBtn = document.createElement('button');
-        confirmBtn.className = 'btn fp-confirm';
-        confirmBtn.textContent = 'OK';
-        confirmBtn.type = 'button';
-        confirmBtn.addEventListener('click', () => instance.close());
-        instance.calendarContainer.appendChild(confirmBtn);
-
-        const cancelBtn = document.createElement('button');
-        cancelBtn.className = 'btn btn-outline fp-cancel';
-        cancelBtn.textContent = 'Cancel';
-        cancelBtn.type = 'button';
-        cancelBtn.addEventListener('click', () => {
-          instance.clear();
-          instance.close();
-        });
-        instance.calendarContainer.appendChild(cancelBtn);
-      },
-      onClose: () => {
-        if (!this.fp?.selectedDates.length) {
-          this.eventTime = null;
+      defaultHour: 22,
+      defaultMinute: 0,
+      onChange: (_selectedDates: Date[]) => {
+        if (this.fp?.selectedDates.length) {
+          this.eventTime = this.fp.selectedDates[0];
         }
       },
     });
@@ -171,8 +149,7 @@ export class EventCreateComponent implements AfterViewInit, OnDestroy {
   }
 
   openDatePicker(): void {
-    if (!this.fp) return;
-    this.fp.open();
+    this.fp?.open();
   }
 
   clearDate(event: Event): void {
