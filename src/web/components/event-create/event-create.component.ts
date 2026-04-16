@@ -1,12 +1,9 @@
-import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 import { MESSAGE_PRESETS, MessagePreset } from '../../../lib/presets';
 import { getUnsupportedChars } from '../../../lib/morse-encode';
 import { TranslateModule } from '@ngx-translate/core';
-import flatpickr from 'flatpickr';
-import { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance';
 
 @Component({
   selector: 'web-event-create',
@@ -74,14 +71,13 @@ import { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance';
       </div>
 
       <div class="form-group">
-        <label>{{ 'pages.events.scheduledTime' | translate }}</label>
-        <div class="date-field" (click)="openDatePicker()">
-          <span *ngIf="eventTime">{{ eventTime | date:'d MMM yyyy, HH:mm' }}</span>
-          <span *ngIf="!eventTime" class="placeholder">{{ 'pages.events.scheduledTime' | translate }}</span>
-          <span *ngIf="!eventTime" class="optional">{{ 'pages.events.noTime' | translate }}</span>
-          <button *ngIf="eventTime" class="clear-date" (click)="clearDate($event)">✕</button>
-        </div>
-        <input #fpInput type="text" class="flatpickr-input-hidden" />
+        <label>
+          {{ 'pages.events.scheduledTime' | translate }}
+          <span class="label-tip">({{ 'pages.events.noTime' | translate }})</span>
+        </label>
+        <input type="datetime-local"
+          [(ngModel)]="eventTime"
+          [min]="minDateTime" />
       </div>
 
       <button class="btn" (click)="onGenerate()" [disabled]="!selectedMessage">
@@ -90,9 +86,8 @@ import { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance';
     </div>
   `,
 })
-export class EventCreateComponent implements AfterViewInit, OnDestroy {
+export class EventCreateComponent {
   @Output() generate = new EventEmitter<{ message: string; name: string; scheduledTime?: number }>();
-  @ViewChild('fpInput') fpInput!: ElementRef<HTMLInputElement>;
 
   presets = MESSAGE_PRESETS;
   categories = [...new Set(MESSAGE_PRESETS.map(p => p.category))] as string[];
@@ -103,27 +98,13 @@ export class EventCreateComponent implements AfterViewInit, OnDestroy {
   customInput = '';
   customUnsupported: string[] = [];
   eventName = '';
-  eventTime: Date | null = null;
-  private fp: FlatpickrInstance | null = null;
+  eventTime: string = '';
+  minDateTime = this.getMinDateTime();
 
-  ngAfterViewInit(): void {
-    this.fp = flatpickr(this.fpInput.nativeElement, {
-      enableTime: true,
-      time_24hr: true,
-      dateFormat: 'Y-m-d H:i',
-      minDate: new Date(),
-      defaultHour: 22,
-      defaultMinute: 0,
-      onChange: (_selectedDates: Date[]) => {
-        if (this.fp?.selectedDates.length) {
-          this.eventTime = this.fp.selectedDates[0];
-        }
-      },
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.fp?.destroy();
+  private getMinDateTime(): string {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
   }
 
   presetsByCategory(cat: string): MessagePreset[] {
@@ -148,16 +129,6 @@ export class EventCreateComponent implements AfterViewInit, OnDestroy {
     this.showPicker = false;
   }
 
-  openDatePicker(): void {
-    this.fp?.open();
-  }
-
-  clearDate(event: Event): void {
-    event.stopPropagation();
-    this.eventTime = null;
-    this.fp?.clear();
-  }
-
   onGenerate(): void {
     if (!this.selectedMessage) return;
     const result: { message: string; name: string; scheduledTime?: number } = {
@@ -165,7 +136,7 @@ export class EventCreateComponent implements AfterViewInit, OnDestroy {
       name: this.eventName || '',
     };
     if (this.eventTime) {
-      result.scheduledTime = Math.floor(this.eventTime.getTime() / 1000);
+      result.scheduledTime = Math.floor(new Date(this.eventTime).getTime() / 1000);
     }
     this.generate.emit(result);
   }
