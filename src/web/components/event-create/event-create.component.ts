@@ -73,14 +73,17 @@ import { TranslateModule } from '@ngx-translate/core';
 
       <div class="form-group">
         <label>{{ 'pages.events.scheduledTime' | translate }}</label>
-        <div class="date-field" (click)="toggleDatePicker()">
+        <div class="date-field" (click)="openDatePicker()">
           <span *ngIf="eventTime">{{ eventTime | date:'d MMM yyyy, HH:mm' }}</span>
           <span *ngIf="!eventTime" class="placeholder">{{ 'pages.events.scheduledTime' | translate }}</span>
           <span *ngIf="!eventTime" class="optional">{{ 'pages.events.noTime' | translate }}</span>
           <button *ngIf="eventTime" class="clear-date" (click)="clearDate($event)">✕</button>
         </div>
-        <div class="date-picker-panel" *ngIf="showDatePicker">
-          <input type="datetime-local" [(ngModel)]="datePickerValue" />
+
+        <div class="modal-backdrop" *ngIf="showDatePicker" (click)="cancelDatePicker()"></div>
+        <div class="date-picker-modal" *ngIf="showDatePicker">
+          <h3>{{ 'pages.events.scheduledTime' | translate }}</h3>
+          <input type="datetime-local" [(ngModel)]="datePickerValue" [min]="minDatetime" />
           <div class="date-picker-actions">
             <button class="btn btn-outline" (click)="cancelDatePicker()">{{ 'common.cancel' | translate }}</button>
             <button class="btn" (click)="confirmDatePicker()">{{ 'common.ok' | translate }}</button>
@@ -109,6 +112,7 @@ export class EventCreateComponent {
   eventTime: Date | null = null;
   showDatePicker = false;
   datePickerValue = '';
+  minDatetime = '';
 
   presetsByCategory(cat: string): MessagePreset[] {
     return this.presets.filter(p => p.category === cat);
@@ -132,10 +136,16 @@ export class EventCreateComponent {
     this.showPicker = false;
   }
 
-  toggleDatePicker(): void {
-    this.showDatePicker = !this.showDatePicker;
-    if (this.showDatePicker && this.eventTime) {
+  openDatePicker(): void {
+    this.showDatePicker = true;
+    this.minDatetime = this.toLocalDatetimeString(new Date());
+    if (this.eventTime) {
       this.datePickerValue = this.toLocalDatetimeString(this.eventTime);
+    } else {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(22, 0, 0, 0);
+      this.datePickerValue = this.toLocalDatetimeString(tomorrow);
     }
   }
 

@@ -501,15 +501,35 @@ select option { background: #111; }
   font-size: 0.75rem;
 }
 
-.date-picker-panel {
-  margin-top: 8px;
-  padding: 12px;
-  border: 1px solid #333;
-  border-radius: 8px;
-  background: #111;
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
-.date-picker-panel input[type="datetime-local"] { margin-bottom: 12px; }
+.date-picker-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 24px;
+  z-index: 1000;
+  min-width: 320px;
+}
+
+.date-picker-modal h3 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.date-picker-modal input[type="datetime-local"] {
+  width: 100%;
+  margin-bottom: 16px;
+}
 
 .date-picker-actions {
   display: flex;
