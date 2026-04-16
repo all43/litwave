@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MESSAGE_PRESETS, MessagePreset } from '../../../lib/presets';
 import { getUnsupportedChars } from '../../../lib/morse-encode';
 import { TranslateModule } from '@ngx-translate/core';
+import flatpickr from 'flatpickr';
+import { Instance as FlatpickrInstance } from 'flatpickr/dist/types/instance';
 
 @Component({
   selector: 'web-event-create',
@@ -79,16 +81,7 @@ import { TranslateModule } from '@ngx-translate/core';
           <span *ngIf="!eventTime" class="optional">{{ 'pages.events.noTime' | translate }}</span>
           <button *ngIf="eventTime" class="clear-date" (click)="clearDate($event)">✕</button>
         </div>
-
-        <div class="modal-backdrop" *ngIf="showDatePicker" (click)="cancelDatePicker()"></div>
-        <div class="date-picker-modal" *ngIf="showDatePicker">
-          <h3>{{ 'pages.events.scheduledTime' | translate }}</h3>
-          <input type="datetime-local" [(ngModel)]="datePickerValue" [min]="minDatetime" />
-          <div class="date-picker-actions">
-            <button class="btn btn-outline" (click)="cancelDatePicker()">{{ 'common.cancel' | translate }}</button>
-            <button class="btn" (click)="confirmDatePicker()">{{ 'common.ok' | translate }}</button>
-          </div>
-        </div>
+        <input #fpInput type="text" class="flatpickr-hidden" />
       </div>
 
       <button class="btn" (click)="onGenerate()" [disabled]="!selectedMessage">
@@ -97,8 +90,9 @@ import { TranslateModule } from '@ngx-translate/core';
     </div>
   `,
 })
-export class EventCreateComponent {
+export class EventCreateComponent implements AfterViewInit, OnDestroy {
   @Output() generate = new EventEmitter<{ message: string; name: string; scheduledTime?: number }>();
+  @ViewChild('fpInput') fpInput!: ElementRef<HTMLInputElement>;
 
   presets = MESSAGE_PRESETS;
   categories = [...new Set(MESSAGE_PRESETS.map(p => p.category))] as string[];
@@ -110,9 +104,49 @@ export class EventCreateComponent {
   customUnsupported: string[] = [];
   eventName = '';
   eventTime: Date | null = null;
-  showDatePicker = false;
-  datePickerValue = '';
-  minDatetime = '';
+  private fp: FlatpickrInstance | null = null;
+
+  ngAfterViewInit(): void {
+    this.fp = flatpickr(this.fpInput.nativeElement, {
+      enableTime: true,
+      dateFormat: 'U',
+      minDate: new Date(),
+      inline: true,
+      static: true,
+      onChange: (_selectedDates: Date[], dateStr: string) => {
+        if (dateStr) {
+          this.eventTime = new Date(parseInt(dateStr, 10) * 1000);
+        }
+      },
+      onReady: (_selectedDates: Date[], _dateStr: string, instance: FlatpickrInstance) => {
+        const confirmBtn = document.createElement('button');
+        confirmBtn.className = 'btn fp-confirm';
+        confirmBtn.textContent = 'OK';
+        confirmBtn.type = 'button';
+        confirmBtn.addEventListener('click', () => instance.close());
+        instance.calendarContainer.appendChild(confirmBtn);
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'btn btn-outline fp-cancel';
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.type = 'button';
+        cancelBtn.addEventListener('click', () => {
+          instance.clear();
+          instance.close();
+        });
+        instance.calendarContainer.appendChild(cancelBtn);
+      },
+      onClose: () => {
+        if (!this.fp?.selectedDates.length) {
+          this.eventTime = null;
+        }
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.fp?.destroy();
+  }
 
   presetsByCategory(cat: string): MessagePreset[] {
     return this.presets.filter(p => p.category === cat);
@@ -137,33 +171,14 @@ export class EventCreateComponent {
   }
 
   openDatePicker(): void {
-    this.showDatePicker = true;
-    this.minDatetime = this.toLocalDatetimeString(new Date());
-    if (this.eventTime) {
-      this.datePickerValue = this.toLocalDatetimeString(this.eventTime);
-    } else {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(22, 0, 0, 0);
-      this.datePickerValue = this.toLocalDatetimeString(tomorrow);
-    }
-  }
-
-  confirmDatePicker(): void {
-    if (this.datePickerValue) {
-      this.eventTime = new Date(this.datePickerValue);
-    }
-    this.showDatePicker = false;
-  }
-
-  cancelDatePicker(): void {
-    this.showDatePicker = false;
+    if (!this.fp) return;
+    this.fp.open();
   }
 
   clearDate(event: Event): void {
     event.stopPropagation();
     this.eventTime = null;
-    this.datePickerValue = '';
+    this.fp?.clear();
   }
 
   onGenerate(): void {
@@ -176,10 +191,5 @@ export class EventCreateComponent {
       result.scheduledTime = Math.floor(this.eventTime.getTime() / 1000);
     }
     this.generate.emit(result);
-  }
-
-  private toLocalDatetimeString(date: Date): string {
-    const pad = (n: number) => n.toString().padStart(2, '0');
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
