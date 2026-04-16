@@ -2,7 +2,35 @@
 
 A mobile app that synchronizes smartphone flashlights and screens across any number of devices — no server, no Bluetooth, no Wi-Fi. Built with Angular 19 + Ionic 8 + Capacitor 8.
 
-[litwave.app](https://litwave.app)
+📱[**iOS beta (TestFlight)**](https://testflight.apple.com/join/mncgCJaP)
+
+> [!TIP]
+> TestFlight is Apple's beta testing platform — free to join.  
+> App Store release coming soon.
+
+[**Web companion (event creator)**](https://litwave.app)
+
+---
+
+## What makes it different
+
+- **No infrastructure at all** — syncs any number of phones using NTP time that's already on every device; no server, no internet connection, no Bluetooth, no venue hardware required
+- **Scales to any crowd** — a late-joining device calculates its position in the sequence from wall-clock time and snaps to the nearest letter boundary; no handshake, no coordinator, no messages between phones
+- **Survives backgrounding** — when iOS/Android freezes JS timers, the engine recalculates from wall-clock time on resume instead of drifting out of sync
+- **Zero-server event sharing** — full event payload encoded in the URL as base64; no backend lookup, works as a deep link or a QR code
+- **Multilingual Morse** — Latin, Cyrillic (GOST), German/Scandinavian (ITU-R), Ukrainian; diacritic normalization for edge cases
+- **Web companion** — litwave.app lets organizers create and share events from a browser without installing the app; the synchronized flash experience itself runs on the native app
+
+---
+
+## Screenshots
+
+<!-- TODO: flash in action (screen white) -->
+<!-- TODO: event creation / presets -->
+<!-- TODO: event sharing QR code -->
+<!-- TODO: settings / signal timing calibration -->
+
+---
 
 ## The interesting problem
 
