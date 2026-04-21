@@ -28,7 +28,7 @@ export class AppComponent {
         if (event) {
           await this.eventService.addEvent(event);
           await this.eventService.setActiveEvent(event.id);
-          this.router.navigate(['/tabs/home']);
+          this.router.navigate(['/tabs/events']);
           const toast = await this.toastCtrl.create({
             message: `Event imported: ${event.name || event.message}`,
             duration: 2000,
