@@ -101,7 +101,10 @@
       "upcomingTitle": "Rappels à venir",
       "noUpcoming": "Aucun événement avec heure programmée",
       "notifyAt": "Rappel à {{time}}",
-      "past": "Déjà passé"
+      "past": "Déjà passé",
+      "switchEventTitle": "Changer d'événement ?",
+      "switchEventMessage": "Un autre événement est actif. Passer à l'événement notifié ?",
+      "switchEventConfirm": "Changer"
     }
   },
   "presets": {

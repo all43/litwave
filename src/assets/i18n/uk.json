@@ -101,7 +101,10 @@
       "upcomingTitle": "Майбутні нагадування",
       "noUpcoming": "Немає подій із встановленим часом",
       "notifyAt": "Нагадування о {{time}}",
-      "past": "Вже минуло"
+      "past": "Вже минуло",
+      "switchEventTitle": "Переключити подію?",
+      "switchEventMessage": "Зараз активна інша подія. Переключитися на сповіщену?",
+      "switchEventConfirm": "Переключити"
     }
   },
   "presets": {

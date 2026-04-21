@@ -101,7 +101,10 @@
       "upcomingTitle": "Upcoming reminders",
       "noUpcoming": "No events with scheduled time",
       "notifyAt": "Reminder at {{time}}",
-      "past": "Already passed"
+      "past": "Already passed",
+      "switchEventTitle": "Switch event?",
+      "switchEventMessage": "A different event is currently active. Switch to the notified event?",
+      "switchEventConfirm": "Switch"
     }
   },
   "presets": {

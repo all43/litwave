@@ -101,7 +101,10 @@
       "upcomingTitle": "Bevorstehende Erinnerungen",
       "noUpcoming": "Keine Events mit geplanter Zeit",
       "notifyAt": "Erinnerung um {{time}}",
-      "past": "Bereits vergangen"
+      "past": "Bereits vergangen",
+      "switchEventTitle": "Ereignis wechseln?",
+      "switchEventMessage": "Ein anderes Ereignis ist aktiv. Zum gemeldeten Ereignis wechseln?",
+      "switchEventConfirm": "Wechseln"
     }
   },
   "presets": {

@@ -101,7 +101,10 @@
       "upcomingTitle": "Lembretes futuros",
       "noUpcoming": "Nenhum evento com horário agendado",
       "notifyAt": "Lembrete às {{time}}",
-      "past": "Já passou"
+      "past": "Já passou",
+      "switchEventTitle": "Mudar evento?",
+      "switchEventMessage": "Outro evento está ativo. Mudar para o evento notificado?",
+      "switchEventConfirm": "Mudar"
     }
   },
   "presets": {

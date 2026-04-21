@@ -101,7 +101,10 @@
       "upcomingTitle": "Próximos recordatorios",
       "noUpcoming": "No hay eventos con hora programada",
       "notifyAt": "Recordatorio a las {{time}}",
-      "past": "Ya ha pasado"
+      "past": "Ya ha pasado",
+      "switchEventTitle": "¿Cambiar evento?",
+      "switchEventMessage": "Hay otro evento activo. ¿Cambiar al evento notificado?",
+      "switchEventConfirm": "Cambiar"
     }
   },
   "presets": {
