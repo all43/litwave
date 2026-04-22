@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
-declare const __NPM_PACKAGE_VERSION__: string;
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
 import { Torch } from '@capawesome/capacitor-torch';
@@ -17,7 +15,6 @@ import { DIT_LENGTH_MS } from '../message-timing';
 })
 export class SettingsPage implements OnInit {
   languages: LanguageItem[] = [];
-  version = __NPM_PACKAGE_VERSION__;
   msFormatter = (value: number) => `${value}ms`;
 
   testActive = false;

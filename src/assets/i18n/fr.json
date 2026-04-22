@@ -38,11 +38,11 @@
           "body": "La synchronisation est basée sur l'horloge de votre téléphone. Pas de Bluetooth, pas de Wi-Fi, pas d'équipement de salle requis."
         }
       },
-      "noInternet": "Fonctionne entièrement hors ligne — aucune connexion internet requise"
+      "noInternet": "Fonctionne entièrement hors ligne — aucune connexion internet requise",
+      "version": "Version"
     },
     "settings": {
       "title": "Paramètres",
-      "version": "Version",
       "language": "Langue",
       "syncFlash": {
         "label": "Lampe auto.",

@@ -51,6 +51,14 @@
   }
 }
 
+.app-version {
+  text-align: center;
+  color: var(--ion-color-medium);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  opacity: 0.55;
+}
+
 .no-internet {
   display: flex;
   align-items: center;

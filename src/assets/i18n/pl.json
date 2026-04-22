@@ -38,11 +38,11 @@
           "body": "Synchronizacja opiera się na zegarze twojego telefonu. Nie potrzeba Bluetootha, Wi-Fi ani sprzętu miejsca."
         }
       },
-      "noInternet": "Działa całkowicie offline — nie wymaga internetu"
+      "noInternet": "Działa całkowicie offline — nie wymaga internetu",
+      "version": "Wersja"
     },
     "settings": {
       "title": "Ustawienia",
-      "version": "Wersja",
       "language": "Język",
       "syncFlash": {
         "label": "Auto latarka",

@@ -6,6 +6,15 @@
 	"server": {
 		"androidScheme": "https"
 	},
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 0,
+			"launchAutoHide": false,
+			"backgroundColor": "#0f172a",
+			"androidSplashResourceName": "splash",
+			"showSpinner": false
+		}
+	},
 	"packageClassList": [
 		"KeepAwakePlugin",
 		"AppPlugin",
@@ -16,6 +25,7 @@
 		"LocalNotificationsPlugin",
 		"PreferencesPlugin",
 		"SharePlugin",
+		"SplashScreenPlugin",
 		"StatusBarPlugin",
 		"TorchPlugin",
 		"NativeSettingsPlugin"

@@ -1,6 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { AlertController, ToastController } from '@ionic/angular';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,6 +27,7 @@ export class AppComponent {
   ) {
     this.initDeepLinkListener();
     this.initNotificationListener();
+    SplashScreen.hide({ fadeOutDuration: 300 });
   }
 
   private initDeepLinkListener(): void {

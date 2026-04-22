@@ -1,6 +1,6 @@
 {
   "name": "litwave",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -39,6 +39,7 @@
     "@capacitor/local-notifications": "^8.0.0",
     "@capacitor/preferences": "^8.0.0",
     "@capacitor/share": "^8.0.1",
+    "@capacitor/splash-screen": "^8.0.1",
     "@capacitor/status-bar": "^8.0.0",
     "@capawesome/capacitor-torch": "^8.0.0",
     "@ionic/angular": "^8.4.0",

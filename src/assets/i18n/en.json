@@ -38,11 +38,11 @@
           "body": "Sync is based on the clock already in your phone. No Bluetooth, no Wi-Fi, no venue hardware required."
         }
       },
-      "noInternet": "Works fully offline — no internet connection needed"
+      "noInternet": "Works fully offline — no internet connection needed",
+      "version": "Version"
     },
     "settings": {
       "title": "Settings",
-      "version": "Version",
       "language": "Language",
       "syncFlash": {
         "label": "Sync flash option",

@@ -38,11 +38,11 @@
           "body": "Die Synchronisation basiert auf der Uhr deines Handys. Kein Bluetooth, kein WLAN, keine Venue-Hardware erforderlich."
         }
       },
-      "noInternet": "Funktioniert vollständig offline — kein Internet erforderlich"
+      "noInternet": "Funktioniert vollständig offline — kein Internet erforderlich",
+      "version": "Version"
     },
     "settings": {
       "title": "Einstellungen",
-      "version": "Version",
       "language": "Sprache",
       "syncFlash": {
         "label": "Auto-Taschenlampe",

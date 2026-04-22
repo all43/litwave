@@ -38,11 +38,11 @@
           "body": "A sincronização é baseada no relógio do seu celular. Sem Bluetooth, sem Wi-Fi, sem equipamentos do local."
         }
       },
-      "noInternet": "Funciona totalmente offline — sem necessidade de internet"
+      "noInternet": "Funciona totalmente offline — sem necessidade de internet",
+      "version": "Versão"
     },
     "settings": {
       "title": "Configurações",
-      "version": "Versão",
       "language": "Idioma",
       "syncFlash": {
         "label": "Lanterna auto.",

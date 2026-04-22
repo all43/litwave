@@ -38,11 +38,11 @@
           "body": "La sincronización se basa en el reloj de tu teléfono. No necesitas Bluetooth, Wi-Fi ni equipos del lugar."
         }
       },
-      "noInternet": "Funciona completamente sin conexión — no necesita internet"
+      "noInternet": "Funciona completamente sin conexión — no necesita internet",
+      "version": "Versión"
     },
     "settings": {
       "title": "Ajustes",
-      "version": "Versión",
       "language": "Idioma",
       "syncFlash": {
         "label": "Linterna automática",
