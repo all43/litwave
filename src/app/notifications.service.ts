@@ -1,13 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
 import { PermissionState } from '@capacitor/core';
-import { AlertController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { LocalNotifications, PendingLocalNotificationSchema } from '@capacitor/local-notifications';
 import { NativeSettings, AndroidSettings, IOSSettings } from 'capacitor-native-settings';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { LitwaveEvent } from './models/event.model';
-import { EventService } from './event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,11 +19,8 @@ export class NotificationsService {
 
   constructor(
     private platform: Platform,
-    private router: Router,
     private ngZone: NgZone,
     private translate: TranslateService,
-    private eventService: EventService,
-    private alertCtrl: AlertController,
   ) {
     this.init();
   }
@@ -123,7 +118,6 @@ export class NotificationsService {
       });
     }
     this.refreshPending();
-    this.attachListener();
     if (this.platform.is('android')) {
       // create channel on android if not yet created
       const { channels } = await LocalNotifications.listChannels();
@@ -133,42 +127,4 @@ export class NotificationsService {
     }
   }
 
-  private attachListener() {
-    LocalNotifications.addListener('localNotificationActionPerformed', (action) => {
-      this.ngZone.run(async () => {
-        const eventId: string | undefined = action.notification.extra?.eventId;
-        if (!eventId) {
-          this.router.navigate(['/tabs/events'], { replaceUrl: true });
-          return;
-        }
-
-        const currentActiveId = this.eventService.activeEventId$.value;
-        if (!currentActiveId || currentActiveId === eventId) {
-          await this.eventService.setActiveEvent(eventId);
-          this.router.navigate(['/tabs/events'], { replaceUrl: true });
-          return;
-        }
-
-        const confirmed = await this.confirmSwitchEvent();
-        if (confirmed) {
-          await this.eventService.setActiveEvent(eventId);
-        }
-        this.router.navigate(['/tabs/events'], { replaceUrl: true });
-      });
-    });
-  }
-
-  private async confirmSwitchEvent(): Promise<boolean> {
-    const alert = await this.alertCtrl.create({
-      header: this.translate.instant('pages.notifications.switchEventTitle'),
-      message: this.translate.instant('pages.notifications.switchEventMessage'),
-      buttons: [
-        { text: this.translate.instant('common.cancel'), role: 'cancel' },
-        { text: this.translate.instant('pages.notifications.switchEventConfirm'), role: 'confirm' },
-      ],
-    });
-    await alert.present();
-    const { role } = await alert.onDidDismiss();
-    return role === 'confirm';
-  }
 }
