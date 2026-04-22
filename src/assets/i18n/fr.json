@@ -6,7 +6,8 @@
     "sec": "sec.",
     "ok": "OK",
     "cancel": "Annuler",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "done": "Terminé"
   },
   "pages": {
     "home": {
@@ -15,7 +16,10 @@
       "modePreset": "Preset",
       "leaveEventTitle": "Passer au preset ?",
       "leaveEventMessage": "L'événement actif sera désactivé.",
-      "leaveEventConfirm": "Changer"
+      "leaveEventConfirm": "Changer",
+      "change": "Changer",
+      "noEventSelected": "Aucun événement sélectionné",
+      "chooseEvent": "Choisir un événement"
     },
     "info": {
       "title": "À propos de Litwave",
@@ -84,6 +88,7 @@
       "scanError": "Impossible de scanner le QR code",
       "unsupportedChars": "Pas de code Morse pour : {{chars}}",
       "swipeToDelete": "Glisser à gauche pour supprimer",
+      "reorder": "Trier",
       "goFlashTitle": "Aller à l'écran principal ?",
       "goFlashConfirm": "Aller"
     },

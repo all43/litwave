@@ -6,7 +6,8 @@
     "sec": "сек.",
     "ok": "OK",
     "cancel": "Скасувати",
-    "save": "Зберегти"
+    "save": "Зберегти",
+    "done": "Готово"
   },
   "pages": {
     "home": {
@@ -15,7 +16,10 @@
       "modePreset": "Пресет",
       "leaveEventTitle": "Перейти на пресет?",
       "leaveEventMessage": "Активна подія буде деактивована.",
-      "leaveEventConfirm": "Перейти"
+      "leaveEventConfirm": "Перейти",
+      "change": "Змінити",
+      "noEventSelected": "Подію не вибрано",
+      "chooseEvent": "Вибрати подію"
     },
     "info": {
       "title": "Про Litwave",
@@ -84,6 +88,7 @@
       "scanError": "Не вдалося відсканувати QR-код",
       "unsupportedChars": "Немає коду Морзе для: {{chars}}",
       "swipeToDelete": "Проведіть вліво для видалення",
+      "reorder": "Порядок",
       "goFlashTitle": "На головний екран?",
       "goFlashConfirm": "Перейти"
     },

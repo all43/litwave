@@ -6,7 +6,8 @@
     "sec": "сек.",
     "ok": "OK",
     "cancel": "Отмена",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "done": "Готово"
   },
   "pages": {
     "home": {
@@ -15,7 +16,10 @@
       "modePreset": "Пресет",
       "leaveEventTitle": "Переключиться на пресет?",
       "leaveEventMessage": "Активное событие будет деактивировано.",
-      "leaveEventConfirm": "Переключить"
+      "leaveEventConfirm": "Переключить",
+      "change": "Изменить",
+      "noEventSelected": "Событие не выбрано",
+      "chooseEvent": "Выбрать событие"
     },
     "info": {
       "title": "О Litwave",
@@ -84,6 +88,7 @@
       "scanError": "Не удалось отсканировать QR-код",
       "unsupportedChars": "Нет кода Морзе для: {{chars}}",
       "swipeToDelete": "Проведите влево для удаления",
+      "reorder": "Порядок",
       "goFlashTitle": "На главный экран?",
       "goFlashConfirm": "Перейти"
     },

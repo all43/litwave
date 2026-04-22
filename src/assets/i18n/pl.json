@@ -6,7 +6,8 @@
     "sec": "sek.",
     "ok": "OK",
     "cancel": "Anuluj",
-    "save": "Zapisz"
+    "save": "Zapisz",
+    "done": "Gotowe"
   },
   "pages": {
     "home": {
@@ -15,7 +16,10 @@
       "modePreset": "Preset",
       "leaveEventTitle": "Przełączyć na preset?",
       "leaveEventMessage": "Aktywne wydarzenie zostanie dezaktywowane.",
-      "leaveEventConfirm": "Przełącz"
+      "leaveEventConfirm": "Przełącz",
+      "change": "Zmień",
+      "noEventSelected": "Nie wybrano wydarzenia",
+      "chooseEvent": "Wybierz wydarzenie"
     },
     "info": {
       "title": "O Litwave",
@@ -84,6 +88,7 @@
       "scanError": "Nie można zeskanować kodu QR",
       "unsupportedChars": "Brak kodu Morse dla: {{chars}}",
       "swipeToDelete": "Przesuń w lewo, aby usunąć",
+      "reorder": "Kolejność",
       "goFlashTitle": "Przejść do ekranu głównego?",
       "goFlashConfirm": "Przejdź"
     },
