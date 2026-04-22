@@ -36,6 +36,14 @@ export class EventService {
     this.notifications.scheduleEventNotification(event);
   }
 
+  async reorderEvents(from: number, to: number): Promise<void> {
+    const events = [...this.events$.value];
+    const [moved] = events.splice(from, 1);
+    events.splice(to, 0, moved);
+    this.events$.next(events);
+    await this.save();
+  }
+
   async removeEvent(id: string): Promise<void> {
     const events = this.events$.value.filter((e) => e.id !== id);
     this.events$.next(events);

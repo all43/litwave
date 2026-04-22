@@ -19,6 +19,7 @@ import { generateId } from '../../lib/event-codec';
 export class EventsPage {
   newEventName = '';
   newEventTime: Date | null = null;
+  isReorderMode = false;
   showShareModal = false;
   showMessagePicker = false;
   shareUrl = '';
@@ -87,6 +88,11 @@ export class EventsPage {
     this.newEventTime = null;
 
     await this.showToast('pages.events.eventCreated');
+  }
+
+  async handleReorder(ev: CustomEvent): Promise<void> {
+    await this.eventService.reorderEvents(ev.detail.from, ev.detail.to);
+    ev.detail.complete();
   }
 
   clearTime(ev?: Event): void {

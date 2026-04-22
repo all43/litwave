@@ -59,13 +59,17 @@
   <ion-list *ngIf="(eventService.events$ | async)?.length">
     <ion-list-header>
       <ion-label>{{ 'pages.events.savedEvents' | translate }}</ion-label>
+      <ion-button fill="clear" size="small" (click)="isReorderMode = !isReorderMode">
+        {{ isReorderMode ? ('common.done' | translate) : ('pages.events.reorder' | translate) }}
+      </ion-button>
     </ion-list-header>
-    <p class="swipe-hint">
+    <p class="swipe-hint" *ngIf="!isReorderMode">
       <ion-icon name="arrow-back-outline"></ion-icon>
       {{ 'pages.events.swipeToDelete' | translate }}
     </p>
 
-    <ion-item-sliding *ngFor="let event of eventService.events$ | async">
+    <ion-reorder-group [disabled]="!isReorderMode" (ionItemReorder)="handleReorder($event)">
+    <ion-item-sliding *ngFor="let event of eventService.events$ | async" [disabled]="isReorderMode">
       <ion-item [class.event-active]="(eventService.activeEventId$ | async) === event.id" (click)="activateEvent(event)">
         <ion-icon name="radio-button-on"  slot="start" color="primary" *ngIf="(eventService.activeEventId$ | async) === event.id"></ion-icon>
         <ion-icon name="radio-button-off" slot="start"                  *ngIf="(eventService.activeEventId$ | async) !== event.id"></ion-icon>
@@ -74,9 +78,10 @@
           <p *ngIf="event.name">{{ event.message }}</p>
           <p *ngIf="event.scheduledTime">{{ event.scheduledTime * 1000 | date:'d MMM yyyy, HH:mm' }}</p>
         </ion-label>
-        <ion-button fill="clear" slot="end" (click)="shareEvent(event, $event)">
+        <ion-button *ngIf="!isReorderMode" fill="clear" slot="end" (click)="shareEvent(event, $event)">
           <ion-icon slot="icon-only" name="share-outline"></ion-icon>
         </ion-button>
+        <ion-reorder slot="end"></ion-reorder>
       </ion-item>
 
       <ion-item-options side="end">
@@ -85,6 +90,7 @@
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
+    </ion-reorder-group>
   </ion-list>
 
   <!-- ── Message Picker ───────────────────────────────────── -->
