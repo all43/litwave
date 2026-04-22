@@ -54,6 +54,7 @@
       "flashlightAutoShutoff": "Авто-выключение фонарика через 10 мин",
       "signalTuning": {
         "section": "Синхронизация сигнала",
+        "advanced": "Расширенные",
         "screenTransition": "Плавность экрана",
         "flashlightDelay": "Задержка фонарика",
         "test": "Тест вспышки (– – –)"

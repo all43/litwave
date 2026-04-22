@@ -54,6 +54,7 @@
       "flashlightAutoShutoff": "Auto-stop flashlight after 10 min",
       "signalTuning": {
         "section": "Signal timing",
+        "advanced": "Advanced",
         "screenTransition": "Screen fade",
         "flashlightDelay": "Flashlight delay",
         "test": "Test flash (– – –)"

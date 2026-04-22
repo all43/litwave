@@ -54,6 +54,7 @@
       "flashlightAutoShutoff": "Taschenlampe nach 10 Min. ausschalten",
       "signalTuning": {
         "section": "Signal-Timing",
+        "advanced": "Erweitert",
         "screenTransition": "Bildschirmübergang",
         "flashlightDelay": "Taschenlampen-Verzögerung",
         "test": "Blitztest (– – –)"

@@ -54,6 +54,7 @@
       "flashlightAutoShutoff": "Desligar lanterna após 10 min",
       "signalTuning": {
         "section": "Sincronização do sinal",
+        "advanced": "Avançado",
         "screenTransition": "Transição de tela",
         "flashlightDelay": "Atraso da lanterna",
         "test": "Testar flash (– – –)"

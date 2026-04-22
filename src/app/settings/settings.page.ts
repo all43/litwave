@@ -21,6 +21,7 @@ export class SettingsPage implements OnInit {
   msFormatter = (value: number) => `${value}ms`;
 
   testActive = false;
+  showAdvancedSettings = false;
   private testTimeouts: ReturnType<typeof setTimeout>[] = [];
 
   get screenTransition(): string {

@@ -54,6 +54,7 @@
       "flashlightAutoShutoff": "Wyłącz latarkę po 10 min",
       "signalTuning": {
         "section": "Synchronizacja sygnału",
+        "advanced": "Zaawansowane",
         "screenTransition": "Przenikanie ekranu",
         "flashlightDelay": "Opóźnienie latarki",
         "test": "Test błysku (– – –)"

@@ -59,31 +59,40 @@
       </ion-toggle>
     </ion-item>
 
-    <ion-item-divider>
+    <ion-item>
       <ion-label>{{ 'pages.settings.signalTuning.section' | translate }}</ion-label>
-    </ion-item-divider>
-    <ion-item>
-      <ion-range
-        [label]="('pages.settings.signalTuning.screenTransition' | translate) + ': ' + settings.screenTransitionMs + 'ms'"
-        [(ngModel)]="settings.screenTransitionMs"
-        min="0" max="100" step="5"
-        pin="true"
-        [pinFormatter]="msFormatter"
-      ></ion-range>
+      <ion-toggle slot="end" [(ngModel)]="showAdvancedSettings">
+        {{ 'pages.settings.signalTuning.advanced' | translate }}
+      </ion-toggle>
     </ion-item>
-    <ion-item>
-      <ion-range
-        [label]="('pages.settings.signalTuning.flashlightDelay' | translate) + ': ' + settings.flashlightDelayMs + 'ms'"
-        [(ngModel)]="settings.flashlightDelayMs"
-        min="0" max="100" step="5"
-        pin="true"
-        [pinFormatter]="msFormatter"
-      ></ion-range>
-    </ion-item>
-    <ion-item button (click)="runTest()">
-      <ion-label>{{ 'pages.settings.signalTuning.test' | translate }}</ion-label>
-      <ion-icon slot="end" name="flash-outline"></ion-icon>
-    </ion-item>
+    <ng-container *ngIf="showAdvancedSettings">
+      <ion-item>
+        <ion-range
+          [label]="('pages.settings.signalTuning.screenTransition' | translate) + ': ' + settings.screenTransitionMs + 'ms'"
+          labelPlacement="stacked"
+          [(ngModel)]="settings.screenTransitionMs"
+          min="0" max="200" step="10"
+          [snaps]="true"
+          pin="true"
+          [pinFormatter]="msFormatter"
+        ></ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-range
+          [label]="('pages.settings.signalTuning.flashlightDelay' | translate) + ': ' + settings.flashlightDelayMs + 'ms'"
+          labelPlacement="stacked"
+          [(ngModel)]="settings.flashlightDelayMs"
+          min="0" max="200" step="10"
+          [snaps]="true"
+          pin="true"
+          [pinFormatter]="msFormatter"
+        ></ion-range>
+      </ion-item>
+      <ion-item button (click)="runTest()">
+        <ion-label>{{ 'pages.settings.signalTuning.test' | translate }}</ion-label>
+        <ion-icon slot="end" name="flash-outline"></ion-icon>
+      </ion-item>
+    </ng-container>
 
     <ion-item-divider>
       <ion-label>{{ 'pages.settings.appSection' | translate }}</ion-label>

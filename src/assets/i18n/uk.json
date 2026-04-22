@@ -54,6 +54,7 @@
       "flashlightAutoShutoff": "Авто-вимкнення ліхтарика через 10 хв",
       "signalTuning": {
         "section": "Синхронізація сигналу",
+        "advanced": "Розширені",
         "screenTransition": "Плавність екрана",
         "flashlightDelay": "Затримка ліхтарика",
         "test": "Тест спалаху (– – –)"

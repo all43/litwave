@@ -54,6 +54,7 @@
       "flashlightAutoShutoff": "Éteindre la lampe après 10 min",
       "signalTuning": {
         "section": "Synchronisation du signal",
+        "advanced": "Avancé",
         "screenTransition": "Fondu d'écran",
         "flashlightDelay": "Délai lampe torche",
         "test": "Test flash (– – –)"
