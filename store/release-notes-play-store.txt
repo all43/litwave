@@ -1,6 +1,0 @@
-Welcome to Litwave! First release includes:
-
-• Synchronize flashlights and screens across devices using clock-based timing — no Wi-Fi, Bluetooth, or setup needed
-• Create and share events via QR code or deep link
-• Fully offline — no accounts or server required
-• Configurable signal timing calibration
