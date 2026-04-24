@@ -15,7 +15,9 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 
 const { version } = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-const buildNumber = execSync('git rev-list --count HEAD', { cwd: root }).toString().trim();
+const totalCommits = parseInt(execSync('git rev-list --count HEAD', { cwd: root }));
+const versionCommits = parseInt(execSync('git rev-list --count HEAD -- android/app/build.gradle ios/App/App.xcodeproj/project.pbxproj', { cwd: root }));
+const buildNumber = totalCommits - versionCommits;
 
 console.log(`Version: ${version}  Build: ${buildNumber}`);
 
