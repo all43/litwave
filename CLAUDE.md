@@ -103,3 +103,25 @@ npm run open:android # sync + open Android Studio
 npm run build:website # build website to dist/website/
 npm run deploy:website # build + deploy website to Cloudflare Pages
 ```
+
+## Screenshots
+
+Store screenshots live in `store/ios/screenshots/` and `store/android/screenshots/`.
+Use **iPhone 16 Pro Max** simulator for iOS (6.9", covers all App Store size requirements) and **iPad Pro 13"** for iPad screenshots. Take screenshots with **Cmd+S** in Simulator.
+Naming convention: `01_home.png`, `02_events.png` for iPhone; `01_home_ipad.png`, `02_events_ipad.png` for iPad.
+
+### Import sample events into iOS Simulator
+
+```bash
+xcrun simctl openurl booted "https://litwave.app/event/eyJtc2ciOiJMT1ZFIn0"                                                                                                              # LOVE (signal screen)
+xcrun simctl openurl booted "https://litwave.app/event/eyJtc2ciOiJXRSBBUkUgT05FIiwibmFtZSI6IkNpdHkgRmxhc2ggTW9iIiwidCI6MTc0ODczNjAwMH0"  # City Flash Mob — WE ARE ONE, May 31
+xcrun simctl openurl booted "https://litwave.app/event/eyJtc2ciOiJIQVBQWSBCSVJUSERBWSIsIm5hbWUiOiJFbGVuYSdzIEJpcnRoZGF5IiwidCI6MTc3ODg4OTYwMH0"  # Elena's Birthday — HAPPY BIRTHDAY, May 16
+```
+
+### Import sample events into Android Emulator
+
+```bash
+adb shell am start -a android.intent.action.VIEW -d "https://litwave.app/event/eyJtc2ciOiJMT1ZFIn0"                                                                                                              # LOVE (signal screen)
+adb shell am start -a android.intent.action.VIEW -d "https://litwave.app/event/eyJtc2ciOiJXRSBBUkUgT05FIiwibmFtZSI6IkNpdHkgRmxhc2ggTW9iIiwidCI6MTc0ODczNjAwMH0"  # City Flash Mob — WE ARE ONE, May 31
+adb shell am start -a android.intent.action.VIEW -d "https://litwave.app/event/eyJtc2ciOiJIQVBQWSBCSVJUSERBWSIsIm5hbWUiOiJFbGVuYSdzIEJpcnRoZGF5IiwidCI6MTc3ODg4OTYwMH0"  # Elena's Birthday — HAPPY BIRTHDAY, May 16
+```
