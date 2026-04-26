@@ -25,8 +25,9 @@ A mobile app that synchronizes smartphone flashlights and screens across any num
 
 ## Screenshots
 
+<img src="store/ios/screenshots/01_home.png" width="260"> <img src="store/ios/screenshots/02_events.png" width="260">
+
 <!-- TODO: flash in action (screen white) -->
-<!-- TODO: event creation / presets -->
 <!-- TODO: event sharing QR code -->
 <!-- TODO: settings / signal timing calibration -->
 
