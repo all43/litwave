@@ -56,7 +56,7 @@ Lifestyle
 https://litwave.app/privacy
 
 ## Support URL
-https://litwave.app
+https://litwave.app/support
 
 ## Marketing URL (optional)
 https://litwave.app
