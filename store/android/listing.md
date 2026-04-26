@@ -1,60 +1,29 @@
 # Google Play Store Metadata
 
-## App Name (50 chars)
-Litwave — Synchronized Crowd Lighting
+## App Name (30 chars)
+Litwave: Crowd Light Shows
 
 ## Short Description (80 chars)
 Flash mob & event light shows. Share a QR code, sync in seconds. Zero setup.
 
 ## Full Description (4000 chars)
+See ../description.md. Replace • bullets with ★.
 
-Turn any crowd into a synchronized light show — no Wi-Fi, no Bluetooth, no venue hardware required.
+## Tags
+Select up to 5 tags in Play Console from the predefined taxonomy. Suggested: Entertainment, Events.
 
-Litwave flashes your screen and flashlight together, perfectly in sync with every other phone in the crowd. There is nothing to pair and nothing to configure. Sync is based on the clock already in everyone's pocket.
-
-
-PERFECT FOR FLASH MOBS AND EVENTS
-
-Planning a surprise? Organizing a crowd moment? Litwave lets you choreograph a light show for any group — a birthday, a stadium, a street performance, a festival — with nothing more than a QR code and a shared moment.
-
-Create an event, set the time, and share the link. When the countdown hits zero, every phone flashes the same message in Morse code, in perfect unison.
-
-
-FOR ORGANIZERS
-
-★ Create named events with a scheduled start time
-★ Share via QR code, link, or any messaging app
-★ Recipients import in one tap — no account needed
-★ Works for groups of 5 or 50,000
-
-
-FOR PARTICIPANTS
-
-★ Scan a QR code or open a link to join
-★ Press start — screen and flashlight flash in sync
-★ No pairing, no Wi-Fi, works in any venue
-
-
-HOW THE SYNC WORKS
-
-Every phone already shares the same atomic clock time. Litwave uses that clock to align all devices automatically — the same principle that keeps GPS satellites in sync. No coordination between phones is ever needed.
-
-
-CUSTOMIZE YOUR MESSAGE
-
-★ Built-in presets for concerts, sports, and celebrations
-★ Type any custom message — Morse code is generated automatically
-★ Supports Latin, Cyrillic, German, Scandinavian characters, and more
-
-
-PRIVACY FIRST
-
-Litwave is fully offline. It collects no data, requires no account, and has no server. Everything stays on your device.
-
-Open source · Free · No ads · No tracking
-
-## Tags / Keywords
+(Terms below are for reference when writing/tuning copy — Google Play has no free-form keyword field; ranking comes from title, short description, and full description text.)
 flash mob, flashmob, crowd, light show, synchronized, concert, morse code, festival, event, sync, flashlight, signal, coordination, crowd flash
+
+## What's New (500 chars)
+
+Litwave synchronizes smartphone flashlights and screens across any crowd using clock-based timing — no internet required.
+
+• Flash signal on screen and flashlight with a single tap
+• Named events with scheduled start times, shared via QR code or link
+• Signal timing calibration with a built-in test pattern (Settings → Signal timing)
+• Fully offline — no accounts, no server
+• Flashlight auto-stops after 10 minutes to protect the LED
 
 ## Category
 Entertainment
@@ -70,9 +39,3 @@ https://litwave.app
 
 ## Email
 mail@malikov.dev
-
----
-
-## Release Notes Template
-
-Bug fixes and improvements.
