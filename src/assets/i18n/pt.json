@@ -59,6 +59,9 @@
         "flashlightDelay": "Atraso da lanterna",
         "test": "Testar flash (– – –)"
       },
+      "faq": {
+        "title": "FAQ"
+      },
       "appSection": "Aplicativo",
       "reset": {
         "title": "Redefinir configurações",

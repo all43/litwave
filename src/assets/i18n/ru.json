@@ -59,6 +59,9 @@
         "flashlightDelay": "Задержка фонарика",
         "test": "Тест вспышки (– – –)"
       },
+      "faq": {
+        "title": "FAQ"
+      },
       "appSection": "Приложение",
       "reset": {
         "title": "Сброс настроек",

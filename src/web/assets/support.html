@@ -59,14 +59,8 @@
       text-decoration: none;
     }
     a:hover { text-decoration: underline; }
-    .callout {
-      background: #1a1a2e;
-      border-left: 3px solid var(--primary-light);
-      border-radius: 0 8px 8px 0;
-      padding: 16px 20px;
-      margin: 24px 0;
-    }
-    .callout p { margin: 0; }
+    #faq-list { margin-bottom: 8px; }
+    #faq-list .loading { color: var(--text-muted); font-size: 0.95rem; }
   </style>
 </head>
 <body>
@@ -75,26 +69,24 @@
   <div class="content">
     <h1>Support</h1>
 
-    <h2>The flashlight stopped after 10 minutes</h2>
-    <p>This is intentional. Continuous flashlight use generates heat, so Litwave automatically stops the torch after 10 minutes to protect your LED. The screen flash continues unaffected. You can restart the torch by tapping the flashlight button again.</p>
-
-    <h2>The sync feels off — devices are not in unison</h2>
-    <p>Litwave uses your device clock for sync. Make sure <strong>Set automatically</strong> is enabled in your device's Date &amp; Time settings. If clocks are correct but the signal still feels offset, go to <strong>Settings → Signal timing</strong> and use the test pattern to tune the screen fade and flashlight delay for your specific device.</p>
-
-    <h2>How do I join someone else's event?</h2>
-    <p>Ask the organizer to share the event link or QR code. Scan the QR code with the in-app scanner (tap the QR icon in the Events tab), or open the shared link — the event will import automatically.</p>
-
-    <h2>How do I share an event I created?</h2>
-    <p>Open the event in the Events tab and tap the share button. You can send the link via any messaging app or let people scan the QR code directly from your screen.</p>
-
-    <h2>Does Litwave need internet?</h2>
-    <p>No. Litwave works fully offline. Sync is based on your device's clock — no server, no Wi-Fi, no Bluetooth required. The only time internet is used is when you share an event link via a messaging app (the sharing itself, not the app).</p>
-
-    <h2>The app paused when I locked my screen</h2>
-    <p>This is by design. Litwave pauses the signal when your screen locks to avoid showing a stale countdown when you return. When you unlock, the app recalculates and resumes from the correct position in the sequence.</p>
+    <div id="faq-list"><p class="loading">Loading…</p></div>
 
     <h2>Still need help?</h2>
     <p>Email us at <a href="mailto:mail@malikov.dev">mail@malikov.dev</a> and we'll get back to you.</p>
   </div>
+
+  <script>
+    fetch('/assets/faq.json')
+      .then(r => r.json())
+      .then(items => {
+        const container = document.getElementById('faq-list');
+        container.innerHTML = items.map(item =>
+          `<h2>${item.q}</h2><p>${item.a}</p>`
+        ).join('');
+      })
+      .catch(() => {
+        document.getElementById('faq-list').innerHTML = '';
+      });
+  </script>
 </body>
 </html>

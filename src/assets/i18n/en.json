@@ -59,6 +59,9 @@
         "flashlightDelay": "Flashlight delay",
         "test": "Test flash (– – –)"
       },
+      "faq": {
+        "title": "FAQ"
+      },
       "appSection": "App",
       "reset": {
         "title": "Reset settings",

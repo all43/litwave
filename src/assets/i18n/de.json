@@ -59,6 +59,9 @@
         "flashlightDelay": "Taschenlampen-Verzögerung",
         "test": "Blitztest (– – –)"
       },
+      "faq": {
+        "title": "FAQ"
+      },
       "appSection": "App",
       "reset": {
         "title": "Einstellungen zurücksetzen",

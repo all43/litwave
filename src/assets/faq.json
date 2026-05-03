@@ -1,0 +1,26 @@
+[
+  {
+    "q": "The flashlight stopped after 10 minutes",
+    "a": "This is intentional. Continuous flashlight use generates heat, so Litwave automatically stops the torch after 10 minutes to protect your LED. The screen flash continues unaffected. You can restart the torch by tapping the flashlight button again."
+  },
+  {
+    "q": "The sync feels off — devices are not in unison",
+    "a": "Litwave uses your device clock for sync. Make sure \"Set automatically\" is enabled in your device's Date & Time settings. If clocks are correct but the signal still feels offset, go to Settings → Signal timing and use the test pattern to tune the screen fade and flashlight delay for your specific device."
+  },
+  {
+    "q": "How do I join someone else's event?",
+    "a": "Ask the organizer to share the event link or QR code. Scan the QR code with the in-app scanner (tap the QR icon in the Events tab), or open the shared link — the event will import automatically."
+  },
+  {
+    "q": "How do I share an event I created?",
+    "a": "Open the event in the Events tab and tap the share button. You can send the link via any messaging app or let people scan the QR code directly from your screen."
+  },
+  {
+    "q": "Does Litwave need internet?",
+    "a": "No. Litwave works fully offline. Sync is based on your device's clock — no server, no Wi-Fi, no Bluetooth required. The only time internet is used is when you share an event link via a messaging app (the sharing itself, not the app)."
+  },
+  {
+    "q": "The app paused when I locked my screen",
+    "a": "This is by design. Litwave pauses the signal when your screen locks to avoid showing a stale countdown when you return. When you unlock, the app recalculates and resumes from the correct position in the sequence."
+  }
+]

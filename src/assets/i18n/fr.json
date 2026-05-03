@@ -59,6 +59,9 @@
         "flashlightDelay": "Délai lampe torche",
         "test": "Test flash (– – –)"
       },
+      "faq": {
+        "title": "FAQ"
+      },
       "appSection": "Application",
       "reset": {
         "title": "Réinitialiser les paramètres",

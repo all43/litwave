@@ -129,6 +129,11 @@
                 "glob": "**/*",
                 "input": "src/assets/i18n",
                 "output": "assets/i18n"
+              },
+              {
+                "glob": "faq.json",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": ["src/web/styles.scss"],

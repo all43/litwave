@@ -59,6 +59,9 @@
         "flashlightDelay": "Retraso de linterna",
         "test": "Test de flash (– – –)"
       },
+      "faq": {
+        "title": "FAQ"
+      },
       "appSection": "Aplicación",
       "reset": {
         "title": "Restablecer ajustes",

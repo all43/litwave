@@ -59,6 +59,9 @@
         "flashlightDelay": "Opóźnienie latarki",
         "test": "Test błysku (– – –)"
       },
+      "faq": {
+        "title": "FAQ"
+      },
       "appSection": "Aplikacja",
       "reset": {
         "title": "Resetuj ustawienia",
