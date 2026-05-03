@@ -101,6 +101,10 @@
     <ion-item button (click)="resetConfirm()">
       {{ 'pages.settings.reset.title' | translate }}
     </ion-item>
+    <ion-item button routerLink="/faq" detail>
+      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
+      <ion-label>{{ 'pages.settings.faq.title' | translate }}</ion-label>
+    </ion-item>
     <ion-item button routerLink="/notifications" detail>
       <ion-icon slot="start" name="notifications-outline"></ion-icon>
       <ion-label>{{ 'pages.notifications.title' | translate }}</ion-label>
@@ -109,10 +113,6 @@
     <ion-item button routerLink="/info" detail>
       <ion-icon slot="start" name="information-circle-outline"></ion-icon>
       <ion-label>{{ 'pages.info.title' | translate }}</ion-label>
-    </ion-item>
-    <ion-item button routerLink="/faq" detail>
-      <ion-icon slot="start" name="help-circle-outline"></ion-icon>
-      <ion-label>{{ 'pages.settings.faq.title' | translate }}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
