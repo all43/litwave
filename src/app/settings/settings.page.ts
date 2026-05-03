@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
@@ -7,11 +6,6 @@ import { Torch } from '@capawesome/capacitor-torch';
 import { LanguageItem, SettingsService } from '../settings.service';
 import { NotificationsService } from '../notifications.service';
 import { DIT_LENGTH_MS } from '../message-timing';
-
-interface FaqItem {
-  q: string;
-  a: string;
-}
 
 @Component({
   selector: 'app-settings',
@@ -22,7 +16,6 @@ interface FaqItem {
 export class SettingsPage implements OnInit {
   languages: LanguageItem[] = [];
   msFormatter = (value: number) => `${value}ms`;
-  faqItems: FaqItem[] = [];
 
   testActive = false;
   showAdvancedSettings = false;
@@ -38,17 +31,12 @@ export class SettingsPage implements OnInit {
     public notifications: NotificationsService,
     private translate: TranslateService,
     private alertController: AlertController,
-    private http: HttpClient,
   ) {
     this.languages = [...settings.languages];
     this.languages.unshift({ code: 'auto', name: this.translate.instant('common.autoLanguage') });
   }
 
-  ngOnInit() {
-    this.http.get<FaqItem[]>('assets/faq.json').subscribe(items => {
-      this.faqItems = items;
-    });
-  }
+  ngOnInit() {}
 
   ionViewDidLeave() {
     this.cancelTest();

@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/settings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'pages.settings.faq.title' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-accordion-group *ngIf="faqItems.length">
+    <ion-accordion *ngFor="let item of faqItems">
+      <ion-item slot="header">
+        <ion-label class="ion-text-wrap">{{ item.q }}</ion-label>
+      </ion-item>
+      <div slot="content" class="faq-answer">{{ item.a }}</div>
+    </ion-accordion>
+  </ion-accordion-group>
+</ion-content>

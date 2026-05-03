@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsPageModule)
   },
   {
+    path: 'faq',
+    loadChildren: () => import('./faq/faq.module').then(m => m.FaqPageModule)
+  },
+  {
     path: '',
     redirectTo: 'tabs',
     pathMatch: 'full'
