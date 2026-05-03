@@ -2,11 +2,7 @@
 
 A mobile app that synchronizes smartphone flashlights and screens across any number of devices — no server, no Bluetooth, no Wi-Fi. Built with Angular 19 + Ionic 8 + Capacitor 8.
 
-📱[**iOS beta (TestFlight)**](https://testflight.apple.com/join/mncgCJaP)
-
-> [!TIP]
-> TestFlight is Apple's beta testing platform — free to join.  
-> App Store release coming soon.
+📱[**iOS App Store**](https://apps.apple.com/app/litwave/id6762067281)
 
 [**Web companion (event creator)**](https://litwave.app)
 
