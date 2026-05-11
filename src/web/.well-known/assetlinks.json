@@ -3,6 +3,9 @@
   "target": {
     "namespace": "android_app",
     "package_name": "app.litwave",
-    "sha256_cert_fingerprints": ["54:39:BA:CE:14:41:0C:97:70:4E:D8:81:67:6B:3B:8E:C5:C4:F1:6D:C9:E3:84:4C:DB:D9:CD:5F:22:02:27:B1"]
+    "sha256_cert_fingerprints": [
+      "C2:0D:28:51:B5:B1:32:E5:18:56:6B:5D:83:68:A0:33:91:2C:6D:D0:07:A2:05:07:68:83:CE:65:BD:88:0A:2B",
+      "54:39:BA:CE:14:41:0C:97:70:4E:D8:81:67:6B:3B:8E:C5:C4:F1:6D:C9:E3:84:4C:DB:D9:CD:5F:22:02:27:B1"
+    ]
   }
 }]
